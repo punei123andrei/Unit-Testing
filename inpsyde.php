@@ -1,12 +1,13 @@
 <?php
+
 /**
  * Plugin Name: Inpsyde
  * Plugin URI: https://www.inpsyde.com
- * Description: A plugin for displaying users from https://jsonplaceholder.typicode.com
+ * Description: A plugin for displaying users from jsonplaceholder.
  * Version: 1.0.0
  * Author: Andrei Punei
  * Author URI: https://www.inpsyde.com
- * Text Domain: inpsyde
+ * Text Domain: inpsyde-users
  * Domain Path: /languages
  * Network: false
  * License: GNU General Public License v3.0
@@ -18,40 +19,24 @@
  * @author Andrei Punei
  */
 
-namespace Codemnky\Simvoly;
+declare(strict_types=1);
 
+namespace Inpsyde;
 
-//prevent direct access data leaks
-defined( 'ABSPATH' ) || exit;
+// Exit if accessed directly
+if (!defined('ABSPATH')) {
+    exit;
+}
 
+/** Register The Auto Loader */
+if (!file_exists($composer = __DIR__ . '/vendor/autoload.php')) {
+    wp_die(_e('Please run <code>composer install</code>.', 'the-theme-name-text-domain'));
+}
+require $composer;
 
-define(__NAMESPACE__ . '\PREFIX', 'smv');
+ use Inpsyde\Frontend\Enqueue;
 
-define(__NAMESPACE__ . '\VERSION', '1.0.0');
+ $enqueue = new Enqueue();
 
-define(__NAMESPACE__ . '\NAME', 'Simvoly Connector');
-
-define(__NAMESPACE__ . '\DIR_URL', untrailingslashit(plugin_dir_url(__FILE__)));
-
-define(__NAMESPACE__ . '\DIR_PATH', untrailingslashit(plugin_dir_path(__FILE__)));
-
-define(__NAMESPACE__ . '\DIR_NAME', plugin_basename(DIR_PATH));
-
-define(__NAMESPACE__ . '\DIR_BASENAME', DIR_NAME . '/'.basename(__FILE__));
-
-define(__NAMESPACE__ . '\SETTINGS_TAB_ID', 'simvoly');
-
-define(__NAMESPACE__ . '\SETTINGS_TAB_NAME', 'Simvoly');
-
-define(__NAMESPACE__ . '\SETTINGS_URL', admin_url('/admin.php?page=wc-settings&tab=' . SETTINGS_TAB_ID));
-
-define(__NAMESPACE__ . '\DEBUG', get_option(PREFIX . '_debug') === 'yes' ? true:false);
-
-define(__NAMESPACE__ . '\DEBUG_FILE', DIR_PATH . '/debug.log');
-
-
-//include files
-require_once DIR_PATH . '/vendor/autoload.php';
-
-//init
-Module_Core_Hook::init();
+ $enqueue->addScript('frontend', plugins_url('assets/frontend.js', __FILE__), [], microtime(), true);
+    //   ->localizeScript('fiald-scripts', get_template_directory_uri() . '/build/index.js', ['jquery'], microtime(), true);

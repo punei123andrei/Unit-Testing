@@ -5,10 +5,8 @@ This plugin creates a custom WordPress endpoint to display an HTML table listing
 * Contributors: Andrei Punei
 * Tags: wordpress, plugin, JSONPlaceholder, API
 * Requires at least: 5.0
-* Tested up to: 5.8
+* Tested up to: 6.4
 * Stable tag: trunk
-
-_Note: Make sure to replace [YourUsername] with your WordPress.org username._
 
 == Installation ==
 
