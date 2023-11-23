@@ -12,19 +12,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+// import $ from "jquery"
 
 class Request {
   constructor() {
-    this.addSearchHTML();
-    this.resultsDiv = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#user_profile");
-    this.singleLink = jquery__WEBPACK_IMPORTED_MODULE_0___default()(".single-link");
+    // this.addSearchHTML()
+    // this.resultsDiv = $("#user_profile")
+    // this.singleLink = $(".single-link")
     this.events();
   }
   events() {
-    this.singleLink.on("click", this.getResults.bind(this));
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("keydown", this.keyPressDispatcher.bind(this));
+    // this.singleLink.on("click", this.getResults.bind(this))
+    // $(document).on("keydown", this.keyPressDispatcher.bind(this))
+    console.log('HermanFrau');
   }
 
   // 3. methods (function, action...)
@@ -87,16 +87,6 @@ class Request {
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Request);
 
-/***/ }),
-
-/***/ "jquery":
-/*!*************************!*\
-  !*** external "jQuery" ***!
-  \*************************/
-/***/ ((module) => {
-
-module.exports = window["jQuery"];
-
 /***/ })
 
 /******/ 	});
@@ -126,18 +116,6 @@ module.exports = window["jQuery"];
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__webpack_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports

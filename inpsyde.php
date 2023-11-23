@@ -30,10 +30,18 @@ if (!defined('ABSPATH')) {
 
 /** Register The Auto Loader */
 if (!file_exists($composer = __DIR__ . '/vendor/autoload.php')) {
-    wp_die(_e('Please run <code>composer install</code>.', 'the-theme-name-text-domain'));
+    wp_die(_e('Please run <code>composer install</code>.', 'inpsyde'));
 }
 require $composer;
 
- use Inpsyde\Frontend\Enqueue;
- $enqueue = new Enqueue();
- $enqueue->localizeScript('frontend', plugins_url('assets/frontend.js', __FILE__), [], microtime(), true);
+use Inpsyde\Setup\Setup;
+
+register_activation_hook(__FILE__, [Setup::class, 'activate']);
+
+ $setup = new Setup();
+ $setup->localizeScript('frontend', plugins_url('build/index.js', __FILE__), [], microtime(), true);
+
+
+
+
+       

@@ -2,15 +2,16 @@ import $ from "jquery"
 
 class Request {
   constructor() {
-    this.addSearchHTML()
-    this.resultsDiv = $("#user_profile")
-    this.singleLink = $(".single-link")
+    // this.addSearchHTML()
+    // this.resultsDiv = $("#user_profile")
+    // this.singleLink = $(".single-link")
     this.events()
   }
 
   events() {
-    this.singleLink.on("click", this.getResults.bind(this))
-    $(document).on("keydown", this.keyPressDispatcher.bind(this))
+    // this.singleLink.on("click", this.getResults.bind(this))
+    // $(document).on("keydown", this.keyPressDispatcher.bind(this))
+    console.log('HermanFrau');
   }
 
   // 3. methods (function, action...)

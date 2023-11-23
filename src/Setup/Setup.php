@@ -10,9 +10,10 @@
 
  declare(strict_types=1);
 
-namespace Inpsyde\Frontend;
+namespace Inpsyde\Setup;
+use SebastianBergmann\Type\VoidType;
 
-class Enqueue
+class Setup
 {
     /**
      * Enqueue script on front end
@@ -24,6 +25,15 @@ class Enqueue
         add_action('wp_enqueue_scripts', static function () use ($function) {
             $function();
         });
+    }
+
+    /**
+     * Enqueue script on front end
+     * @return void
+     */
+    public static function activate(): void
+    {
+
     }
 
     /**
@@ -40,7 +50,7 @@ class Enqueue
         array $deps = [], 
         ?string $ver = null, 
         bool $inFooter = false
-        ): Enqueue
+        ): Setup
     {
         $this->actionEnqueueScripts(static function () use ($handle, $src, $deps, $ver, $inFooter) {
             wp_register_script($handle, $src, $deps, $ver, $inFooter);
@@ -58,7 +68,7 @@ class Enqueue
      * @param string|null $ver
      * @param bool        $inFooter
      *
-     * @return Enqueue
+     * @return Setup
      */
     public function localizeScript(
         string $handle,
@@ -66,7 +76,7 @@ class Enqueue
         array $deps = [], 
         ?string $ver = null, 
         bool $inFooter = false
-        ): Enqueue
+        ): Setup
     {
 
         $this->actionEnqueueScripts(static function () use ($handle, $src, $deps, $ver, $inFooter) {
