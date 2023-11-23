@@ -12,7 +12,7 @@
 
 namespace Inpsyde\Ajax;
 
-abstract class ApiSingleUser implements ApiUsersInterface
+class ApiSingleUser extends ApiUsersInterface
 {
 
 

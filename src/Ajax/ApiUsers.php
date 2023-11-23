@@ -12,14 +12,46 @@
 
 namespace Inpsyde\Ajax;
 
-abstract class ApiUsers implements ApiUsersInterface
+class ApiUsers
 {
-    public function init(){
-        add_action('wp_ajax_nopriv_get_single_user', [$this, 'getSingleUser']);
-        add_action('wp_ajax_increase_get_single_user', [$this, 'getSingleUser']);
-    }
 
-    public function getSingleUser(){
-        wp_send_json('ce mai faci?');
+ /**
+    * @var string The api base url
+    */
+    const API_BASE = 'https://jsonplaceholder.typicode.com';
+ 
+    /**
+     * The version of API used
+     *
+     * @return string
+     */
+    public function version() {
+       return 'v1';
     }
+    /**
+     * Get the base url for API
+     *
+     * @param string $endpoint
+     * @param bool $use_service
+     * @param bool $is_use_version
+     * @return string
+     */
+    public function base_url(string $endpoint, bool $use_service = true) {
+ 
+       return trailingslashit(self::API_BASE) . ltrim($endpoint, '/');
+ 
+    }
+    /**
+     * Get the headers with the authorization token
+     *
+     * @param array $items
+     * @return string[]
+     */
+    public function headers(array $items = []) {
+          $items = array_merge([
+              'Accept' => 'application/json'
+          ], $items);
+       
+          return $items;
+      }
 }

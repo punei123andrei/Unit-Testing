@@ -42,6 +42,11 @@ register_activation_hook(__FILE__, [Setup::class, 'activate']);
  $setup->localizeScript('frontend', plugins_url('build/index.js', __FILE__), [], microtime(), true);
 
 
+ use Inpsyde\Ajax\ApiSingleUser;
+ $singleUser = new ApiSingleUser();
+ $singleUser->init();
+
+
 
 
        
