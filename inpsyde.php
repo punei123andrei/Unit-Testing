@@ -44,11 +44,11 @@ register_deactivation_hook(__FILE__, [Deactivate::class, 'deactivate']);
 use Inpsyde\Setup\Setup;
 
 $setup = new Setup();
-$setup->localizeScript('frontend', plugins_url('build/index.js', __FILE__), [], microtime(), true);
+$setup->localizeScript('frontend', plugins_url('build/index.js', __FILE__), ['jquery'], microtime(), true);
 
 
- use Inpsyde\Ajax\ApiSingleUser;
- $singleUser = new ApiSingleUser();
+ use Inpsyde\Ajax\ApiUsersList;
+ $singleUser = new ApiUsersList();
  $singleUser->init();
 
 

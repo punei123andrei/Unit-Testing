@@ -12,14 +12,14 @@
 
 namespace Inpsyde\Ajax;
 
-class ApiUsersList extends ApiUsersInterface
+class ApiUsersList extends ApiUsers
 {
     public function init(){
-        add_action('wp_ajax_nopriv_get_user_list', [$this, 'getSingleUser']);
-        add_action('wp_ajax_increase_get_user_list', [$this, 'getSingleUser']);
+        add_action('wp_ajax_nopriv_get_user_list', [$this, 'getUsers']);
+        add_action('wp_ajax_increase_get_user_list', [$this, 'getUsers']);
     }
 
-    public function getSingleUser(){
+    public function getUsers(){
         wp_send_json('ce mai faci?');
     }
 }
