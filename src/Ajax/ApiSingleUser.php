@@ -12,7 +12,12 @@
 
 namespace Inpsyde\Ajax;
 
-final class AjaxHandler 
+abstract class ApiSingleUser implements ApiUsersInterface
 {
+
+
+    public function init(){
+        add_action();
+    }
 
 }
