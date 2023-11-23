@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name: Inpsyde
+ * Plugin Name: Inpsyde Users API
  * Plugin URI: https://www.inpsyde.com
  * Description: A plugin for displaying users from jsonplaceholder.
  * Version: 1.0.0
@@ -30,13 +30,23 @@ if (!defined('ABSPATH')) {
 
 /** Register The Auto Loader */
 if (!file_exists($composer = __DIR__ . '/vendor/autoload.php')) {
-    wp_die(_e('Please run <code>composer install</code>.', 'the-theme-name-text-domain'));
+    wp_die(_e('Please run <code>composer install</code>.', 'inpsyde'));
 }
 require $composer;
 
- use Inpsyde\Frontend\Enqueue;
+use Inpsyde\Setup\Activation;
+use Inpsyde\Setup\Deactivate;
 
- $enqueue = new Enqueue();
+register_activation_hook(__FILE__, [Activation::class, 'activate']);
+register_deactivation_hook(__FILE__, [Deactivate::class, 'deactivate']);
 
- $enqueue->addScript('frontend', plugins_url('assets/frontend.js', __FILE__), [], microtime(), true);
-    //   ->localizeScript('fiald-scripts', get_template_directory_uri() . '/build/index.js', ['jquery'], microtime(), true);
+
+use Inpsyde\Setup\Setup;
+
+$setup = new Setup();
+$setup->localizeScript('frontend', plugins_url('build/index.js', __FILE__), [], microtime(), true);
+
+
+
+
+       
