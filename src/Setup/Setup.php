@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Inpsyde Users
+ * Inpsyde Users API
  *
- * @package   Inpsyde Users
+ * @package   Inpsyde Users API
  * @author    Punei Andrei <punei.andrei@gmail.com>
  * @license   GNU General Public License v3.0
  */
@@ -25,15 +25,6 @@ class Setup
         add_action('wp_enqueue_scripts', static function () use ($function) {
             $function();
         });
-    }
-
-    /**
-     * Enqueue script on front end
-     * @return void
-     */
-    public static function activate(): void
-    {
-
     }
 
     /**

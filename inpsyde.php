@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name: Inpsyde
+ * Plugin Name: Inpsyde Users API
  * Plugin URI: https://www.inpsyde.com
  * Description: A plugin for displaying users from jsonplaceholder.
  * Version: 1.0.0
@@ -34,12 +34,17 @@ if (!file_exists($composer = __DIR__ . '/vendor/autoload.php')) {
 }
 require $composer;
 
+use Inpsyde\Setup\Activation;
+use Inpsyde\Setup\Deactivate;
+
+register_activation_hook(__FILE__, [Activation::class, 'activate']);
+register_deactivation_hook(__FILE__, [Deactivate::class, 'deactivate']);
+
+
 use Inpsyde\Setup\Setup;
 
-register_activation_hook(__FILE__, [Setup::class, 'activate']);
-
- $setup = new Setup();
- $setup->localizeScript('frontend', plugins_url('build/index.js', __FILE__), [], microtime(), true);
+$setup = new Setup();
+$setup->localizeScript('frontend', plugins_url('build/index.js', __FILE__), [], microtime(), true);
 
 
 
