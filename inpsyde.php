@@ -35,21 +35,18 @@ if (!file_exists($composer = __DIR__ . '/vendor/autoload.php')) {
 require $composer;
 
 use Inpsyde\Setup\Activation;
-use Inpsyde\Setup\Deactivate;
-
 register_activation_hook(__FILE__, [Activation::class, 'activate']);
+
+use Inpsyde\Setup\Deactivate;
 register_deactivation_hook(__FILE__, [Deactivate::class, 'deactivate']);
 
-
 use Inpsyde\Setup\Setup;
-
 $setup = new Setup();
 $setup->localizeScript('frontend', plugins_url('build/index.js', __FILE__), ['jquery'], microtime(), true);
 
-
- use Inpsyde\Ajax\ApiUsersList;
- $singleUser = new ApiUsersList();
- $singleUser->init();
+use Inpsyde\Ajax\ApiUsersList;
+$singleUser = new ApiUsersList();
+$singleUser->init();
 
 
 

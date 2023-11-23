@@ -1,30 +1,26 @@
 // Import jQuery
 import $ from 'jquery';
 
+import PrintHtml from './PrintHtml';
+
 class Request {
+
   constructor() {
-    // ... (your constructor code)
+    this.printHtmlInstance = new PrintHtml(); 
     this.eventHandlers();
   }
 
-  appendHtml(response) {
-    // ... (your appendHtml code)
-  }
-
-  sendData(option) {
+  sendData(action, userId) {
     const data = {
-      action: 'get_user_list',
-      // Add other data if needed
+      action: action,
+      userId: userId
     };
-
-    // Use jQuery.ajax
     $.ajax({
       url: ajax_obj.ajaxurl,
       method: 'POST',
       data: data,
       success: (response) => {
-        console.log(response);
-        // this.appendHtml(response);
+        this.printHtmlInstance.printHtmlTable(response);
       },
       error: function (error) {
         console.error('Error:', error);
@@ -33,17 +29,11 @@ class Request {
   }
 
   eventHandlers() {
-    // Trigger the AJAX call on document ready using jQuery
-    $( document ).ready(function() {
-      console.log( "ready!" );
-  });
-    // Uncomment the following lines if you need other event handlers
-    // this.loadMoreBtn.on('click', (e) => {
-    //     e.preventDefault();
-    //     ajax_obj.current_page++;
-    //     this.sendData('load-more');
-    // });
+    $(document).ready(() => {
+      this.sendData('inpsyde_get_users');
+    });
   }
+
 }
 
 export default Request;

@@ -66,11 +66,15 @@ class Setup
         string $src = '',
         array $deps = [], 
         ?string $ver = null, 
-        bool $inFooter = false
+        bool $inFooter = false,
+        ?string $pageSlug = null
         ): Setup
     {
 
-        $this->actionEnqueueScripts(static function () use ($handle, $src, $deps, $ver, $inFooter) {
+        $this->actionEnqueueScripts(static function () use ($handle, $src, $deps, $ver, $inFooter, $pageSlug) {
+            if ($pageSlug !== null && $pageSlug !== get_post_field('post_name', get_queried_object_id())) {
+                return;
+            }
 
             wp_register_script($handle, $src, $deps, $ver, $inFooter);
 
@@ -79,7 +83,7 @@ class Setup
                 'ajax_obj',
                 [
                     'ajaxurl' => admin_url('admin-ajax.php'),
-                    'token' => wp_create_nonce('fiald_token'),
+                    'token' => wp_create_nonce('inpsyde_token'),
                 ]
             );
             wp_enqueue_script($handle);

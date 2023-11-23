@@ -2,6 +2,51 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./assets/modules/PrintHtml.js":
+/*!*************************************!*\
+  !*** ./assets/modules/PrintHtml.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+
+class PrintHtml {
+  constructor() {
+    this.targetContainer = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#inspyde-table');
+    if (this.targetContainer.length === 0) {
+      console.error('Target container does not exist. Program terminated.');
+      return; // Terminate the program
+    }
+  }
+
+  printHtmlTable(response) {
+    const dataArray = JSON.parse(response);
+    const tableRows = dataArray.map(item => `
+          <tr>
+            <td>${item.id}</td>
+            <td>${item.name}</td>
+            <td>${item.username}</td>
+          </tr>
+        `);
+    const tableHtml = `
+          <h2 class="search-overlay__section-title">General Information</h2>
+          ${dataArray.length ? '<table class="your-table-class">' : "<p>No general information matches that search.</p>"}
+            ${tableRows.join("")}
+          ${dataArray.length ? "</table>" : ""}
+        `;
+    this.targetContainer.html(tableHtml);
+  }
+  printUserInfo(response) {}
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PrintHtml);
+
+/***/ }),
+
 /***/ "./assets/modules/Request.js":
 /*!***********************************!*\
   !*** ./assets/modules/Request.js ***!
@@ -14,51 +59,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _PrintHtml__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PrintHtml */ "./assets/modules/PrintHtml.js");
 // Import jQuery
+
 
 class Request {
   constructor() {
-    // ... (your constructor code)
+    this.printHtmlInstance = new _PrintHtml__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.eventHandlers();
   }
-  appendHtml(response) {
-    // ... (your appendHtml code)
-  }
-  sendData(option) {
+  sendData(action, userId) {
     const data = {
-      action: 'get_user_list'
-      // Add other data if needed
+      action: action,
+      userId: userId
     };
-
-    // Use jQuery.ajax
     jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
       url: ajax_obj.ajaxurl,
       method: 'POST',
       data: data,
       success: response => {
-        console.log(response);
-        // this.appendHtml(response);
+        this.printHtmlInstance.printHtmlTable(response);
       },
-
       error: function (error) {
         console.error('Error:', error);
       }
     });
   }
   eventHandlers() {
-    // Trigger the AJAX call on document ready using jQuery
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
-      console.log("ready!");
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(() => {
+      this.sendData('inpsyde_get_users');
     });
-    // Uncomment the following lines if you need other event handlers
-    // this.loadMoreBtn.on('click', (e) => {
-    //     e.preventDefault();
-    //     ajax_obj.current_page++;
-    //     this.sendData('load-more');
-    // });
   }
 }
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Request);
 
 /***/ }),
@@ -151,8 +183,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_Request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/Request */ "./assets/modules/Request.js");
 
 new _modules_Request__WEBPACK_IMPORTED_MODULE_0__["default"]();
-
-// https://jsonplaceholder.typicode.com/users
 })();
 
 /******/ })()

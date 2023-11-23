@@ -37,7 +37,7 @@ private static function createTestPage() {
     if (!$page) {
         $new_page = array(
             'post_title'    => 'Inpsyde Users Test',
-            'post_content'  => '<div id="inspyde-table"></div>',
+            'post_content'  => '<table id="inspyde-table"></table>',
             'post_status'   => 'publish',
             'post_author'   => $author_id,
             'post_type'     => 'page',

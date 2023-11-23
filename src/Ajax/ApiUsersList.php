@@ -12,14 +12,17 @@
 
 namespace Inpsyde\Ajax;
 
-class ApiUsersList extends ApiUsers
+class ApiUsersList
 {
     public function init(){
-        add_action('wp_ajax_nopriv_get_user_list', [$this, 'getUsers']);
-        add_action('wp_ajax_increase_get_user_list', [$this, 'getUsers']);
+        add_action('wp_ajax_inpsyde_get_users', [$this, 'getUsers']);
+        add_action('wp_ajax_nopriv_inpsyde_get_users', [$this, 'getUsers']);
     }
 
     public function getUsers(){
-        wp_send_json('ce mai faci?');
+        $url = ApiUsers::baseUrl('/users');
+        $headers = ApiUsers::headers();
+        $response = ApiRequest::makeGetRequest($url, [], $headers);
+        wp_send_json($response);
     }
 }

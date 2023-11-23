@@ -15,7 +15,7 @@ namespace Inpsyde\Ajax;
 class ApiUsers
 {
 
- /**
+   /**
     * @var string The api base url
     */
     const API_BASE = 'https://jsonplaceholder.typicode.com';
@@ -25,7 +25,7 @@ class ApiUsers
      *
      * @return string
      */
-    public function version() {
+    public static function version() {
        return 'v1';
     }
     /**
@@ -36,7 +36,7 @@ class ApiUsers
      * @param bool $is_use_version
      * @return string
      */
-    public function base_url(string $endpoint, bool $use_service = true) {
+    public static function baseUrl(string $endpoint, bool $use_service = true) {
  
        return trailingslashit(self::API_BASE) . ltrim($endpoint, '/');
  
@@ -47,11 +47,13 @@ class ApiUsers
      * @param array $items
      * @return string[]
      */
-    public function headers(array $items = []) {
+    public static function headers(array $items = []) {
           $items = array_merge([
               'Accept' => 'application/json'
           ], $items);
        
           return $items;
       }
+
+
 }

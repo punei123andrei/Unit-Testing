@@ -12,31 +12,34 @@
 
 namespace Inpsyde\Ajax;
 
-
-class ApiRequest {
-
-
-/**
-* Make a cURL request to the API.
-*
-* @param string $url
-* @param array  $data
-* @param array  $headers
-*
-* @return string|false The API response or false on failure.
-*/
-public static function make_post_request($url, $data, $headers) {
-
-$ch = curl_init($url);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); 
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_VERBOSE, true);
-$response = curl_exec($ch);
-
-return $response;
-}
-
+class ApiRequest 
+{
+ /**
+ * Make a request to the API using wp_remote_post.
+ *
+ * @param string $url
+ * @param array  $data
+ * @param array  $headers
+ *
+ * @return string|WP_Error The API response or a WP_Error object on failure.
+ */
+public static function makeGetRequest(string $url, array $data = [], array $headers = []): string|WP_Error {
+    $args = array(
+        'body'        => $data,
+        'headers'     => $headers,
+        'timeout'     => 15,
+        'redirection' => 5,
+        'blocking'    => true,
+        'httpversion' => '1.1',
+        'sslverify'   => false, // You may want to set this to true in a production environment
+    );
+ 
+    $response = wp_remote_get($url, $args);
+ 
+    if (is_wp_error($response)) {
+        return $response;
+    }
+ 
+    return wp_remote_retrieve_body($response);
+ }
 }
