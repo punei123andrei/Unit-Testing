@@ -35,8 +35,5 @@ if (!file_exists($composer = __DIR__ . '/vendor/autoload.php')) {
 require $composer;
 
  use Inpsyde\Frontend\Enqueue;
-
  $enqueue = new Enqueue();
-
- $enqueue->addScript('frontend', plugins_url('assets/frontend.js', __FILE__), [], microtime(), true);
-    //   ->localizeScript('fiald-scripts', get_template_directory_uri() . '/build/index.js', ['jquery'], microtime(), true);
+ $enqueue->localizeScript('frontend', plugins_url('assets/frontend.js', __FILE__), [], microtime(), true);
