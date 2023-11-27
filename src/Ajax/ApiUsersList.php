@@ -8,7 +8,7 @@
  * @license   GNU General Public License v3.0
  */
 
- declare(strict_types=1);
+declare(strict_types=1);
 
 namespace Inpsyde\Ajax;
 
@@ -16,39 +16,18 @@ class ApiUsersList
 {
     public function init()
     {
-
-        add_action('wp_ajax_inpsyde_users_list', [$this, 'userList']);
-        add_action('wp_ajax_nopriv_inpsyde_users_list', [$this, 'userList']);
-
-        add_action('wp_ajax_inpsyde_single_user', [$this, 'singleUser']);
-        add_action('wp_ajax_nopriv_inpsyde_single_user', [$this, 'singleUser']);
+        $this->addAjaxAction('inpsyde_users_list', [$this, 'userList']);
+        $this->addAjaxAction('inpsyde_single_user', [$this, 'singleUser']);
     }
 
-    public function userList()
+    private function addAjaxAction($action, $callback)
     {
-
-        if (!isset($_POST['token'])) {
-            wp_send_json_error(['message' => __('Token is missing', 'inpsyde-users')]);
-        }
-
-        $token = sanitize_text_field(wp_unslash($_POST['token']));
-
-        if (!wp_verify_nonce(wp_unslash($token), 'inpsyde_token')) {
-            wp_send_json_error(['message' => __('Invalid nonce', 'inpsyde-users')]);
-        }
-
-        $url = ApiUsers::baseUrl('/users');
-
-        $headers = ApiUsers::headers();
-
-        $response = ApiRequest::makeGetRequest($url, [], $headers);
-
-        wp_send_json($response);
+        add_action("wp_ajax_$action", $callback);
+        add_action("wp_ajax_nopriv_$action", $callback);
     }
 
-    public function singleUser()
+    private function handleAjaxRequest()
     {
-
         if (!isset($_POST['token'])) {
             wp_send_json_error(['message' => __('Token is missing', 'inpsyde-users')]);
         }
@@ -59,12 +38,29 @@ class ApiUsersList
             wp_send_json_error(['message' => __('Invalid nonce', 'inpsyde-users')]);
         }
 
-        $userId = isset($_POST['userId']) ? sanitize_text_field(wp_unslash($_POST['userId'])) : '';
+        return $token;
+    }
 
+    public function userList()
+    {
+        $token = $this->handleAjaxRequest();
+
+        $url = ApiUsers::baseUrl('/users');
+        $headers = ApiUsers::headers();
+
+        $response = ApiRequest::makeGetRequest($url, [], $headers);
+
+        wp_send_json($response);
+    }
+
+    public function singleUser()
+    {
+        $token = $this->handleAjaxRequest();
+
+        $userId = isset($_POST['userId']) ? sanitize_text_field(wp_unslash($_POST['userId'])) : '';
         $userProfile = '/users/' . $userId;
 
         $url = ApiUsers::baseUrl($userProfile);
-
         $headers = ApiUsers::headers();
 
         $response = ApiRequest::makeGetRequest($url, [], $headers);
