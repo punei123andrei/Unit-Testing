@@ -11,7 +11,6 @@
  declare(strict_types=1);
 
 namespace Inpsyde\Setup;
-use SebastianBergmann\Type\VoidType;
 
 class Setup
 {
@@ -32,17 +31,39 @@ class Setup
      * @param string $src
      * @param array $deps
      * @param string|null $ver
+     * @param string $media
+     * @return $this
+     */
+    public function addStyle(
+        string $handle,
+        string $src = '',
+        array $deps = [],
+        ?string $ver = null,
+        string $media = 'all'
+    ): Setup {
+
+        $this->actionEnqueueScripts(static function () use ($handle, $src, $deps, $ver, $media) {
+            wp_enqueue_style($handle, $src, $deps, $ver, $media);
+        });
+        return $this;
+    }
+
+    /**
+     * @param string $handle
+     * @param string $src
+     * @param array $deps
+     * @param string|null $ver
      * @param false $inFooter
      * @return $this
      */
     public function addScript(
         string $handle,
-        string $src = '', 
-        array $deps = [], 
-        ?string $ver = null, 
+        string $src = '',
+        array $deps = [],
+        ?string $ver = null,
         bool $inFooter = false
-        ): Setup
-    {
+    ): Setup {
+
         $this->actionEnqueueScripts(static function () use ($handle, $src, $deps, $ver, $inFooter) {
             wp_register_script($handle, $src, $deps, $ver, $inFooter);
             wp_enqueue_script($handle);
@@ -64,14 +85,21 @@ class Setup
     public function localizeScript(
         string $handle,
         string $src = '',
-        array $deps = [], 
-        ?string $ver = null, 
+        array $deps = [],
+        ?string $ver = null,
         bool $inFooter = false,
         ?string $pageSlug = null
-        ): Setup
-    {
+    ): Setup {
 
-        $this->actionEnqueueScripts(static function () use ($handle, $src, $deps, $ver, $inFooter, $pageSlug) {
+        $this->actionEnqueueScripts(static function () use (
+            $handle,
+            $src,
+            $deps,
+            $ver,
+            $inFooter,
+            $pageSlug
+        ) {
+
             if ($pageSlug !== null && $pageSlug !== get_post_field('post_name', get_queried_object_id())) {
                 return;
             }

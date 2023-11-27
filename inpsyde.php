@@ -28,9 +28,16 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+$composer = __DIR__ . '/vendor/autoload.php';
+
 /** Register The Auto Loader */
-if (!file_exists($composer = __DIR__ . '/vendor/autoload.php')) {
-    wp_die(_e('Please run <code>composer install</code>.', 'inpsyde'));
+if (!file_exists($composer)) {
+    wp_die(
+        esc_html__(
+            'Please run <code>composer install</code>.',
+            'inpsyde-users'
+        )
+    );
 }
 require $composer;
 
@@ -42,13 +49,9 @@ register_deactivation_hook(__FILE__, [Deactivate::class, 'deactivate']);
 
 use Inpsyde\Setup\Setup;
 $setup = new Setup();
-$setup->localizeScript('frontend', plugins_url('build/index.js', __FILE__), ['jquery'], microtime(), true);
+$setup->addStyle('inpsyde-style', plugins_url('build/style-index.css', __FILE__), [], '1.1')
+->localizeScript('frontend', plugins_url('build/index.js', __FILE__), ['jquery'], '1.1', true);
 
 use Inpsyde\Ajax\ApiUsersList;
 $singleUser = new ApiUsersList();
 $singleUser->init();
-
-
-
-
-       

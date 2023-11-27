@@ -12,7 +12,7 @@
 
 namespace Inpsyde\Setup;
 
-class Activation 
+class Activation
 {
     /**
      * Run activation Setup
@@ -26,24 +26,31 @@ class Activation
         flush_rewrite_rules();
 
         self::createTestPage();
-
     }
 
-private static function createTestPage() {
-    $author_id = get_current_user_id();
+    private static function createTestPage()
+    {
 
-    $page = get_page_by_title('Inpsyde Users Test', OBJECT, 'page');
+        $authorId = get_current_user_id();
 
-    if (!$page) {
-        $new_page = array(
-            'post_title'    => 'Inpsyde Users Test',
-            'post_content'  => '<table id="inspyde-table"></table>',
-            'post_status'   => 'publish',
-            'post_author'   => $author_id,
-            'post_type'     => 'page',
-        );
+        $page = get_page_by_title('Inpsyde Users Test', OBJECT, 'page');
 
-        wp_insert_post($new_page);
-    }
+        if (!$page) {
+            $pageContent = '
+        <div id="inpsyde-content">
+            <table id="inspyde-table"></table>
+            <div class="inpsyde-single-user"></div>
+        </div>
+        ';
+            $newPage = [
+            'post_title' => 'Inpsyde Users Test',
+            'post_content' => $pageContent,
+            'post_status' => 'publish',
+            'post_author' => $authorId,
+            'post_type' => 'page',
+            ];
+
+            wp_insert_post($newPage);
+        }
     }
 }
