@@ -2,6 +2,87 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./assets/index.js":
+/*!*************************!*\
+  !*** ./assets/index.js ***!
+  \*************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _assets_css_style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../assets/css/style.css */ "./assets/css/style.css");
+/* harmony import */ var _modules_Request__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/Request */ "./assets/modules/Request.js");
+
+
+new _modules_Request__WEBPACK_IMPORTED_MODULE_1__["default"]();
+
+/***/ }),
+
+/***/ "./assets/modules/PrintHtml.js":
+/*!*************************************!*\
+  !*** ./assets/modules/PrintHtml.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+
+class PrintHtml {
+  constructor() {
+    this.targetContainer = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#inspyde-table');
+    this.singleUserContainer = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.inpsyde-single-user');
+    if (this.targetContainer.length === 0) {
+      console.error('Target container does not exist. Program terminated.');
+      return; // Terminate the program
+    }
+  }
+
+  printHtmlTable(response) {
+    const dataArray = JSON.parse(response);
+    const tableRows = dataArray.map(item => `
+          <tr>
+            <td>
+              <a href="#" data-id="${item.id}">${item.id}</a>
+            </td>
+            <td>
+              <a href="#" data-id="${item.id}">${item.username}</a>
+            </td>
+            <td>
+              <a href="#" data-id="${item.id}">${item.name}</a>
+            </td>
+          </tr>
+        `);
+    const tableHtml = `
+          ${dataArray.length ? '<table class="your-table-class">' : "<p>No general information matches that search.</p>"}
+            ${tableRows.join("")}
+          ${dataArray.length ? "</table>" : ""}
+        `;
+    this.targetContainer.html(tableHtml);
+  }
+  printUserInfo(response) {
+    const userData = JSON.parse(response);
+    const userHtml = `
+          <div>
+              <p><strong>Name:</strong> ${userData.name}</p>
+              <p><strong>E-mail:</strong> ${userData.email}</p>
+              <p><strong>City:</strong> ${userData.address.city}</p>
+              <p><strong>Zip Code:</strong> ${userData.address.zipcode}</p>
+              <p><strong>Street:</strong> ${userData.address.street}</p>
+              <p><strong>Phone:</strong> ${userData.phone}</p>
+          </div>
+      `;
+
+    // Set the HTML content of this.singleUserContainer
+    this.singleUserContainer.html(userHtml);
+  }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PrintHtml);
+
+/***/ }),
+
 /***/ "./assets/modules/Request.js":
 /*!***********************************!*\
   !*** ./assets/modules/Request.js ***!
@@ -12,80 +93,80 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-// import $ from "jquery"
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _PrintHtml__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PrintHtml */ "./assets/modules/PrintHtml.js");
+// Import jQuery
+
 
 class Request {
   constructor() {
-    // this.addSearchHTML()
-    // this.resultsDiv = $("#user_profile")
-    // this.singleLink = $(".single-link")
-    this.events();
+    this.printHtmlInstance = new _PrintHtml__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    this.targetContainer = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#inspyde-table');
+    this.eventHandlers();
   }
-  events() {
-    // this.singleLink.on("click", this.getResults.bind(this))
-    // $(document).on("keydown", this.keyPressDispatcher.bind(this))
-    console.log('HermanFrau');
+  sendData(action, userId) {
+    const data = {
+      action: action,
+      token: ajax_obj.token,
+      userId: userId
+    };
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
+      url: ajax_obj.ajaxurl,
+      method: 'POST',
+      data: data,
+      success: response => {
+        if (action != 'inpsyde_single_user') {
+          this.printHtmlInstance.printHtmlTable(response);
+        } else {
+          this.printHtmlInstance.printUserInfo(response);
+        }
+      },
+      error: function (errorResponse) {
+        console.error(errorResponse);
+        if (errorResponse.responseJSON && errorResponse.responseJSON.message) {
+          console.log(errorResponse.responseJSON.message);
+        } else {
+          console.log('An error occurred. Please try again.');
+        }
+      }
+    });
   }
-
-  // 3. methods (function, action...)
-  //   typingLogic() {
-  //     if (this.searchField.val() != this.previousValue) {
-  //       clearTimeout(this.typingTimer)
-
-  //       if (this.searchField.val()) {
-  //         if (!this.isSpinnerVisible) {
-  //           this.resultsDiv.html('<div class="spinner-loader"></div>')
-  //           this.isSpinnerVisible = true
-  //         }
-  //         this.typingTimer = setTimeout(this.getResults.bind(this), 750)
-  //       } else {
-  //         this.resultsDiv.html("")
-  //         this.isSpinnerVisible = false
-  //       }
-  //     }
-
-  //     this.previousValue = this.searchField.val()
-  //   }
-
-  //   getResults() {
-  //     $.when($.getJSON(universityData.root_url + "/wp-json/wp/v2/posts?search=" + this.searchField.val()), $.getJSON(universityData.root_url + "/wp-json/wp/v2/pages?search=" + this.searchField.val())).then(
-  //       (posts, pages) => {
-  //         var combinedResults = posts[0].concat(pages[0])
-  //         this.resultsDiv.html(`
-  //         <h2 class="search-overlay__section-title">General Information</h2>
-  //         ${combinedResults.length ? '<ul class="link-list min-list">' : "<p>No general information matches that search.</p>"}
-  //           ${combinedResults.map(item => `<li><a href="${item.link}">${item.title.rendered}</a></li>`).join("")}
-  //         ${combinedResults.length ? "</ul>" : ""}
-  //       `)
-  //         this.isSpinnerVisible = false
-  //       },
-  //       () => {
-  //         this.resultsDiv.html("<p>Unexpected error; please try again.</p>")
-  //       }
-  //     )
-  //   }
-
-  //   userProfile() {
-  //     $("body").append(`
-  //       <div class="search-overlay">
-  //         <div class="search-overlay__top">
-  //           <div class="container">
-  //             <i class="fa fa-search search-overlay__icon" aria-hidden="true"></i>
-  //             <input type="text" class="search-term" placeholder="What are you looking for?" id="search-term">
-  //             <i class="fa fa-window-close search-overlay__close" aria-hidden="true"></i>
-  //           </div>
-  //         </div>
-
-  //         <div class="container">
-  //           <div id="search-overlay__results"></div>
-  //         </div>
-
-  //       </div>
-  //     `)
-  //   }
+  getSingleUser(e) {
+    e.preventDefault();
+    const dataId = jquery__WEBPACK_IMPORTED_MODULE_0___default()(e.target).data('id');
+    this.sendData('inpsyde_single_user', dataId);
+  }
+  eventHandlers() {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(() => {
+      this.sendData('inpsyde_users_list');
+    });
+    this.targetContainer.on('click', 'a[data-id]', this.getSingleUser.bind(this));
+  }
 }
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Request);
+
+/***/ }),
+
+/***/ "./assets/css/style.css":
+/*!******************************!*\
+  !*** ./assets/css/style.css ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "jquery":
+/*!*************************!*\
+  !*** external "jQuery" ***!
+  \*************************/
+/***/ ((module) => {
+
+module.exports = window["jQuery"];
 
 /***/ })
 
@@ -115,7 +196,54 @@ class Request {
 /******/ 		return module.exports;
 /******/ 	}
 /******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var [chunkIds, fn, priority] = deferred[i];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -144,21 +272,68 @@ class Request {
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		// no baseURI
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"index": 0,
+/******/ 			"./style-index": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var [chunkIds, moreModules, runtime] = data;
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = globalThis["webpackChunkinpsyde_plugin"] = globalThis["webpackChunkinpsyde_plugin"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
-(() => {
-/*!*************************!*\
-  !*** ./assets/index.js ***!
-  \*************************/
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _modules_Request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/Request */ "./assets/modules/Request.js");
-
-new _modules_Request__WEBPACK_IMPORTED_MODULE_0__["default"]();
-
-// https://jsonplaceholder.typicode.com/users
-})();
-
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["./style-index"], () => (__webpack_require__("./assets/index.js")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
 /******/ })()
 ;
 //# sourceMappingURL=index.js.map

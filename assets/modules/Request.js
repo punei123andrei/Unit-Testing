@@ -1,75 +1,59 @@
-import $ from "jquery"
+// Import jQuery
+import $ from 'jquery';
+
+import PrintHtml from './PrintHtml';
 
 class Request {
+
   constructor() {
-    // this.addSearchHTML()
-    // this.resultsDiv = $("#user_profile")
-    // this.singleLink = $(".single-link")
-    this.events()
+    this.printHtmlInstance = new PrintHtml(); 
+    this.targetContainer = $('#inspyde-table');
+    this.eventHandlers();
   }
 
-  events() {
-    // this.singleLink.on("click", this.getResults.bind(this))
-    // $(document).on("keydown", this.keyPressDispatcher.bind(this))
-    console.log('HermanFrau');
+  sendData(action, userId) {
+    const data = {
+      action: action,
+      token: ajax_obj.token,
+      userId: userId
+    };
+    $.ajax({
+      url: ajax_obj.ajaxurl,
+      method: 'POST',
+      data: data,
+      success: (response) => {
+        if(action != 'inpsyde_single_user'){
+          this.printHtmlInstance.printHtmlTable(response);
+        } else {
+          this.printHtmlInstance.printUserInfo(response);
+        }
+      },
+      error: function (errorResponse) {
+        console.error(errorResponse);
+        if (errorResponse.responseJSON && errorResponse.responseJSON.message) {
+            console.log(errorResponse.responseJSON.message);
+        } else {
+            console.log('An error occurred. Please try again.');
+        }
+      }
+    });
   }
 
-  // 3. methods (function, action...)
-//   typingLogic() {
-//     if (this.searchField.val() != this.previousValue) {
-//       clearTimeout(this.typingTimer)
+  getSingleUser(e){
+    e.preventDefault();
+    const dataId = $(e.target).data('id');
+    this.sendData('inpsyde_single_user', dataId);
+  }
 
-//       if (this.searchField.val()) {
-//         if (!this.isSpinnerVisible) {
-//           this.resultsDiv.html('<div class="spinner-loader"></div>')
-//           this.isSpinnerVisible = true
-//         }
-//         this.typingTimer = setTimeout(this.getResults.bind(this), 750)
-//       } else {
-//         this.resultsDiv.html("")
-//         this.isSpinnerVisible = false
-//       }
-//     }
 
-//     this.previousValue = this.searchField.val()
-//   }
+  eventHandlers() {
+    $(document).ready(() => {
+      this.sendData('inpsyde_users_list');
+    });
+    this.targetContainer.on('click', 'a[data-id]', this.getSingleUser.bind(this));
+  }
 
-//   getResults() {
-//     $.when($.getJSON(universityData.root_url + "/wp-json/wp/v2/posts?search=" + this.searchField.val()), $.getJSON(universityData.root_url + "/wp-json/wp/v2/pages?search=" + this.searchField.val())).then(
-//       (posts, pages) => {
-//         var combinedResults = posts[0].concat(pages[0])
-//         this.resultsDiv.html(`
-//         <h2 class="search-overlay__section-title">General Information</h2>
-//         ${combinedResults.length ? '<ul class="link-list min-list">' : "<p>No general information matches that search.</p>"}
-//           ${combinedResults.map(item => `<li><a href="${item.link}">${item.title.rendered}</a></li>`).join("")}
-//         ${combinedResults.length ? "</ul>" : ""}
-//       `)
-//         this.isSpinnerVisible = false
-//       },
-//       () => {
-//         this.resultsDiv.html("<p>Unexpected error; please try again.</p>")
-//       }
-//     )
-//   }
 
-//   userProfile() {
-//     $("body").append(`
-//       <div class="search-overlay">
-//         <div class="search-overlay__top">
-//           <div class="container">
-//             <i class="fa fa-search search-overlay__icon" aria-hidden="true"></i>
-//             <input type="text" class="search-term" placeholder="What are you looking for?" id="search-term">
-//             <i class="fa fa-window-close search-overlay__close" aria-hidden="true"></i>
-//           </div>
-//         </div>
-        
-//         <div class="container">
-//           <div id="search-overlay__results"></div>
-//         </div>
-
-//       </div>
-//     `)
-//   }
 }
 
-export default Request
+export default Request;
