@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace Inpsyde\Ajax;
+namespace Inpsyde;
 
 class MetaSecurity
 {

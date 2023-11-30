@@ -27,10 +27,15 @@ interface RequestDefinition {
 	public function headers(): array;
 
 	/**
-	 * Action
-	 * @see https://developer.wordpress.org/reference/functions/register_post_type/
-	 * @return array
+	 * The Ajax action that will trigger the function
+	 * @return string
 	 */
-	public function action(): array;
+	public function action(): string;
+
+	/**
+     * Data to be sent with the request.
+     * @return array
+     */
+    public function data(): array;
 
 }

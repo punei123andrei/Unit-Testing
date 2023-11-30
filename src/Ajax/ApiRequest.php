@@ -44,4 +44,42 @@ class ApiRequest
 
         return wp_remote_retrieve_body($response);
     }
+
+
+    public static function handleAjaxRequest()
+    {
+        if (!isset($_POST['token'])) {
+            wp_send_json_error(['message' => __('Token is missing', 'inpsyde-users')]);
+        }
+
+        $token = sanitize_text_field(wp_unslash($_POST['token']));
+
+        if (!wp_verify_nonce($token, 'inpsyde_token')) {
+            wp_send_json_error(['message' => __('Invalid nonce', 'inpsyde-users')]);
+        }
+
+        return $token;
+    }
+
+
+    /**
+     * Get sanitized data from the global $_POST.
+     *
+     * @param array $keys Keys to retrieve from $_POST.
+     * @return array Sanitized data.
+     */
+    public static function getPostData(array $keys): array
+    {
+        $sanitizedData = [];
+
+        if (!empty($_POST)) {
+            foreach ($keys as $key) {
+                if (isset($_POST[$key])) {
+                    $sanitizedData[$key] = sanitize_text_field(wp_unslash($_POST[$key]));
+                }
+            }
+        }
+
+        return $sanitizedData;
+    }
 }
