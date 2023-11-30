@@ -41,16 +41,6 @@ class MetaSecurity
     }
 
     /**
-    * Verify if the nonce is present in the POST request.
-    *
-    * @return bool
-    */
-    public static function verifyNonce(): bool
-    {
-        return isset($_POST['_wpnonce']);
-    }
-
-    /**
      * Write a log if WP_DEBUG is true.
      *
      * @param mixed $log

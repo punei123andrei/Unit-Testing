@@ -1,5 +1,16 @@
 <?php
-namespace Fiald\CPTs;
+
+/**
+ * Inpsyde Users
+ *
+ * @package   Inpsyde Users
+ * @author    Punei Andrei <punei.andrei@gmail.com>
+ * @license   GNU General Public License v3.0
+ */
+
+declare(strict_types=1);
+
+namespace Inpsyde\Ajax;
 
 class DefinitionSingleUser implements RequestDefinition 
 {
@@ -9,7 +20,7 @@ class DefinitionSingleUser implements RequestDefinition
 	 */
 	public function route(): string 
     {
-        return ApiUsers::baseUrl('/users');
+        return ApiBase::baseUrl('/users');
     }
 
 	/**
@@ -18,7 +29,7 @@ class DefinitionSingleUser implements RequestDefinition
 	 */
 	public function headers(): array 
     {
-        return ApiUsers::headers();
+        return ApiBase::headers();
     }
 
 	/**
@@ -27,7 +38,7 @@ class DefinitionSingleUser implements RequestDefinition
 	 */
 	public function action(): string 
     {
-        return 'inpsyde_users_list';
+        return 'inpsyde_single_user';
     }
 
     /**

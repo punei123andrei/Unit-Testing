@@ -12,7 +12,7 @@
 
 namespace Inpsyde\Ajax;
 
-class ApiRequest
+class RequestHelper
 {
  /**
  * Make a request to the API using wp_remote_post.
@@ -68,7 +68,7 @@ class ApiRequest
      * @param array $keys Keys to retrieve from $_POST.
      * @return array Sanitized data.
      */
-    public static function getPostData(array $keys): array
+    public static function getPostData(array $keys): array|bool
     {
         $sanitizedData = [];
 

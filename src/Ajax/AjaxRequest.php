@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Inpsyde\Ajax;
 
-class SendRequest
+class AjaxRequest
 {
     /**
 	 * @var RequestDefinition[] $requests
@@ -45,23 +45,14 @@ class SendRequest
         add_action("wp_ajax_nopriv_$action", $callback);
     }
 
-    public function sendData(string $route, array $headers, string $data)
+    public function sendData(string $route, array $headers, array $data = [])
     {
-        $token = ApiRequest::handleAjaxRequest();
-        if(ApiRequest::getPostData())
-        $response = ApiRequest::makeGetRequest($route, [], $headers);
+        $token = RequestHelper::handleAjaxRequest();
+        if(RequestHelper::getPostData($data)){
+            $userId = RequestHelper::getPostData($data)['userId'];
+            $route .= '/' . $userId;
+        }
+        $response = RequestHelper::makeGetRequest($route, [], $headers);
         wp_send_json($response);
-    }
-    public function singleUser()
-    {
-        $token = ApiRequest::handleAjaxRequest();
-
-        $userId = isset($_POST['userId']) ? sanitize_text_field(wp_unslash($_POST['userId'])) : '';
-        $userProfile = '/users/' . $userId;
-
-        $url = ApiUsers::baseUrl($userProfile);
-        $headers = ApiUsers::headers();
-        $response = self::makeGetRequest($url, [], $headers);
-            wp_send_json($response);
     }
 }

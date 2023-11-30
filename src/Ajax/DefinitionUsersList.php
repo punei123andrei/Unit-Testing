@@ -1,7 +1,18 @@
 <?php
-namespace Fiald\CPTs;
 
-class DefinitionUserList implements RequestDefinition 
+/**
+ * Inpsyde Users
+ *
+ * @package   Inpsyde Users
+ * @author    Punei Andrei <punei.andrei@gmail.com>
+ * @license   GNU General Public License v3.0
+ */
+
+declare(strict_types=1);
+
+namespace Inpsyde\Ajax;
+
+class DefinitionUsersList implements RequestDefinition 
 {
     /**
 	 * Route.
@@ -9,7 +20,7 @@ class DefinitionUserList implements RequestDefinition
 	 */
 	public function route(): string 
     {
-        return ApiUsers::baseUrl('/');
+        return ApiBase::baseUrl('/users');
     }
 
 	/**
@@ -18,7 +29,7 @@ class DefinitionUserList implements RequestDefinition
 	 */
 	public function headers(): array 
     {
-        return ApiUsers::headers();
+        return ApiBase::headers();
     }
 
 	/**
