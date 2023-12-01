@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace Inpsyde\Ajax;
+namespace Inpsyde;
 
 class MetaSecurity
 {
@@ -38,16 +38,6 @@ class MetaSecurity
 
             return $errorMessage;
         }
-    }
-
-    /**
-    * Verify if the nonce is present in the POST request.
-    *
-    * @return bool
-    */
-    public static function verifyNonce(): bool
-    {
-        return isset($_POST['_wpnonce']);
     }
 
     /**

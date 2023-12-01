@@ -52,6 +52,16 @@ $setup = new Setup();
 $setup->addStyle('inpsyde-style', plugins_url('build/style-index.css', __FILE__), [], '1.1')
 ->localizeScript('frontend', plugins_url('build/index.js', __FILE__), ['jquery'], '1.1', true);
 
-use Inpsyde\Ajax\ApiUsersList;
-$singleUser = new ApiUsersList();
-$singleUser->init();
+use Inpsyde\Ajax\AjaxRequest;
+use Inpsyde\Ajax\DefinitionUsersList;
+use Inpsyde\Ajax\DefinitionSingleUser;
+
+// Initialize AjaxRequest class
+$ajaxRequest = new AjaxRequest();
+
+// Add request definitions
+$ajaxRequest->add(new DefinitionUsersList())
+            ->add(new DefinitionSingleUser());
+
+// Register Ajax requests
+$ajaxRequest->registerRequests();

@@ -12,7 +12,7 @@
 
 namespace Inpsyde\Ajax;
 
-class ApiUsers
+class ApiBase
 {
    /**
     * @var string The api base url
