@@ -48,12 +48,11 @@ class AjaxRequest
 
     public function sendData(string $route, array $headers, array $data = [])
     {
-        $token = RequestHelper::verifyNonce();
         if (RequestHelper::returnPostData($data)) {
             $userId = RequestHelper::returnPostData($data)['userId'];
             $route .= '/' . $userId;
         }
-        $response = $token ? RequestHelper::makeGetRequest($route, [], $headers) : wp_send_json_error(['message' => __('Invalid nonce', 'inpsyde-users')]);
+        $response =  RequestHelper::makeGetRequest($route, [], $headers);
         wp_send_json($response);
     }
 }
