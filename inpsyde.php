@@ -1,12 +1,13 @@
 <?php
+
 /**
- * Plugin Name: Inpsyde
+ * Plugin Name: Inpsyde Users API
  * Plugin URI: https://www.inpsyde.com
- * Description: A plugin for displaying users from https://jsonplaceholder.typicode.com
+ * Description: A plugin for displaying users from jsonplaceholder.
  * Version: 1.0.0
  * Author: Andrei Punei
  * Author URI: https://www.inpsyde.com
- * Text Domain: inpsyde
+ * Text Domain: inpsyde-users
  * Domain Path: /languages
  * Network: false
  * License: GNU General Public License v3.0
@@ -18,40 +19,49 @@
  * @author Andrei Punei
  */
 
-namespace Codemnky\Simvoly;
+declare(strict_types=1);
 
+namespace Inpsyde;
 
-//prevent direct access data leaks
-defined( 'ABSPATH' ) || exit;
+// Exit if accessed directly
+if (!defined('ABSPATH')) {
+    exit;
+}
 
+$composer = __DIR__ . '/vendor/autoload.php';
 
-define(__NAMESPACE__ . '\PREFIX', 'smv');
+/** Register The Auto Loader */
+if (!file_exists($composer)) {
+    wp_die(
+        esc_html__(
+            'Please run <code>composer install</code>.',
+            'inpsyde-users'
+        )
+    );
+}
+require $composer;
 
-define(__NAMESPACE__ . '\VERSION', '1.0.0');
+use Inpsyde\Setup\Activation;
+register_activation_hook(__FILE__, [Activation::class, 'activate']);
 
-define(__NAMESPACE__ . '\NAME', 'Simvoly Connector');
+use Inpsyde\Setup\Deactivate;
+register_deactivation_hook(__FILE__, [Deactivate::class, 'deactivate']);
 
-define(__NAMESPACE__ . '\DIR_URL', untrailingslashit(plugin_dir_url(__FILE__)));
+use Inpsyde\Setup\Setup;
+$setup = new Setup();
+$setup->addStyle('inpsyde-style', plugins_url('build/style-index.css', __FILE__), [], '1.1')
+->localizeScript('frontend', plugins_url('build/index.js', __FILE__), ['jquery'], '1.1', true);
 
-define(__NAMESPACE__ . '\DIR_PATH', untrailingslashit(plugin_dir_path(__FILE__)));
+use Inpsyde\Ajax\AjaxRequest;
+use Inpsyde\Ajax\DefinitionUsersList;
+use Inpsyde\Ajax\DefinitionSingleUser;
 
-define(__NAMESPACE__ . '\DIR_NAME', plugin_basename(DIR_PATH));
+// Initialize AjaxRequest class
+$ajaxRequest = new AjaxRequest();
 
-define(__NAMESPACE__ . '\DIR_BASENAME', DIR_NAME . '/'.basename(__FILE__));
+// Add request definitions
+$ajaxRequest->add(new DefinitionUsersList())
+            ->add(new DefinitionSingleUser());
 
-define(__NAMESPACE__ . '\SETTINGS_TAB_ID', 'simvoly');
-
-define(__NAMESPACE__ . '\SETTINGS_TAB_NAME', 'Simvoly');
-
-define(__NAMESPACE__ . '\SETTINGS_URL', admin_url('/admin.php?page=wc-settings&tab=' . SETTINGS_TAB_ID));
-
-define(__NAMESPACE__ . '\DEBUG', get_option(PREFIX . '_debug') === 'yes' ? true:false);
-
-define(__NAMESPACE__ . '\DEBUG_FILE', DIR_PATH . '/debug.log');
-
-
-//include files
-require_once DIR_PATH . '/vendor/autoload.php';
-
-//init
-Module_Core_Hook::init();
+// Register Ajax requests
+$ajaxRequest->registerRequests();
