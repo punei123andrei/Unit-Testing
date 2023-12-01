@@ -12,30 +12,29 @@ declare(strict_types=1);
 
 namespace Inpsyde\Ajax;
 
-interface RequestDefinition {
+interface RequestDefinition
+{
+    /**
+     * Route.
+     * @return string
+     */
+    public function route(): string;
 
-	/**
-	 * Route.
-	 * @return string
-	 */
-	public function route(): string;
+    /**
+     * Headers.
+     * @return array
+     */
+    public function headers(): array;
 
-	/**
-	 * Headers.
-	 * @return array
-	 */
-	public function headers(): array;
+    /**
+     * The Ajax action that will trigger the function
+     * @return string
+     */
+    public function action(): string;
 
-	/**
-	 * The Ajax action that will trigger the function
-	 * @return string
-	 */
-	public function action(): string;
-
-	/**
+    /**
      * Data to be sent with the request.
      * @return array
      */
     public function data(): array;
-
 }
