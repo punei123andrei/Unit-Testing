@@ -8,7 +8,7 @@
  * @license   GNU General Public License v3.0
  */
 
- declare(strict_types=1);
+declare(strict_types=1);
 
 namespace Inpsyde\Setup;
 
@@ -16,6 +16,7 @@ class Setup
 {
     /**
      * Enqueue script on front end
+     *
      * @param $function
      * @return void
      */
@@ -43,8 +44,15 @@ class Setup
     ): Setup {
 
         $this->actionEnqueueScripts(static function () use ($handle, $src, $deps, $ver, $media) {
+            // Trigger a custom action hook before enqueuing the style
+            do_action('inpsyde_before_enqueue_style', $handle, $src, $deps, $ver, $media);
+
             wp_enqueue_style($handle, $src, $deps, $ver, $media);
+
+            // Trigger a custom action hook after enqueuing the style
+            do_action('inpsyde_after_enqueue_style', $handle, $src, $deps, $ver, $media);
         });
+
         return $this;
     }
 
@@ -65,21 +73,27 @@ class Setup
     ): Setup {
 
         $this->actionEnqueueScripts(static function () use ($handle, $src, $deps, $ver, $inFooter) {
+            // Trigger a custom action hook before enqueuing the script
+            do_action('inpsyde_before_enqueue_script', $handle, $src, $deps, $ver, $inFooter);
+
             wp_register_script($handle, $src, $deps, $ver, $inFooter);
             wp_enqueue_script($handle);
+
+            // Trigger a custom action hook after enqueuing the script
+            do_action('inpsyde_after_enqueue_script', $handle, $src, $deps, $ver, $inFooter);
         });
+
         return $this;
     }
 
     /**
      * Enqueues and localizes a script in WordPress.
      *
-     * @param string      $handle
-     * @param string      $src
-     * @param array       $deps
+     * @param string $handle
+     * @param string $src
+     * @param array $deps
      * @param string|null $ver
-     * @param bool        $inFooter
-     *
+     * @param bool $inFooter
      * @return Setup
      */
     public function localizeScript(
@@ -91,14 +105,9 @@ class Setup
         ?string $pageSlug = null
     ): Setup {
 
-        $this->actionEnqueueScripts(static function () use (
-            $handle,
-            $src,
-            $deps,
-            $ver,
-            $inFooter,
-            $pageSlug
-        ) {
+        $this->actionEnqueueScripts(static function () use ($handle, $src, $deps, $ver, $inFooter, $pageSlug) {
+            // Trigger a custom action hook before localizing and enqueuing the script
+            do_action('inpsyde_before_localize_and_enqueue_script', $handle, $src, $deps, $ver, $inFooter, $pageSlug);
 
             if ($pageSlug !== null && $pageSlug !== get_post_field('post_name', get_queried_object_id())) {
                 return;
@@ -114,7 +123,11 @@ class Setup
                     'token' => wp_create_nonce('inpsyde_token'),
                 ]
             );
+
             wp_enqueue_script($handle);
+
+            // Trigger a custom action hook after localizing and enqueuing the script
+            do_action('inpsyde_after_localize_and_enqueue_script', $handle, $src, $deps, $ver, $inFooter, $pageSlug);
         });
 
         return $this;
