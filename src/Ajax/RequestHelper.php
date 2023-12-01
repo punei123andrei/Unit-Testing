@@ -33,7 +33,7 @@ class RequestHelper
         'redirection' => 5,
         'blocking' => true,
         'httpversion' => '1.1',
-        'sslverify' => false, 
+        'sslverify' => false,
         ];
 
         $response = wp_remote_get($url, $args);
@@ -45,22 +45,16 @@ class RequestHelper
         return wp_remote_retrieve_body($response);
     }
 
-
-    public static function handleAjaxRequest()
+    public static function verifyNonce(string $action): string|bool
     {
-        if (!isset($_POST['token'])) {
-            wp_send_json_error(['message' => __('Token is missing', 'inpsyde-users')]);
+        $token = isset($_POST['token']) ? sanitize_text_field(wp_unslash($_POST['token'])) : '';
+
+        if (!wp_verify_nonce($token, $action)) {
+            return false;
         }
 
-        $token = sanitize_text_field(wp_unslash($_POST['token']));
-
-        if (!wp_verify_nonce($token, 'inpsyde_token')) {
-            wp_send_json_error(['message' => __('Invalid nonce', 'inpsyde-users')]);
-        }
-
-        return $token;
+        return true;
     }
-
 
     /**
      * Get sanitized data from the global $_POST.
@@ -68,15 +62,26 @@ class RequestHelper
      * @param array $keys Keys to retrieve from $_POST.
      * @return array Sanitized data.
      */
-    public static function getPostData(array $keys): array|bool
-    {
+    public static function returnPostData(
+        array $keys,
+        string $nonceAction = 'inpsyde_token'
+    ): array|bool {
+
+        $token = isset($_POST['token']) ? sanitize_text_field(wp_unslash($_POST['token'])) : '';
+
+        if (!wp_verify_nonce($token, $nonceAction)) {
+            return false;
+        }
+
         $sanitizedData = [];
 
-        if (!empty($_POST)) {
-            foreach ($keys as $key) {
-                if (isset($_POST[$key])) {
-                    $sanitizedData[$key] = sanitize_text_field(wp_unslash($_POST[$key]));
-                }
+        if (empty($_POST)) {
+            return false;
+        }
+
+        foreach ($keys as $key) {
+            if (isset($_POST[$key])) {
+                $sanitizedData[$key] = sanitize_text_field(wp_unslash($_POST[$key]));
             }
         }
 
