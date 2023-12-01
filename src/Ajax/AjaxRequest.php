@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 /**
  * Inpsyde Users
@@ -22,7 +22,14 @@ class AjaxRequest
 
     public function add(RequestDefinition $request): AjaxRequest
     {
+        // Trigger a custom action hook before adding the request
+        do_action('inpsyde_before_add_ajax_request', $request);
+
         $this->requests[] = $request;
+
+        // Trigger a custom action hook after adding the request
+        do_action('inpsyde_after_add_ajax_request', $request);
+
         return $this;
     }
 
@@ -33,17 +40,26 @@ class AjaxRequest
             $headers = $request->headers();
             $action = $request->action();
             $data = $request->data();
-            $callback = function () use ($route, $headers, $data) {
+
+            // Trigger a custom filter hook before registering the request
+            $callback = apply_filters('inpsyde_ajax_callback', function () use ($route, $headers, $data) {
                 $this->sendData($route, $headers, $data);
-            };
+            }, $request);
+
             $this->addAjaxAction($action, $callback);
         }
     }
 
     private function addAjaxAction(string $action, callable $callback)
     {
+        // Trigger a custom action hook before adding the Ajax action
+        do_action('inpsyde_before_add_ajax_action', $action, $callback);
+
         add_action("wp_ajax_$action", $callback);
         add_action("wp_ajax_nopriv_$action", $callback);
+
+        // Trigger a custom action hook after adding the Ajax action
+        do_action('inpsyde_after_add_ajax_action', $action, $callback);
     }
 
     public function sendData(string $route, array $headers, array $data = [])
@@ -52,7 +68,14 @@ class AjaxRequest
             $userId = RequestHelper::returnPostData($data)['userId'];
             $route .= '/' . $userId;
         }
-        $response =  RequestHelper::makeGetRequest($route, [], $headers);
+
+        // Trigger a custom action hook before sending data
+        do_action('inpsyde_before_send_ajax_data', $route, $headers, $data);
+
+        $response = RequestHelper::makeGetRequest($route, [], $headers);
         wp_send_json($response);
+
+        // Trigger a custom action hook after sending data
+        do_action('inpsyde_after_send_ajax_data', $response);
     }
 }
