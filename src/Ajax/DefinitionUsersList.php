@@ -12,31 +12,31 @@ declare(strict_types=1);
 
 namespace Inpsyde\Ajax;
 
-class DefinitionUsersList implements RequestDefinition 
+class DefinitionUsersList implements RequestDefinition
 {
     /**
-	 * Route.
-	 * @return string
-	 */
-	public function route(): string 
+     * Route.
+     * @return string
+     */
+    public function route(): string
     {
         return ApiBase::baseUrl('/users');
     }
 
-	/**
-	 * Headers.
-	 * @return array
-	 */
-	public function headers(): array 
+    /**
+     * Headers.
+     * @return array
+     */
+    public function headers(): array
     {
         return ApiBase::headers();
     }
 
-	/**
-	 * Action
-	 * @return string
-	 */
-	public function action(): string 
+    /**
+     * Action
+     * @return string
+     */
+    public function action(): string
     {
         return 'inpsyde_users_list';
     }
@@ -45,8 +45,9 @@ class DefinitionUsersList implements RequestDefinition
      * Data to be sent with the request.
      * @return array
      */
-    public function data(): array {
+    public function data(): array
+    {
+
         return [];
     }
-
 }
