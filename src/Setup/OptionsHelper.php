@@ -15,65 +15,48 @@ namespace Inpsyde\Setup;
 
 class OptionsHelper {
 
-/**
- * The option name in the WordPress database
- * @var string
- */
-private $option_name;
-
-/**
- * YourPlugin_Options_Helper constructor.
- * @param string $option_name The option name for your plugin
- */
-public function __construct(string $option_name) {
-    $this->option_name = $option_name;
-}
-
-
-
-
-
-
-/**
- * Get the value of a specific option
- * @param string $key The key of the option
- * @param mixed $default The default value if the option is not set
- * @return mixed The option value
- */
-public function get_option($key, $default = false) {
-    $options = get_option($this->option_name, []);
-    return isset($options[$key]) ? $options[$key] : $default;
-}
-
-/**
- * Set the value of a specific option
- * @param string $key The key of the option
- * @param mixed $value The value to set
- * @return bool True on success, false on failure
- */
-public function set_option(string $key, $value = ''): bool {
-    $options = get_option($this->option_name, []);
-    $options[$key] = $value;
-    return update_option($this->option_name, $options);
-}
-
-/**
- * Verify and sanitize the options before saving
- * You can customize this method based on your specific needs
- * @param array $input The input options
- * @return array The sanitized options
- */
-public function sanitize_options(array $input): array {
-    // Add your custom validation and sanitization logic here
-    // Example: $sanitized_input = sanitize_text_field($input);
-    return $input;
-}
-
-/**
- * Register settings with WordPress
- */
-public function register_settings(): void {
-    register_setting($this->option_name, $this->option_name, [$this, 'sanitize_options']);
-}
-
+    /**
+    * Initialize the object with option key and value
+    *
+    * @param string $inputKey   The key of the option
+    * @param mixed  $inputValue The value of the option
+    */
+    public function init()
+    {
+        add_action('admin_init', [$this, 'setOption']);
+        return $this;
+    }
+    
+    /**
+     * Set the value of a specific option
+     * @param string $key The key of the option
+     * @param mixed $value The value to set
+     * @return bool True on success, false on failure
+     */
+    public function setOption(string $key): bool 
+    {
+        $value = isset($_POST[$key]) ? $this->sanitizeOption($_POST[$key]) : '';
+        return !empty($value) ? update_option($key, $value) : false;
+    }
+    
+    /**
+     * Verify and sanitize the options before saving
+     * You can customize this method based on your specific needs
+     * @param array $input The input options
+     * @return array The sanitized options
+     */
+    public function sanitizeOption(string $input): string
+    {
+        $sanitized_input = sanitize_text_field($input);
+        return $sanitized_input;
+    }
+    
+    /**
+     * Register settings with WordPress
+     */
+    public function register_settings(): void 
+    {
+        register_setting($this->option_name, $this->option_name, [$this, 'sanitize_options']);
+    }
+    
 }

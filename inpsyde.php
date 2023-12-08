@@ -67,3 +67,10 @@ $ajaxRequest->add(new DefinitionUsersList())
 
 // Register Ajax requests
 $ajaxRequest->registerRequests();
+
+
+use Inpsyde\Setup\OptionsHelper;
+
+$options = new OptionsHelper();
+$options->init()
+        ->setOption('inpsyde_api_base');

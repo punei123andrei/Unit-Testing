@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Inpsyde\Setup;
 
+use Inpsyde\Ajax\ApiBase;
+
 class Setup
 {
     /**
@@ -67,17 +69,20 @@ class Setup
      * Renders the content for the options page.
      */
     public function renderOptionsPage():void {
+
+        $apiBaseValue = get_option('inpsyde_api_base');
+        $defaultBase = ApiBase::API_BASE;
+        $apiBase = $apiBaseValue ? $apiBaseValue : $defaultBase;
+
         ?>
         <div class="wrap">
             <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
-            <form method="post" action="options.php">
-    
-            <label for="api_base">Add api:</label>
-            <input type="text" id="api_base" name="api_base" value="<?php echo esc_attr(get_option('api_base')); ?>">
-            
-            <?php
-            submit_button('Save Settings');
-            ?>
+            <form method="post" action="">
+                <label for="inpsyde_api_base"><?php _e('Add api:', 'inpsyde') ?></label>
+                <input type="text" id="inpsyde_api_base" name="inpsyde_api_base" value="<?php echo esc_attr($apiBase); ?>">
+                <?php
+                submit_button('Save Settings');
+                ?>
             </form>
         </div>
         <?php
