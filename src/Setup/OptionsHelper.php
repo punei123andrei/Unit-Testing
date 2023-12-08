@@ -30,18 +30,9 @@ public function __construct(string $option_name) {
 }
 
 
-/**
- * Add option page on admin side
- *
- * @param $function
- * @return void
- */
-private function actionOptionsPage(callable $function): void
-{
-    add_action('admin_menu', static function () use ($function) {
-        $function();
-    });
-}
+
+
+
 
 /**
  * Get the value of a specific option
@@ -50,7 +41,7 @@ private function actionOptionsPage(callable $function): void
  * @return mixed The option value
  */
 public function get_option($key, $default = false) {
-    $options = get_option($this->option_name, array());
+    $options = get_option($this->option_name, []);
     return isset($options[$key]) ? $options[$key] : $default;
 }
 
@@ -61,7 +52,7 @@ public function get_option($key, $default = false) {
  * @return bool True on success, false on failure
  */
 public function set_option(string $key, $value = ''): bool {
-    $options = get_option($this->option_name, array());
+    $options = get_option($this->option_name, []);
     $options[$key] = $value;
     return update_option($this->option_name, $options);
 }
@@ -82,6 +73,7 @@ public function sanitize_options(array $input): array {
  * Register settings with WordPress
  */
 public function register_settings(): void {
-    register_setting($this->option_name, $this->option_name, array($this, 'sanitize_options'));
+    register_setting($this->option_name, $this->option_name, [$this, 'sanitize_options']);
 }
+
 }

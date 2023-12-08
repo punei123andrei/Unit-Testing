@@ -4,18 +4,20 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "build": "wp-scripts build assets/index.js",
-        "start": "wp-scripts start assets/index.js",
-        "dev": "wp-scripts start assets/index.js",
-        "devFast": "wp-scripts start assets/index.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
+      "build:frontend": "wp-scripts build assets/frontend/index.js --output dist/frontend/frontend.js",
+      "build:backend": "wp-scripts build assets/backend/index.js --output dist/backend/backend.js",
+      "start": "wp-scripts start assets/index.js",
+      "dev": "wp-scripts start assets/index.js",
+      "devFast": "wp-scripts start assets/index.js",
+      "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "@wordpress/scripts": "*",
-        "axios": "^0.21.1",
-        "jquery": "^3.7.1"
+      "@wordpress/scripts": "*",
+      "axios": "^0.21.1",
+      "jquery": "^3.7.1"
     }
-}
+  }
+  

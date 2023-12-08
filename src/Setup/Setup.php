@@ -28,6 +28,62 @@ class Setup
     }
 
     /**
+     * Add option page on admin side
+     *
+     * @param $function
+     * @return void
+     */
+    private function actionOptionsPage(callable $function): void
+    {
+        add_action('admin_menu', static function () use ($function) {
+            $function();
+        });
+    }
+
+    /**
+    * Adds an options page for the plugin to the WordPress admin menu.
+    *
+    * @param string $pageTitle  The title of the options page.
+    * @param string $menuTitle  The text to be displayed in the menu.
+    */
+    public function addOptionsPage(string $pageTitle, string $menuTitle ):void 
+    {
+
+        $this->actionOptionsPage( function () use ($pageTitle, $menuTitle) {
+                add_options_page(
+                    $pageTitle, 
+                    $menuTitle, 
+                    'manage_options',
+                     'inpsyde_settings', 
+                    [$this, 'renderOptionsPage']
+                );
+            } 
+        );
+
+    }
+
+
+    /**
+     * Renders the content for the options page.
+     */
+    public function renderOptionsPage():void {
+        ?>
+        <div class="wrap">
+            <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
+            <form method="post" action="options.php">
+    
+            <label for="api_base">Add api:</label>
+            <input type="text" id="api_base" name="api_base" value="<?php echo esc_attr(get_option('api_base')); ?>">
+            
+            <?php
+            submit_button('Save Settings');
+            ?>
+            </form>
+        </div>
+        <?php
+    }
+
+    /**
      * @param string $handle
      * @param string $src
      * @param array $deps
@@ -44,13 +100,7 @@ class Setup
     ): Setup {
 
         $this->actionEnqueueScripts(static function () use ($handle, $src, $deps, $ver, $media) {
-            // Trigger a custom action hook before enqueuing the style
-            do_action('inpsyde_before_enqueue_style', $handle, $src, $deps, $ver, $media);
-
             wp_enqueue_style($handle, $src, $deps, $ver, $media);
-
-            // Trigger a custom action hook after enqueuing the style
-            do_action('inpsyde_after_enqueue_style', $handle, $src, $deps, $ver, $media);
         });
 
         return $this;
@@ -73,14 +123,10 @@ class Setup
     ): Setup {
 
         $this->actionEnqueueScripts(static function () use ($handle, $src, $deps, $ver, $inFooter) {
-            // Trigger a custom action hook before enqueuing the script
-            do_action('inpsyde_before_enqueue_script', $handle, $src, $deps, $ver, $inFooter);
 
             wp_register_script($handle, $src, $deps, $ver, $inFooter);
             wp_enqueue_script($handle);
 
-            // Trigger a custom action hook after enqueuing the script
-            do_action('inpsyde_after_enqueue_script', $handle, $src, $deps, $ver, $inFooter);
         });
 
         return $this;
@@ -106,8 +152,6 @@ class Setup
     ): Setup {
 
         $this->actionEnqueueScripts(static function () use ($handle, $src, $deps, $ver, $inFooter, $pageSlug) {
-            // Trigger a custom action hook before localizing and enqueuing the script
-            do_action('inpsyde_before_localize_and_enqueue_script', $handle, $src, $deps, $ver, $inFooter, $pageSlug);
 
             if ($pageSlug !== null && $pageSlug !== get_post_field('post_name', get_queried_object_id())) {
                 return;
@@ -126,8 +170,6 @@ class Setup
 
             wp_enqueue_script($handle);
 
-            // Trigger a custom action hook after localizing and enqueuing the script
-            do_action('inpsyde_after_localize_and_enqueue_script', $handle, $src, $deps, $ver, $inFooter, $pageSlug);
         });
 
         return $this;
