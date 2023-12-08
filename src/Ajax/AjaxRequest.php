@@ -22,14 +22,7 @@ class AjaxRequest
 
     public function add(RequestDefinition $request): AjaxRequest
     {
-        // Trigger a custom action hook before adding the request
-        do_action('inpsyde_before_add_ajax_request', $request);
-
         $this->requests[] = $request;
-
-        // Trigger a custom action hook after adding the request
-        do_action('inpsyde_after_add_ajax_request', $request);
-
         return $this;
     }
 
@@ -52,14 +45,8 @@ class AjaxRequest
 
     private function addAjaxAction(string $action, callable $callback)
     {
-        // Trigger a custom action hook before adding the Ajax action
-        do_action('inpsyde_before_add_ajax_action', $action, $callback);
-
         add_action("wp_ajax_$action", $callback);
         add_action("wp_ajax_nopriv_$action", $callback);
-
-        // Trigger a custom action hook after adding the Ajax action
-        do_action('inpsyde_after_add_ajax_action', $action, $callback);
     }
 
     public function sendData(string $route, array $headers, array $data = [])

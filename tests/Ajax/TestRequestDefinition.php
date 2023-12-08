@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Inpsyde\Ajax;
+
 use Inpsyde\Ajax\RequestDefinition;
 use PHPUnit\Framework\TestCase;
 
