@@ -33,10 +33,11 @@ class AjaxRequest
             $headers = $request->headers();
             $action = $request->action();
             $data = $request->data();
+            $appendParam = $request->appendParam();
 
             // Trigger a custom filter hook before registering the request
-            $callback = apply_filters('inpsyde_ajax_callback', function () use ($route, $headers, $data) {
-                $this->sendData($route, $headers, $data);
+            $callback = apply_filters('inpsyde_ajax_callback', function () use ($route, $headers, $data, $appendParam) {
+                $this->sendData($route, $headers, $data, $appendParam);
             }, $request);
 
             $this->addAjaxAction($action, $callback);
@@ -49,11 +50,11 @@ class AjaxRequest
         add_action("wp_ajax_nopriv_$action", $callback);
     }
 
-    public function sendData(string $route, array $headers, array $data = [])
+    public function sendData(string $route, array $headers, array $data = [], bool $appendParam = false)
     {
-        if (RequestHelper::returnPostData($data)) {
-            $userId = RequestHelper::returnPostData($data)['userId'];
-            $route .= '/' . $userId;
+        if ($appendParam) {
+            $param = reset(RequestHelper::returnPostData($data));
+            $route = RequestHelper::appendParam($route, $param); 
         }
 
         // Trigger a custom action hook before sending data

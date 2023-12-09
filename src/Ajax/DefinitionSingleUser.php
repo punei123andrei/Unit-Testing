@@ -47,7 +47,11 @@ class DefinitionSingleUser implements RequestDefinition
      */
     public function data(): array
     {
-
         return ['userId'];
+    }
+
+    public function appendParam(): bool 
+    {
+        return true;
     }
 }

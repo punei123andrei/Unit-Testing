@@ -56,6 +56,13 @@ class RequestHelper
         return true;
     }
 
+
+    public static function appendParam(string $route, string $data): string
+    {
+        $url = $route . '/' . $data;
+        return $url;
+    }
+
     /**
      * Get sanitized data from the global $_POST.
      *
@@ -81,7 +88,7 @@ class RequestHelper
 
         foreach ($keys as $key) {
             if (isset($_POST[$key])) {
-                $sanitizedData[$key] = sanitize_text_field(wp_unslash($_POST[$key]));
+                $sanitizedData[] = sanitize_text_field(wp_unslash($_POST[$key]));
             }
         }
 
