@@ -14,35 +14,23 @@ namespace Inpsyde\Setup;
 
 class Deactivate
 {
+    /**
+     * Deactivate the functionality associated with the plugin or module.
+     */
     public static function deactivate()
     {
-        // Trigger a custom action hook before removing the test page
-        do_action('inpsyde_before_deactivate');
-
         self::removeTestPage();
-
-        // Trigger a custom action hook after removing the test page
-        do_action('inpsyde_after_remove_test_page');
     }
 
+    /**
+    * Remove a test page associated with the plugin.
+    */
     private static function removeTestPage()
     {
-        // Trigger a custom action hook before checking and removing the test page
-        do_action('inpsyde_before_remove_test_page');
-
         $page = get_page_by_title('Inpsyde Users Test', OBJECT, 'page');
 
         if ($page) {
-            // Trigger a custom action hook before deleting the test page
-            do_action('inpsyde_before_delete_test_page', $page->ID);
-
             wp_delete_post($page->ID, true);
-
-            // Trigger a custom action hook after deleting the test page
-            do_action('inpsyde_after_delete_test_page');
         }
-
-        // Trigger a custom action hook after checking and removing the test page
-        do_action('inpsyde_after_remove_test_page');
     }
 }

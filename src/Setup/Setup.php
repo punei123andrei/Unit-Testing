@@ -64,9 +64,10 @@ class Setup
 
     }
 
-
     /**
      * Renders the content for the options page.
+     * 
+     * @return void
      */
     public function renderOptionsPage():void {
 
@@ -89,6 +90,8 @@ class Setup
     }
 
     /**
+     * Adds a style sheet for the frontend
+     * 
      * @param string $handle
      * @param string $src
      * @param array $deps
@@ -112,6 +115,8 @@ class Setup
     }
 
     /**
+     * Add Js script to be rendered on the front.
+     * 
      * @param string $handle
      * @param string $src
      * @param array $deps

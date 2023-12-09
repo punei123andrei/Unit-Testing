@@ -20,12 +20,22 @@ class AjaxRequest
      */
     private $requests = [];
 
+    /**
+    * Add a RequestDefinition to the list of requests for the AjaxRequest.
+    *
+    * @param RequestDefinition $request The RequestDefinition object to be added.
+    *
+    * @return AjaxRequest Returns the current AjaxRequest instance for method chaining.
+    */
     public function add(RequestDefinition $request): AjaxRequest
     {
         $this->requests[] = $request;
         return $this;
     }
 
+    /**
+    * Register all defined requests by setting up corresponding Ajax actions.
+    */
     public function registerRequests(): void
     {
         foreach ($this->requests as $request) {
@@ -44,12 +54,27 @@ class AjaxRequest
         }
     }
 
+    /**
+    * Add an Ajax action for the specified action hook.
+    *
+    * @param string   $action   The unique identifier for the Ajax action.
+    * @param callable $callback The callback function to be executed when the Ajax action is triggered.
+    */
     private function addAjaxAction(string $action, callable $callback)
     {
         add_action("wp_ajax_$action", $callback);
         add_action("wp_ajax_nopriv_$action", $callback);
     }
 
+    /**
+    * Send data to a specified route using an Ajax request.
+    *
+    * @param string $route        The target route for the Ajax request.
+    * @param array  $headers      Optional. Associative array of headers to include in the request.
+    * @param array  $data         Optional. Associative array of data to include in the request.
+    * @param bool   $appendParam  Optional. If true, appends a parameter to the route based on the
+    *                             first value of the data array using RequestHelper methods.
+    */
     public function sendData(string $route, array $headers, array $data = [], bool $appendParam = false)
     {
         if ($appendParam) {

@@ -51,8 +51,8 @@ class DefinitionUsersList implements RequestDefinition
     }
 
     /**
-     * Data to be sent with the request.
-     * @return array
+     * Specifies if the data should be appended to the url
+     * @return bool
      */
     public function appendParam(): bool
     {
