@@ -54,7 +54,7 @@ class DefinitionSingleUser implements RequestDefinition
      * Specifies if the data should be appended to the url
      * @return bool
      */
-    public function appendParam(): bool 
+    public function appendParam(): bool
     {
         return true;
     }

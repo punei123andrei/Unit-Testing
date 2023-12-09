@@ -73,4 +73,4 @@ use Inpsyde\Setup\OptionsHelper;
 
 $options = new OptionsHelper();
 $options->init()
-        ->setOption('inpsyde_api_base');
+        ->insertOption('inpsyde_api_base');

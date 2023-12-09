@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
  * Inpsyde Users API
@@ -14,6 +14,12 @@ namespace Inpsyde\Setup;
 
 class Deactivate
 {
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+    }
     /**
      * Deactivate the functionality associated with the plugin or module.
      */

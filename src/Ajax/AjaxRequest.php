@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
  * Inpsyde Users
@@ -6,7 +6,6 @@
  * @package Inpsyde_Users
  * @author  Punei Andrei <punei.andrei@gmail.com>
  * @license GNU General Public License v3.0
- *
  */
 
 declare(strict_types=1);
@@ -21,12 +20,12 @@ class AjaxRequest
     private $requests = [];
 
     /**
-    * Add a RequestDefinition to the list of requests for the AjaxRequest.
-    *
-    * @param RequestDefinition $request The RequestDefinition object to be added.
-    *
-    * @return AjaxRequest Returns the current AjaxRequest instance for method chaining.
-    */
+     * Add a RequestDefinition to the list of requests for the AjaxRequest.
+     *
+     * @param RequestDefinition $request The RequestDefinition object to be added.
+     *
+     * @return AjaxRequest Returns the current AjaxRequest instance for method chaining.
+     */
     public function add(RequestDefinition $request): AjaxRequest
     {
         $this->requests[] = $request;
@@ -34,8 +33,8 @@ class AjaxRequest
     }
 
     /**
-    * Register all defined requests by setting up corresponding Ajax actions.
-    */
+     * Register all defined requests by setting up corresponding Ajax actions.
+     */
     public function registerRequests(): void
     {
         foreach ($this->requests as $request) {
@@ -46,20 +45,24 @@ class AjaxRequest
             $appendParam = $request->appendParam();
 
             // Trigger a custom filter hook before registering the request
-            $callback = apply_filters('inpsyde_ajax_callback', function () use ($route, $headers, $data, $appendParam) {
-                $this->sendData($route, $headers, $data, $appendParam);
-            }, $request);
+            $callback = apply_filters(
+                'inpsyde_ajax_callback',
+                function () use ($route, $headers, $data, $appendParam) {
+                    $this->sendData($route, $headers, $data, $appendParam);
+                },
+                $request
+            );
 
             $this->addAjaxAction($action, $callback);
         }
     }
 
     /**
-    * Add an Ajax action for the specified action hook.
-    *
-    * @param string   $action   The unique identifier for the Ajax action.
-    * @param callable $callback The callback function to be executed when the Ajax action is triggered.
-    */
+     * Add an Ajax action for the specified action hook.
+     *
+     * @param string   $action   The unique identifier for the Ajax action.
+     * @param callable $callback The callback function to be executed.
+     */
     private function addAjaxAction(string $action, callable $callback)
     {
         add_action("wp_ajax_$action", $callback);
@@ -67,19 +70,19 @@ class AjaxRequest
     }
 
     /**
-    * Send data to a specified route using an Ajax request.
-    *
-    * @param string $route        The target route for the Ajax request.
-    * @param array  $headers      Optional. Associative array of headers to include in the request.
-    * @param array  $data         Optional. Associative array of data to include in the request.
-    * @param bool   $appendParam  Optional. If true, appends a parameter to the route based on the
-    *                             first value of the data array using RequestHelper methods.
-    */
+     * Send data to a specified route using an Ajax request.
+     *
+     * @param string $route       The target route for the Ajax request.
+     * @param array  $headers     Optional. Associative array of headers to include in the request.
+     * @param array  $data        Optional. Associative array of data to include in the request.
+     * @param bool   $appendParam Optional. If true, appends a parameter to the route based on the
+     *                            first value of the data array using RequestHelper methods.
+     */
     public function sendData(string $route, array $headers, array $data = [], bool $appendParam = false)
     {
         if ($appendParam) {
             $param = reset(RequestHelper::returnPostData($data));
-            $route = RequestHelper::appendParam($route, $param); 
+            $route = RequestHelper::appendParam($route, $param);
         }
 
         // Trigger a custom action hook before sending data

@@ -53,7 +53,6 @@ class ApiBase
           $items = array_merge([
               'Accept' => 'application/json',
           ], $items);
-
           return $items;
     }
 }

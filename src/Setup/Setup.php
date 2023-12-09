@@ -48,28 +48,27 @@ class Setup
     * @param string $pageTitle  The title of the options page.
     * @param string $menuTitle  The text to be displayed in the menu.
     */
-    public function addOptionsPage(string $pageTitle, string $menuTitle ):void 
+    public function addOptionsPage(string $pageTitle, string $menuTitle): void
     {
 
-        $this->actionOptionsPage( function () use ($pageTitle, $menuTitle) {
+        $this->actionOptionsPage(function () use ($pageTitle, $menuTitle) {
                 add_options_page(
-                    $pageTitle, 
-                    $menuTitle, 
+                    $pageTitle,
+                    $menuTitle,
                     'manage_options',
-                     'inpsyde_settings', 
+                    'inpsyde_settings',
                     [$this, 'renderOptionsPage']
                 );
-            } 
-        );
-
+        });
     }
 
     /**
      * Renders the content for the options page.
-     * 
+     *
      * @return void
      */
-    public function renderOptionsPage():void {
+    public function renderOptionsPage(): void
+    {
 
         $apiBaseValue = get_option('inpsyde_api_base');
         $defaultBase = ApiBase::API_BASE;
@@ -79,8 +78,13 @@ class Setup
         <div class="wrap">
             <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
             <form method="post" action="">
-                <label for="inpsyde_api_base"><?php _e('Add api:', 'inpsyde') ?></label>
-                <input type="text" id="inpsyde_api_base" name="inpsyde_api_base" value="<?php echo esc_attr($apiBase); ?>">
+                <?php wp_nonce_field('inpsyde_set_api', 'nonce'); ?>
+                <label for="inpsyde_api_base"><?php esc_html_e('Add api:', 'inpsyde') ?></label>
+                <input type="text"
+                        id="inpsyde_api_base"
+                        name="inpsyde_api_base"
+                        value="<?php echo esc_attr($apiBase);
+                        ?>">
                 <?php
                 submit_button('Save Settings');
                 ?>
@@ -91,7 +95,7 @@ class Setup
 
     /**
      * Adds a style sheet for the frontend
-     * 
+     *
      * @param string $handle
      * @param string $src
      * @param array $deps
@@ -116,7 +120,7 @@ class Setup
 
     /**
      * Add Js script to be rendered on the front.
-     * 
+     *
      * @param string $handle
      * @param string $src
      * @param array $deps
@@ -136,7 +140,6 @@ class Setup
 
             wp_register_script($handle, $src, $deps, $ver, $inFooter);
             wp_enqueue_script($handle);
-
         });
 
         return $this;
@@ -161,9 +164,20 @@ class Setup
         ?string $pageSlug = null
     ): Setup {
 
-        $this->actionEnqueueScripts(static function () use ($handle, $src, $deps, $ver, $inFooter, $pageSlug) {
+        $this->actionEnqueueScripts(static function () use (
+            $handle,
+            $src,
+            $deps,
+            $ver,
+            $inFooter,
+            $pageSlug
+        ) {
 
-            if ($pageSlug !== null && $pageSlug !== get_post_field('post_name', get_queried_object_id())) {
+            if (
+                ($pageSlug !== null)
+                &&
+                ($pageSlug !== get_post_field('post_name', get_queried_object_id()))
+            ) {
                 return;
             }
 
@@ -179,7 +193,6 @@ class Setup
             );
 
             wp_enqueue_script($handle);
-
         });
 
         return $this;

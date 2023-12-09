@@ -14,7 +14,6 @@ namespace Inpsyde\Ajax;
 
 class RequestHelper
 {
-
     /**
     * Make a request to the API using wp_remote_post.
     *

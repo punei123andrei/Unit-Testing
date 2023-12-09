@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
  * Inpsyde Users API
@@ -44,9 +44,9 @@ class Activation
      *
      * @param string $pageContent
      */
-    private static function createTestPage($pageContent)
+    private static function createTestPage(string $pageContent)
     {
-        
+
         do_action('inpsyde_before_create_test_page');
 
         $authorId = get_current_user_id();
@@ -55,11 +55,11 @@ class Activation
 
         if (!$page) {
             $newPage = [
-                'post_title'   => 'Inpsyde Users Test',
+                'post_title' => 'Inpsyde Users Test',
                 'post_content' => $pageContent,
-                'post_status'  => 'publish',
-                'post_author'  => $authorId,
-                'post_type'    => 'page',
+                'post_status' => 'publish',
+                'post_author' => $authorId,
+                'post_type' => 'page',
             ];
 
             wp_insert_post($newPage);
