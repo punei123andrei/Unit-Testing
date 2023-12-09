@@ -38,7 +38,9 @@ class ApiBase
      */
     public static function baseUrl(string $endpoint, bool $useService = true): string
     {
-        return trailingslashit(self::API_BASE) . ltrim($endpoint, '/');
+        $apiBaseValue = get_option('inpsyde_api_base');
+        $apiBase = $apiBaseValue ? $apiBaseValue : self::API_BASE;
+        return trailingslashit($apiBase) . ltrim($endpoint, '/');
     }
     /**
      * Get the headers with the authorization token
