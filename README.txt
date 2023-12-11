@@ -24,22 +24,37 @@ The plugin makes HTTP requests from the server-side (PHP) to the JSONPlaceholder
 
 Yes, you can customize the endpoint URL and choose the data to retrieve. Visit the plugin's settings page in the WordPress admin dashboard to set your preferred endpoint URL and configure the number of users to import, along with other custom data.
 
-Note: The default endpoint URL is set as `/inpsyde-users-test/`.
+Note: The default endpoint URL is set as `https://jsonplaceholder.typicode.com` in the file `src/Ajax/ApiBase.php`.
 
 == Changelog ==
 
 = 1.0 =
 * Initial release.
 
-== Upgrade Notice ==
+== Class Description ==
 
-= 1.0 =
-Upgrade to access the user table on custom endpoints.
+1. Inpsyde\Setup\Activation
+This class handles the activation setup for the plugin. It performs tasks such as flushing rewrite rules, creating a test page with predefined HTML content, and associating it with the current user. It runs when the plugin is activated and sets up the necessary environment.
 
-== Arbitrary section ==
+2. Inpsyde\Setup\Deactivate
+The Deactivate class is responsible for deactivating the plugin. Its main task is to remove the test page created during activation. This helps clean up any residual content associated with the plugin when it's deactivated.
 
-You may provide additional sections if needed for a more complicated plugin.
+3. Inpsyde\Setup\Setup
+The Setup class manages various setup tasks for the plugin. It handles enqueuing scripts and styles, adding an options page to the admin menu, and rendering the content for the options page. It provides methods for adding styles, scripts, and localizing scripts. Additionally, it includes utility methods for encapsulating actions related to script and options page setup.
 
-* Use an arbitrary URL endpoint.
-* Ensure asynchronous requests for user details.
-* Apply server-side caching for HTTP requests.
+4. Inpsyde\Setup\OptionsHelper
+The OptionsHelper class is designed to assist in managing options for the plugin. It initializes the object with an option key and value, and it provides a method (insertOption) to set the value of a specific option. It includes nonce verification for security and ensures that the value is properly sanitized before updating the option.
+
+5. Inpsyde\Ajax\ApiBase
+The ApiBase class defines the base URL for making requests to the JSONPlaceholder API. It serves as a central location for managing the API endpoint URL. The default endpoint URL is set as https://jsonplaceholder.typicode.com, and it can be customized through the plugin's settings.
+
+6. Inpsyde\Ajax\AjaxRequest
+The AjaxRequest class initializes and manages Ajax requests for the plugin. It adds request definitions for fetching a list of users (DefinitionUsersList) and fetching details of a single user (DefinitionSingleUser). It registers these request definitions for handling Ajax requests.
+
+7. Inpsyde\Ajax\DefinitionSingleUser and Inpsyde\Ajax\DefinitionUsersList
+These classes define the structure and behavior of Ajax requests for fetching details of a single user and fetching a list of users, respectively. They specify the endpoint, callback functions, and other settings for handling these specific types of Ajax requests.
+
+These classes collectively contribute to a WordPress plugin that fetches user data from the JSONPlaceholder API, displays it on a custom page, and allows customization through an options page in the WordPress admin dashboard.
+
+
+
