@@ -56,5 +56,18 @@ These classes define the structure and behavior of Ajax requests for fetching de
 
 These classes collectively contribute to a WordPress plugin that fetches user data from the JSONPlaceholder API, displays it on a custom page, and allows customization through an options page in the WordPress admin dashboard.
 
+== Development and Testing Dependencies ==
+
+1. roave/security-advisories:
+Purpose: This package provides a set of composer security advisories as a development dependency. It helps ensure that your project's dependencies do not have known security vulnerabilities.
+
+2. phpcompatibility/phpcompatibility-wp:
+Purpose: This package is a WordPress coding standard for PHP_CodeSniffer. It checks your codebase for PHP compatibility issues with the specified WordPress version. It helps ensure that your plugin is compatible with the targeted WordPress version.
+
+3. phpunit/phpunit:
+Purpose: PHPUnit is a testing framework for PHP. It allows you to write and run tests for your code. The phpunit script in your scripts section is used to run PHPUnit tests. Tests are essential for ensuring the correctness and stability of your plugin.
+
+4.brain/monkey:
+Purpose: Brain Monkey is a library for mocking WordPress functionality when testing. It helps create isolated unit tests for your code without relying on a full WordPress environment. Mocking is crucial for testing specific components in isolation.
 
 
