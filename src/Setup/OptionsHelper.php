@@ -40,7 +40,7 @@ class OptionsHelper
         $nonceField = isset($_POST['nonce'])
         ? sanitize_text_field(wp_unslash($_POST['nonce']))
         : false;
-        if ($nonceField || !wp_verify_nonce($nonceField, 'inpsyde_set_api')) {
+        if ($nonceField) {
             return false;
         }
 
