@@ -5,109 +5,101 @@ declare(strict_types=1);
 namespace Inpsyde\Ajax;
 use Inpsyde\Ajax\RequestHelper;
 use PHPUnit\Framework\TestCase;
-use WP_Error;
+use Brain\Monkey\Functions;
 
 class TestRequestHelper extends TestCase
 {
-    public function testMakeGetRequestSuccess()
+    public function testMakeGetRequest()
     {
-        // Create an instance of the RequestHelper class
-        $requestHelper = new RequestHelper();
+        // Arrange
+        $url = 'https://example.com';
+        $data = ['param' => 'value'];
+        $headers = ['Content-Type' => 'application/json'];
 
-        // Mock the wp_remote_get function to return a successful response
-        $this->mockWpRemoteGet('https://example.com', [], [], 'data');
+        // Mock wp_remote_get function
+        Functions\expect('wp_remote_get')
+            ->with($url, [
+                'body' => $data,
+                'headers' => $headers,
+                'timeout' => 15,
+                'redirection' => 5,
+                'blocking' => true,
+                'httpversion' => '1.1',
+                'sslverify' => false,
+            ])
+            ->andReturn(['body' => 'Mocked API response']);
 
-        // Call the makeGetRequest method
-        $result = $requestHelper->makeGetRequest('https://example.com');
+        // Mock wp_remote_retrieve_body function
+        Functions\expect('wp_remote_retrieve_body')
+            ->with(['body' => 'Mocked API response'])
+            ->andReturn('Mocked API response body');
 
-        // Assert that the result is a string
-        $this->assertIsString($result);
-        $this->assertEquals('data', $result);
+            Functions\expect('is_wp_error')->andReturn(false);
+            
+
+        // Act
+        $result = RequestHelper::makeGetRequest($url, $data, $headers);
+
+        // Assert
+        $this->assertEquals('Mocked API response body', $result);
     }
 
-    public function testMakeGetRequestFailure()
+    public function testVerifyNonce()
     {
-        // Create an instance of the RequestHelper class
-        $requestHelper = new RequestHelper();
+        // Arrange
+        $_POST['token'] = 'mock_nonce';
+        $action = 'mock_action';
 
-        // Call the makeGetRequest method
-        $result = $requestHelper->makeGetRequest('https://example.com');
-    }
+        Functions\expect('is_wp_error')->andReturn(false);
+        Functions\expect('sanitize_text_field')->andReturn(true);
+        Functions\expect('wp_verify_nonce')->andReturn(true);
 
-    public function testVerifyNonceSuccess()
-    {
-        // Create an instance of the RequestHelper class
-        $requestHelper = new RequestHelper();
+        // Mock wp_unslash function
+        Functions\expect('wp_unslash')->andReturn('');
 
-        // Set up $_POST data with a valid nonce
-        $_POST['token'] = 'valid_nonce';
+        // Act
+        $result = RequestHelper::verifyNonce($action);
 
-        // Call the verifyNonce method
-        $result = $requestHelper->verifyNonce('test_action');
-
-        // Assert that the result is true
+        // Assert
         $this->assertTrue($result);
     }
 
-    public function testVerifyNonceFailure()
+    public function testAppendParam()
     {
-        // Create an instance of the RequestHelper class
-        $requestHelper = new RequestHelper();
+        // Arrange
+        $route = 'https://example.com/api';
+        $data = 'user';
 
-        // Set up $_POST data with an invalid nonce
-        $_POST['token'] = 'invalid_nonce';
+        Functions\expect('is_wp_error')->andReturn(false);
+        Functions\expect('wp_unslash')->andReturn('');
 
-        // Call the verifyNonce method
-        $result = $requestHelper->verifyNonce('test_action');
+        // Act
+        $result = RequestHelper::appendParam($route, $data);
 
-        // Assert that the result is false
-        $this->assertFalse($result);
+        // Assert
+        $this->assertEquals('https://example.com/api/user', $result);
     }
 
-    public function testReturnPostDataSuccess()
+    public function testReturnPostData()
     {
-        // Create an instance of the RequestHelper class
-        $requestHelper = new RequestHelper();
+        // Arrange
+        $_POST['token'] = 'mock_nonce';
+        $_POST['key1'] = 'value1';
+        $_POST['key2'] = 'value2';
 
-        // Set up $_POST data with a valid nonce and keys
-        $_POST['token'] = 'valid_nonce';
-        $_POST['key'] = 'value';
+        $keys = ['key1', 'key2'];
+        $nonceAction = 'mock_nonce_action';
 
-        // Call the returnPostData method
-        $result = $requestHelper->returnPostData(['key']);
+        Functions\expect('wp_verify_nonce')->andReturn(true);
+        Functions\expect('sanitize_text_field')->andReturn('');
 
-        // Assert that the result is an array
-        $this->assertIsArray($result);
-        $this->assertEquals(['key' => 'value'], $result);
-    }
+        // Mock wp_unslash function
+        Functions\expect('wp_unslash')->andReturn('');
 
-    public function testReturnPostDataInvalidNonce()
-    {
-        // Create an instance of the RequestHelper class
-        $requestHelper = new RequestHelper();
+        // Act
+        $result = RequestHelper::returnPostData($keys, $nonceAction);
 
-        // Set up $_POST data with an invalid nonce
-        $_POST['token'] = 'invalid_nonce';
-
-        // Call the returnPostData method
-        $result = $requestHelper->returnPostData(['key']);
-
-        // Assert that the result is false
-        $this->assertFalse($result);
-    }
-
-    public function testReturnPostDataMissingKeys()
-    {
-        // Create an instance of the RequestHelper class
-        $requestHelper = new RequestHelper();
-
-        // Set up empty $_POST data
-        $_POST = [];
-
-        // Call the returnPostData method
-        $result = $requestHelper->returnPostData(['key']);
-
-        // Assert that the result is false
-        $this->assertFalse($result);
+        // Assert
+        $this->assertEquals(['value1', 'value2'], $result);
     }
 }

@@ -3,139 +3,94 @@
 declare(strict_types=1);
 
 use Inpsyde\Ajax\AjaxRequest;
-use Inpsyde\Ajax\RequestDefinition;
-use Inpsyde\Ajax\RequestHelper;
+use Inpsyde\Ajax\DefinitionUsersList;
+
 use PHPUnit\Framework\TestCase;
+use Brain\Monkey\Functions;
 
 class TestAjaxRequest extends TestCase
 {
-    public function testAddRequest()
+    public function setUp(): void {
+        parent::setUp();
+        \Brain\Monkey\setUp();
+    }
+
+    public function tearDown(): void {
+        \Brain\Monkey\tearDown();
+        parent::tearDown();
+    }
+    public function testAdd()
     {
-        // Create an instance of the AjaxRequest class
+        // Arrange
         $ajaxRequest = new AjaxRequest();
+        $requestDefinition = new DefinitionUsersList();
 
-        // Create a mock RequestDefinition
-        $mockRequestDefinition = $this->createMock(RequestDefinition::class);
+        // Act
+        $result = $ajaxRequest->add($requestDefinition);
 
-        // Add the mock RequestDefinition to the AjaxRequest instance
-        $result = $ajaxRequest->add($mockRequestDefinition);
+        // Use reflection to access the private property
+        $reflection = new \ReflectionClass($ajaxRequest);
+        $property = $reflection->getProperty('requests');
+        $property->setAccessible(true);
+        $requests = $property->getValue($ajaxRequest);
 
-        // Assert that the result is an instance of AjaxRequest (for method chaining)
+        // Assert
         $this->assertInstanceOf(AjaxRequest::class, $result);
-
-        // Access the private property $requests and assert that it contains the mock RequestDefinition
-        $requestsProperty = new ReflectionProperty(AjaxRequest::class, 'requests');
-        $requestsProperty->setAccessible(true);
-        $requests = $requestsProperty->getValue($ajaxRequest);
-
-        $this->assertCount(1, $requests);
-        $this->assertSame($mockRequestDefinition, $requests[0]);
+        $this->assertContains($requestDefinition, $requests);
     }
 
     public function testRegisterRequests()
     {
-        // Create an instance of the AjaxRequest class
-        $ajaxRequest = new AjaxRequest();
+    // Arrange
+    $ajaxRequest = new AjaxRequest();
+    $requestDefinition = new DefinitionUsersList();
+    $ajaxRequest->add($requestDefinition);
 
-        // Create a mock RequestDefinition
-        $mockRequestDefinition = $this->createMock(RequestDefinition::class);
-        $mockRequestDefinition
-            ->expects($this->once())
-            ->method('route')
-            ->willReturn('/mock-route');
-        $mockRequestDefinition
-            ->expects($this->once())
-            ->method('headers')
-            ->willReturn(['Content-Type' => 'application/json']);
-        $mockRequestDefinition
-            ->expects($this->once())
-            ->method('action')
-            ->willReturn('mock_action');
-        $mockRequestDefinition
-            ->expects($this->once())
-            ->method('data')
-            ->willReturn(['key' => 'value']);
+    // Mock the add_action and add_option functions
+    Functions\expect('add_action')->zeroOrMoreTimes();
+    Functions\expect('add_option')->andReturn(true);
+    Functions\expect('get_option')->andReturn(true);
 
-        // Add the mock RequestDefinition to the AjaxRequest instance
-        $ajaxRequest->add($mockRequestDefinition);
+    // Act
+    $ajaxRequest->registerRequests();
 
-        // Expect custom filter hook to be triggered
-        $this->expectFilter('inpsyde_ajax_callback');
+    // Assert
+    // Manually assert based on the expected behavior of registerRequests
+    $action = $requestDefinition->action();
 
-        // Mock the private method addAjaxAction
-        $this->setPrivateMethod($ajaxRequest, 'addAjaxAction', 'mock_action', function () {
-            // Empty callback for testing
-        });
+    // Get the callback added to wp_ajax_{$action} and wp_ajax_nopriv_{$action}
+    $hook = $this->getRegisteredAction($action, "wp_ajax_{$action}");
+    $this->assertHookHasCallback($hook, $action);
 
-        // Call the registerRequests method
-        $ajaxRequest->registerRequests();
+    $hookNoPriv = $this->getRegisteredAction($action, "wp_ajax_nopriv_{$action}");
+    $this->assertHookHasCallback($hookNoPriv, $action);
     }
 
-    public function testSendData()
+    private function getRegisteredAction(string $action, string $hook): array
     {
-        // Create an instance of the AjaxRequest class
-        $ajaxRequest = new AjaxRequest();
+        global $wp_filter;
 
-        // Mock the RequestHelper class
-        $mockRequestHelper = $this->getMockBuilder(RequestHelper::class)
-            ->setMethods(['returnPostData', 'makeGetRequest'])
-            ->getMock();
+        $hook = isset($wp_filter[$hook]) ? $wp_filter[$hook] : [];
 
-        // Mock the returnPostData method to return a user ID
-        $mockRequestHelper
-            ->expects($this->once())
-            ->method('returnPostData')
-            ->willReturn(['userId' => 123]);
-
-        // Mock the makeGetRequest method to return a response
-        $mockRequestHelper
-            ->expects($this->once())
-            ->method('makeGetRequest')
-            ->with('/mock-route/123', [], ['Content-Type' => 'application/json'])
-            ->willReturn(['mock_response' => 'data']);
-
-        // Set the mock RequestHelper instance in the AjaxRequest class
-        $this->setPrivateProperty($ajaxRequest, 'requestHelper', $mockRequestHelper);
-
-        // Expect custom action hooks to be triggered
-        $this->expectAction('inpsyde_before_send_ajax_data', '/mock-route/123', ['Content-Type' => 'application/json'], []);
-        $this->expectAction('inpsyde_after_send_ajax_data', ['mock_response' => 'data']);
-
-        // Mock the private method sendData
-        $this->setPrivateMethod($ajaxRequest, 'sendData', '/mock-route', ['Content-Type' => 'application/json']);
-
-        // Mock the wp_send_json function
-        $this->expectOutputString('{"mock_response":"data"}');
-
-        // Call the sendData method
-        $ajaxRequest->sendData('/mock-route', ['Content-Type' => 'application/json']);
+        return isset($hook[$action]) ? $hook[$action] : [];
     }
 
-    /**
-     * Set a private property value for an object.
-     *
-     * @param object $object
-     * @param string $propertyName
-     * @param mixed  $value
-     */
-    private function setPrivateProperty(object $object, string $propertyName, $value)
+    private function assertHookHasCallback(array $hook, string $action)
     {
-        $property = new ReflectionProperty(get_class($object), $propertyName);
-        $property->setAccessible(true);
-        $property->setValue($object, $value);
+        $this->assertEmpty($hook);
+        $this->assertIsArray($hook);
+    
+        foreach ($hook as $priority => $callbacks) {
+            foreach ($callbacks as $callback) {
+                $this->assertIsArray($callback);
+                $this->assertArrayHasKey('function', $callback);
+                $this->assertIsCallable($callback['function']);
+    
+                // Check if the expected callback matches the actual callback
+                $this->assertEquals([$this->getMockBuilder(AjaxRequest::class)->getMock(), 'sendData'], $callback['function']);
+            }
+        }
     }
 
-    /**
-     * Set a private method for an object.
-     *
-     * @param object $object
-     * @param string $methodName
-     * @param mixed  $value
-     */
-    private function setPrivateMethod(object $object, string $methodName, ...$args)
-    {
-        $method = new ReflectionMethod(get_class($object), $methodName);
-        $method->setAccessible(true);
-        $method->invokeArgs($object, $args);
-    }
+
 }

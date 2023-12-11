@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /home/andrei/Local Sites/inpsyde/app/public/wp-content/plugins/inpsyde-user-api/src</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="_css/bootstrap.min.css?v=9.2.29" rel="stylesheet" type="text/css">
+  <link href="_css/nv.d3.min.css?v=9.2.29" rel="stylesheet" type="text/css">
+  <link href="_css/style.css?v=9.2.29" rel="stylesheet" type="text/css">
+  <link href="_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="index.html">/home/andrei/Local Sites/inpsyde/app/public/wp-content/plugins/inpsyde-user-api/src</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Ajax/AjaxRequest.php.html#15">Inpsyde\Ajax\AjaxRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ajax/ApiBase.php.html#15">Inpsyde\Ajax\ApiBase</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ajax/DefinitionSingleUser.php.html#15">Inpsyde\Ajax\DefinitionSingleUser</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ajax/DefinitionUsersList.php.html#15">Inpsyde\Ajax\DefinitionUsersList</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ajax/RequestHelper.php.html#15">Inpsyde\Ajax\RequestHelper</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Setup/Activation.php.html#15">Inpsyde\Setup\Activation</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Setup/Deactivate.php.html#15">Inpsyde\Setup\Deactivate</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Setup/OptionsHelper.php.html#17">Inpsyde\Setup\OptionsHelper</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Setup/Setup.php.html#17">Inpsyde\Setup\Setup</a></td><td class="text-right">0%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Ajax/RequestHelper.php.html#15">Inpsyde\Ajax\RequestHelper</a></td><td class="text-right">156</td></tr>
+       <tr><td><a href="Setup/Setup.php.html#17">Inpsyde\Setup\Setup</a></td><td class="text-right">132</td></tr>
+       <tr><td><a href="Setup/OptionsHelper.php.html#17">Inpsyde\Setup\OptionsHelper</a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Ajax/AjaxRequest.php.html#15">Inpsyde\Ajax\AjaxRequest</a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Setup/Activation.php.html#15">Inpsyde\Setup\Activation</a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Ajax/ApiBase.php.html#15">Inpsyde\Ajax\ApiBase</a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Setup/Deactivate.php.html#15">Inpsyde\Setup\Deactivate</a></td><td class="text-right">20</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Ajax/AjaxRequest.php.html#29"><abbr title="Inpsyde\Ajax\AjaxRequest::add">add</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ajax/AjaxRequest.php.html#38"><abbr title="Inpsyde\Ajax\AjaxRequest::registerRequests">registerRequests</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ajax/AjaxRequest.php.html#66"><abbr title="Inpsyde\Ajax\AjaxRequest::addAjaxAction">addAjaxAction</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ajax/AjaxRequest.php.html#81"><abbr title="Inpsyde\Ajax\AjaxRequest::sendData">sendData</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ajax/ApiBase.php.html#27"><abbr title="Inpsyde\Ajax\ApiBase::version">version</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ajax/ApiBase.php.html#39"><abbr title="Inpsyde\Ajax\ApiBase::baseUrl">baseUrl</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ajax/ApiBase.php.html#51"><abbr title="Inpsyde\Ajax\ApiBase::headers">headers</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ajax/DefinitionSingleUser.php.html#21"><abbr title="Inpsyde\Ajax\DefinitionSingleUser::route">route</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ajax/DefinitionSingleUser.php.html#30"><abbr title="Inpsyde\Ajax\DefinitionSingleUser::headers">headers</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ajax/DefinitionSingleUser.php.html#39"><abbr title="Inpsyde\Ajax\DefinitionSingleUser::action">action</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ajax/DefinitionSingleUser.php.html#48"><abbr title="Inpsyde\Ajax\DefinitionSingleUser::data">data</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ajax/DefinitionSingleUser.php.html#57"><abbr title="Inpsyde\Ajax\DefinitionSingleUser::appendParam">appendParam</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ajax/DefinitionUsersList.php.html#21"><abbr title="Inpsyde\Ajax\DefinitionUsersList::route">route</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ajax/DefinitionUsersList.php.html#30"><abbr title="Inpsyde\Ajax\DefinitionUsersList::headers">headers</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ajax/DefinitionUsersList.php.html#39"><abbr title="Inpsyde\Ajax\DefinitionUsersList::action">action</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ajax/DefinitionUsersList.php.html#48"><abbr title="Inpsyde\Ajax\DefinitionUsersList::data">data</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ajax/DefinitionUsersList.php.html#57"><abbr title="Inpsyde\Ajax\DefinitionUsersList::appendParam">appendParam</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ajax/RequestHelper.php.html#26"><abbr title="Inpsyde\Ajax\RequestHelper::makeGetRequest">makeGetRequest</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ajax/RequestHelper.php.html#55"><abbr title="Inpsyde\Ajax\RequestHelper::verifyNonce">verifyNonce</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ajax/RequestHelper.php.html#74"><abbr title="Inpsyde\Ajax\RequestHelper::appendParam">appendParam</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Ajax/RequestHelper.php.html#86"><abbr title="Inpsyde\Ajax\RequestHelper::returnPostData">returnPostData</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Setup/Activation.php.html#20"><abbr title="Inpsyde\Setup\Activation::activate">activate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Setup/Activation.php.html#47"><abbr title="Inpsyde\Setup\Activation::createTestPage">createTestPage</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Setup/Deactivate.php.html#20"><abbr title="Inpsyde\Setup\Deactivate::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Setup/Deactivate.php.html#26"><abbr title="Inpsyde\Setup\Deactivate::deactivate">deactivate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Setup/Deactivate.php.html#34"><abbr title="Inpsyde\Setup\Deactivate::removeTestPage">removeTestPage</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Setup/OptionsHelper.php.html#25"><abbr title="Inpsyde\Setup\OptionsHelper::init">init</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Setup/OptionsHelper.php.html#37"><abbr title="Inpsyde\Setup\OptionsHelper::insertOption">insertOption</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Setup/Setup.php.html#25"><abbr title="Inpsyde\Setup\Setup::actionEnqueueScripts">actionEnqueueScripts</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Setup/Setup.php.html#38"><abbr title="Inpsyde\Setup\Setup::actionOptionsPage">actionOptionsPage</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Setup/Setup.php.html#51"><abbr title="Inpsyde\Setup\Setup::addOptionsPage">addOptionsPage</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Setup/Setup.php.html#70"><abbr title="Inpsyde\Setup\Setup::renderOptionsPage">renderOptionsPage</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Setup/Setup.php.html#106"><abbr title="Inpsyde\Setup\Setup::addStyle">addStyle</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Setup/Setup.php.html#135"><abbr title="Inpsyde\Setup\Setup::addScript">addScript</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Setup/Setup.php.html#162"><abbr title="Inpsyde\Setup\Setup::localizeScript">localizeScript</abbr></a></td><td class="text-right">0%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Ajax/RequestHelper.php.html#86"><abbr title="Inpsyde\Ajax\RequestHelper::returnPostData">returnPostData</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Setup/OptionsHelper.php.html#37"><abbr title="Inpsyde\Setup\OptionsHelper::insertOption">insertOption</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Ajax/RequestHelper.php.html#55"><abbr title="Inpsyde\Ajax\RequestHelper::verifyNonce">verifyNonce</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Setup/Activation.php.html#20"><abbr title="Inpsyde\Setup\Activation::activate">activate</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Setup/Setup.php.html#162"><abbr title="Inpsyde\Setup\Setup::localizeScript">localizeScript</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Ajax/AjaxRequest.php.html#38"><abbr title="Inpsyde\Ajax\AjaxRequest::registerRequests">registerRequests</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Ajax/AjaxRequest.php.html#81"><abbr title="Inpsyde\Ajax\AjaxRequest::sendData">sendData</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Ajax/ApiBase.php.html#39"><abbr title="Inpsyde\Ajax\ApiBase::baseUrl">baseUrl</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Ajax/RequestHelper.php.html#26"><abbr title="Inpsyde\Ajax\RequestHelper::makeGetRequest">makeGetRequest</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Setup/Activation.php.html#47"><abbr title="Inpsyde\Setup\Activation::createTestPage">createTestPage</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Setup/Deactivate.php.html#34"><abbr title="Inpsyde\Setup\Deactivate::removeTestPage">removeTestPage</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Setup/Setup.php.html#70"><abbr title="Inpsyde\Setup\Setup::renderOptionsPage">renderOptionsPage</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Setup/Setup.php.html#106"><abbr title="Inpsyde\Setup\Setup::addStyle">addStyle</abbr></a></td><td class="text-right">6</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 9.2.29</a> using <a href="https://secure.php.net/" target="_top">PHP 8.2.12</a> and <a href="https://phpunit.de/">PHPUnit 9.6.14</a> at Mon Dec 11 5:09:04 UTC 2023.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="_js/jquery.min.js?v=9.2.29" type="text/javascript"></script>
+  <script src="_js/d3.min.js?v=9.2.29" type="text/javascript"></script>
+  <script src="_js/nv.d3.min.js?v=9.2.29" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([9,0,0,0,0,0,0,0,0,0,0,0], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([35,0,0,0,0,0,0,0,0,0,0,0], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[0,6,"<a href=\"Ajax\/AjaxRequest.php.html#15\">Inpsyde\\Ajax\\AjaxRequest<\/a>"],[0,4,"<a href=\"Ajax\/ApiBase.php.html#15\">Inpsyde\\Ajax\\ApiBase<\/a>"],[0,5,"<a href=\"Ajax\/DefinitionSingleUser.php.html#15\">Inpsyde\\Ajax\\DefinitionSingleUser<\/a>"],[0,5,"<a href=\"Ajax\/DefinitionUsersList.php.html#15\">Inpsyde\\Ajax\\DefinitionUsersList<\/a>"],[0,12,"<a href=\"Ajax\/RequestHelper.php.html#15\">Inpsyde\\Ajax\\RequestHelper<\/a>"],[0,5,"<a href=\"Setup\/Activation.php.html#15\">Inpsyde\\Setup\\Activation<\/a>"],[0,4,"<a href=\"Setup\/Deactivate.php.html#15\">Inpsyde\\Setup\\Deactivate<\/a>"],[0,7,"<a href=\"Setup\/OptionsHelper.php.html#17\">Inpsyde\\Setup\\OptionsHelper<\/a>"],[0,11,"<a href=\"Setup\/Setup.php.html#17\">Inpsyde\\Setup\\Setup<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[0,1,"<a href=\"Ajax\/AjaxRequest.php.html#29\">Inpsyde\\Ajax\\AjaxRequest::add<\/a>"],[0,2,"<a href=\"Ajax\/AjaxRequest.php.html#38\">Inpsyde\\Ajax\\AjaxRequest::registerRequests<\/a>"],[0,1,"<a href=\"Ajax\/AjaxRequest.php.html#66\">Inpsyde\\Ajax\\AjaxRequest::addAjaxAction<\/a>"],[0,2,"<a href=\"Ajax\/AjaxRequest.php.html#81\">Inpsyde\\Ajax\\AjaxRequest::sendData<\/a>"],[0,1,"<a href=\"Ajax\/ApiBase.php.html#27\">Inpsyde\\Ajax\\ApiBase::version<\/a>"],[0,2,"<a href=\"Ajax\/ApiBase.php.html#39\">Inpsyde\\Ajax\\ApiBase::baseUrl<\/a>"],[0,1,"<a href=\"Ajax\/ApiBase.php.html#51\">Inpsyde\\Ajax\\ApiBase::headers<\/a>"],[0,1,"<a href=\"Ajax\/DefinitionSingleUser.php.html#21\">Inpsyde\\Ajax\\DefinitionSingleUser::route<\/a>"],[0,1,"<a href=\"Ajax\/DefinitionSingleUser.php.html#30\">Inpsyde\\Ajax\\DefinitionSingleUser::headers<\/a>"],[0,1,"<a href=\"Ajax\/DefinitionSingleUser.php.html#39\">Inpsyde\\Ajax\\DefinitionSingleUser::action<\/a>"],[0,1,"<a href=\"Ajax\/DefinitionSingleUser.php.html#48\">Inpsyde\\Ajax\\DefinitionSingleUser::data<\/a>"],[0,1,"<a href=\"Ajax\/DefinitionSingleUser.php.html#57\">Inpsyde\\Ajax\\DefinitionSingleUser::appendParam<\/a>"],[0,1,"<a href=\"Ajax\/DefinitionUsersList.php.html#21\">Inpsyde\\Ajax\\DefinitionUsersList::route<\/a>"],[0,1,"<a href=\"Ajax\/DefinitionUsersList.php.html#30\">Inpsyde\\Ajax\\DefinitionUsersList::headers<\/a>"],[0,1,"<a href=\"Ajax\/DefinitionUsersList.php.html#39\">Inpsyde\\Ajax\\DefinitionUsersList::action<\/a>"],[0,1,"<a href=\"Ajax\/DefinitionUsersList.php.html#48\">Inpsyde\\Ajax\\DefinitionUsersList::data<\/a>"],[0,1,"<a href=\"Ajax\/DefinitionUsersList.php.html#57\">Inpsyde\\Ajax\\DefinitionUsersList::appendParam<\/a>"],[0,2,"<a href=\"Ajax\/RequestHelper.php.html#26\">Inpsyde\\Ajax\\RequestHelper::makeGetRequest<\/a>"],[0,3,"<a href=\"Ajax\/RequestHelper.php.html#55\">Inpsyde\\Ajax\\RequestHelper::verifyNonce<\/a>"],[0,1,"<a href=\"Ajax\/RequestHelper.php.html#74\">Inpsyde\\Ajax\\RequestHelper::appendParam<\/a>"],[0,6,"<a href=\"Ajax\/RequestHelper.php.html#86\">Inpsyde\\Ajax\\RequestHelper::returnPostData<\/a>"],[0,3,"<a href=\"Setup\/Activation.php.html#20\">Inpsyde\\Setup\\Activation::activate<\/a>"],[0,2,"<a href=\"Setup\/Activation.php.html#47\">Inpsyde\\Setup\\Activation::createTestPage<\/a>"],[0,1,"<a href=\"Setup\/Deactivate.php.html#20\">Inpsyde\\Setup\\Deactivate::__construct<\/a>"],[0,1,"<a href=\"Setup\/Deactivate.php.html#26\">Inpsyde\\Setup\\Deactivate::deactivate<\/a>"],[0,2,"<a href=\"Setup\/Deactivate.php.html#34\">Inpsyde\\Setup\\Deactivate::removeTestPage<\/a>"],[0,1,"<a href=\"Setup\/OptionsHelper.php.html#25\">Inpsyde\\Setup\\OptionsHelper::init<\/a>"],[0,6,"<a href=\"Setup\/OptionsHelper.php.html#37\">Inpsyde\\Setup\\OptionsHelper::insertOption<\/a>"],[0,1,"<a href=\"Setup\/Setup.php.html#25\">Inpsyde\\Setup\\Setup::actionEnqueueScripts<\/a>"],[0,1,"<a href=\"Setup\/Setup.php.html#38\">Inpsyde\\Setup\\Setup::actionOptionsPage<\/a>"],[0,1,"<a href=\"Setup\/Setup.php.html#51\">Inpsyde\\Setup\\Setup::addOptionsPage<\/a>"],[0,2,"<a href=\"Setup\/Setup.php.html#70\">Inpsyde\\Setup\\Setup::renderOptionsPage<\/a>"],[0,2,"<a href=\"Setup\/Setup.php.html#106\">Inpsyde\\Setup\\Setup::addStyle<\/a>"],[0,1,"<a href=\"Setup\/Setup.php.html#135\">Inpsyde\\Setup\\Setup::addScript<\/a>"],[0,3,"<a href=\"Setup\/Setup.php.html#162\">Inpsyde\\Setup\\Setup::localizeScript<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>

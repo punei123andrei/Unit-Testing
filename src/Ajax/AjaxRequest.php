@@ -73,9 +73,9 @@ class AjaxRequest
      * Send data to a specified route using an Ajax request.
      *
      * @param string $route       The target route for the Ajax request.
-     * @param array  $headers     Optional. Associative array of headers to include in the request.
+     * @param array  $headers     Associative array of headers to include in the request.
      * @param array  $data        Optional. Associative array of data to include in the request.
-     * @param bool   $appendParam Optional. If true, appends a parameter to the route based on the
+     * @param bool   $appendParam If true, appends a parameter to the route based on the
      *                            first value of the data array using RequestHelper methods.
      */
     public function sendData(string $route, array $headers, array $data = [], bool $appendParam = false)
