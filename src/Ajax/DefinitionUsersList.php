@@ -47,7 +47,15 @@ class DefinitionUsersList implements RequestDefinition
      */
     public function data(): array
     {
-
         return [];
+    }
+
+    /**
+     * Specifies if the data should be appended to the url
+     * @return bool
+     */
+    public function appendParam(): bool
+    {
+        return false;
     }
 }
