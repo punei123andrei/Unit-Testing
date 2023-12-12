@@ -80,10 +80,13 @@ class RequestHelper
         $response = wp_remote_get($url, $args);
 
         if (is_wp_error($response)) {
-            return $response;
+            $error_message = $response->get_error_message();
+            wp_send_error($error_message);
         }
 
-        return wp_remote_retrieve_body($response);
+        $responseBody = wp_remote_retrieve_body($response);
+
+        return $responseBody;
     }
 
     /**
