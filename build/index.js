@@ -39,6 +39,10 @@ class PrintHtml {
       return; // Terminate the program
     }
   }
+  printErrorResponse(errorResponse) {
+    const response = JSON.parse(errorResponse);
+    this.targetContainer.html(response);
+  }
   printHtmlTable(response) {
     const dataArray = JSON.parse(response);
     const tableRows = dataArray.map(item => `
@@ -122,9 +126,8 @@ class Request {
         }
       },
       error: function (errorResponse) {
-        console.error(errorResponse);
-        if (errorResponse.responseJSON && errorResponse.responseJSON.message) {
-          console.log(errorResponse.responseJSON.message);
+        if (errorResponse) {
+          this.printHtmlInstance.printError(errorResponse);
         } else {
           console.log('An error occurred. Please try again.');
         }

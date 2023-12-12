@@ -12,6 +12,11 @@ class PrintHtml {
         }
     }
 
+    printErrorResponse(errorResponse){
+      const response = JSON.parse(errorResponse);
+      this.targetContainer.html(response);
+    }
+
     printHtmlTable(response) {
         const dataArray = JSON.parse(response);
 

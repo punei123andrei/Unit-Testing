@@ -15,6 +15,44 @@ namespace Inpsyde\Ajax;
 class RequestHelper
 {
     /**
+     * Cache the API response using Transients API.
+     *
+     * @param string $url The API endpoint URL.
+     * @param array $data The data to be sent in the API request.
+     * @param array $headers The headers for the API request.
+     * @param string $action The action of the ajax request.
+     * @param string $cache_key The unique cache key for the API response.
+     * @param int $expiration The duration for which the cache should be valid, in seconds.
+     *
+     * @return string|WP_Error The API response or a WP_Error object on failure.
+     */
+    public static function cachedResults(
+        string $url,
+        array $data = [],
+        array $headers = [],
+        string $cache_key,
+        int $expiration = 3600
+        ): string|WP_Error
+    {
+        // Attempt to get cached data
+        $cached_data = get_transient($cache_key);
+
+        if ($cached_data !== false) {
+            return $cached_data;
+        }
+
+        // If not cached, make API request
+        $api_response = self::makeGetRequest($url, $data, $headers);
+
+        if (!is_wp_error($api_response)) {
+            // Cache the API response for a specified time (e.g., 1 hour)
+            set_transient($cache_key, $api_response, $expiration);
+        }
+
+        return $api_response;
+    }
+
+    /**
     * Make a request to the API using wp_remote_post.
     *
     * @param string $url
@@ -23,7 +61,11 @@ class RequestHelper
     *
     * @return string|WP_Error The API response or a WP_Error object on failure.
     */
-    public static function makeGetRequest(string $url, array $data = [], array $headers = []): string|WP_Error
+    public static function makeGetRequest(
+        string $url,
+        array $data = [],
+        array $headers = []
+        ): string|WP_Error
     {
         $args = [
         'body' => $data,
@@ -38,10 +80,13 @@ class RequestHelper
         $response = wp_remote_get($url, $args);
 
         if (is_wp_error($response)) {
-            return $response;
+            $error_message = $response->get_error_message();
+            wp_send_error($error_message);
         }
 
-        return wp_remote_retrieve_body($response);
+        $responseBody = wp_remote_retrieve_body($response);
+
+        return $responseBody;
     }
 
     /**
@@ -50,7 +95,7 @@ class RequestHelper
     * @param string $action The specific action for which the nonce is generated.
     *
     * @return string|bool Returns the sanitized nonce token if verification is successful,
-    *                    or false if the verification fails.
+    *                     or false if the verification fails.
     */
     public static function verifyNonce(string $action): string|bool
     {

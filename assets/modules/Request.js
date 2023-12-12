@@ -29,9 +29,8 @@ class Request {
         }
       },
       error: function (errorResponse) {
-        console.error(errorResponse);
-        if (errorResponse.responseJSON && errorResponse.responseJSON.message) {
-            console.log(errorResponse.responseJSON.message);
+        if (errorResponse) {
+          this.printHtmlInstance.printError(errorResponse);
         } else {
             console.log('An error occurred. Please try again.');
         }

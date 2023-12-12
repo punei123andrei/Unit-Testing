@@ -47,8 +47,8 @@ class AjaxRequest
             // Trigger a custom filter hook before registering the request
             $callback = apply_filters(
                 'inpsyde_ajax_callback',
-                function () use ($route, $headers, $data, $appendParam) {
-                    $this->sendData($route, $headers, $data, $appendParam);
+                function () use ($route, $headers, $data, $appendParam, $action) {
+                    $this->sendData($route, $headers, $data, $appendParam, $action);
                 },
                 $request
             );
@@ -76,9 +76,16 @@ class AjaxRequest
      * @param array  $headers     Associative array of headers to include in the request.
      * @param array  $data        Optional. Associative array of data to include in the request.
      * @param bool   $appendParam If true, appends a parameter to the route based on the
-     *                            first value of the data array using RequestHelper methods.
+     * @param string $action      first value of the data array using RequestHelper methods.
+     * 
      */
-    public function sendData(string $route, array $headers, array $data = [], bool $appendParam = false)
+    public function sendData(
+        string $route,
+        array $headers,
+        array $data = [],
+        bool $appendParam = false,
+        string $action
+        )
     {
         if ($appendParam) {
             $param = reset(RequestHelper::returnPostData($data));
@@ -88,7 +95,13 @@ class AjaxRequest
         // Trigger a custom action hook before sending data
         do_action('inpsyde_before_send_ajax_data', $route, $headers, $data);
 
-        $response = RequestHelper::makeGetRequest($route, [], $headers);
+
+        if($action === 'inpsyde_users_list'){
+            $response = RequestHelper::cachedResults($route, [], $headers, $action);
+        } else {
+            $response = RequestHelper::makeGetRequest($route, [], $headers);
+        }
+        
         wp_send_json($response);
 
         // Trigger a custom action hook after sending data
