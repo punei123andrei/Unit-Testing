@@ -39,7 +39,6 @@ class PrintHtml {
       return; // Terminate the program
     }
   }
-
   printHtmlTable(response) {
     const dataArray = JSON.parse(response);
     const tableRows = dataArray.map(item => `

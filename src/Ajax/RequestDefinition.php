@@ -37,4 +37,10 @@ interface RequestDefinition
      * @return array
      */
     public function data(): array;
+
+    /**
+     * If the data param should be appended to the url
+     * @return bool
+     */
+    public function appendParam(): bool;
 }

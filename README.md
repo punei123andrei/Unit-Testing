@@ -6,10 +6,10 @@
 
 ## Setup
 
-1. Open `composer.json` and define all the information
-2. run `npm start` to set up the files
+1. Run `composer install` to setup the files needed for namespacing and testing
+2. run `npm install` to setup the files needed for compiling scripts
+3. run `npm run start` for compilation process
 3. run `npm run build` to build the files for production which will be found in `/dist/` folder
-4. `gulp-local-tasks.js` relates to each developer for defining **local** gulp tasks and running them by command `gulp localTasks`, therefor it must be added in `.gitignore` file
 
 
 ## Notes
