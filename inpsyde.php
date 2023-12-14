@@ -55,8 +55,8 @@ $setup->addStyle('inpsyde-style', plugins_url('build/style-index.css', __FILE__)
 $setup->addOptionsPage('Inspyde Options', 'Inspyde Api Settings');
 
 use Inpsyde\Ajax\AjaxRequest;
-use Inpsyde\Ajax\DefinitionUsersList;
-use Inpsyde\Ajax\DefinitionSingleUser;
+use Inpsyde\RequestDefinitions\DefinitionUsersList;
+use Inpsyde\RequestDefinitions\DefinitionSingleUser;
 
 // Initialize AjaxRequest class
 $ajaxRequest = new AjaxRequest();
