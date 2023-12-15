@@ -27,12 +27,12 @@ class Plugin
      * Get the plugin meta data from the root file and include own data
      *
      * @return array
-     * @since 1.0.3
+     * @since 1.0.0
      */
     public static function data(): array
     {
-        return apply_filters('inpsyde_meta_data',
-                get_file_data(_INPSYDE_PLUGIN_FILE, // phpcs:disable ImportDetection.Imports.RequireImports.Symbol -- this constant is global
+        return apply_filters('the_plugin_name_plugin_meta_data',
+                get_file_data(INPSYDE_ROOT, // phpcs:disable ImportDetection.Imports.RequireImports.Symbol -- this constant is global
                     [
                         'name'         => 'Plugin Name',
                         'uri'          => 'Plugin URI',
@@ -47,139 +47,128 @@ class Plugin
                         'namespace'    => 'Namespace',
                     ], 'plugin'
                 )
-            );
+        );
     }
+
 
     /**
      * Get the plugin version number
      *
      * @return string
-     * @since 1.0.3
+     * @since 1.0.0
      */
     public function version(): string
     {
-        $self = new self();
-        return $self->data()['version'];
+        return $this->data()['version'];
     }
 
     /**
      * Get the required minimum PHP version
      *
      * @return string
-     * @since 1.0.3
+     * @since 1.0.0
      */
-    public static function requiredPhp(): string
+    public function requiredPhp(): string
     {
-        $self = new self();
-        return $self->data()['required-php'];
+        return $this->data()['required-php'];
     }
 
     /**
      * Get the required minimum WP version
      *
      * @return string
-     * @since 1.0.3
+     * @since 1.0.0
      */
-    public static function requiredWp(): string
+    public function requiredWp(): string
     {
-        $self = new self();
-        return $self->data()['required-wp'];
+        return $this->data()['required-wp'];
     }
 
     /**
      * Get the plugin name
      *
      * @return string
-     * @since 1.0.3
+     * @since 1.0.0
      */
-    public static function name(): string
+    public function name(): string
     {
-        // $self = new self();
-        // return $self->data()['name'];
-        return 'Manuvra';
+        return $this->data()['name'];
     }
 
     /**
      * Get the plugin url
      *
      * @return string
-     * @since 1.0.3
+     * @since 1.0.0
      */
-    public static function uri(): string
+    public function uri(): string
     {
-        $self = new self();
-        return $self->data()['uri'];
+        return $this->data()['uri'];
     }
 
     /**
      * Get the plugin description
      *
      * @return string
-     * @since 1.0.3
+     * @since 1.0.0
      */
-    public static function description(): string
+    public function description(): string
     {
-        $self = new self();
-        return $self->data()['description'];
+        return $this->data()['description'];
     }
 
     /**
      * Get the plugin author
      *
      * @return string
-     * @since 1.0.3
+     * @since 1.0.0
      */
-    public static function author(): string
+    public function author(): string
     {
-        $self = new self();
-        return $self->data()['author'];
+        return $this->data()['author'];
     }
 
     /**
      * Get the plugin author uri
      *
      * @return string
-     * @since 1.0.3
+     * @since 1.0.0
      */
-    public static function authorUri(): string
+    public function authorUri(): string
     {
-        $self = new self();
-        return $self->data()['author-uri'];
+        return $this->data()['author-uri'];
     }
 
     /**
      * Get the plugin text domain
      *
      * @return string
-     * @since 1.0.3
+     * @since 1.0.0
      */
-    public static function textDomain(): string
+    public function textDomain(): string
     {
-        $self = new self();
-        return $self->data()['text-domain'];
+        return $this->data()['text-domain'];
     }
 
     /**
      * Get the plugin domain path
      *
      * @return string
-     * @since 1.0.3
+     * @since 1.0.0
      */
-    public static function domainPath(): string
+    public function domainPath(): string
     {
-        $self = new self();
-        return $self->data()['domain-path'];
+        return $this->data()['domain-path'];
     }
 
     /**
      * Get the plugin namespace
      *
      * @return string
-     * @since 1.0.3
+     * @since 1.0.0
      */
-    public static function namespace(): string
+    public function namespace(): string
     {
-        $self = new self();
-        return $self->data()['namespace'];
+        return $this->data()['namespace'];
     }
 }

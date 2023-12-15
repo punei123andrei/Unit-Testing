@@ -1,25 +1,21 @@
 <?php
-
-/**
+ /**
  * Plugin Name: Inpsyde Users API
- * Plugin URI: https://www.inpsyde.com
- * Description: A plugin for displaying users from jsonplaceholder.
- * Version: 1.0.3
- * Author: Andrei Punei
- * Author URI: https://www.inpsyde.com
+ * Plugin URI:  https://www.inpsyde.com
+ * Description: Your plugin description.
+ * Version:     1.0.3
+ * Author:      Andrei Punei
+ * Author URI:  https://www.inpsyde.com
  * Text Domain: inpsyde
  * Domain Path: /languages
- * Requires PHP: 7.1
- * Requires WP: 5.5.0
- * Namespace: Inpsyde
- * Network: false
+ * Requires PHP: 7.2
+ * Requires WP:  5.0
+ * Namespace:   Inpsyde
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  *
- * WC requires at least: 5.6.0
- * WC tested up to: 6.4.1
- * 
- * @author Andrei Punei
+ * @package   Inpsyde Users
+ * @since     1.0.0
  */
 
 declare(strict_types=1);
@@ -36,7 +32,7 @@ if (!defined('ABSPATH')) {
  *
  * @since 1.0.3
  */
-const _INPSYDE_PLUGIN_FILE = __FILE__;
+define( 'INPSYDE_ROOT', plugin_dir_path( __FILE__ ) . 'inpsyde.php' );
 
 
 /**

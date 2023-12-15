@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Inpsyde\Config;
 
-use Inpsyde\Common\Abstract\Base;
-use Inpsyde\Common\Utils\Errors;
+// use Inpsyde\Common\Abstract\Base;
+// use Inpsyde\Common\Utils\Errors;
 
 /**
  * Check if any requirements are needed to run this plugin. We use the
@@ -33,6 +33,13 @@ final class Requirements
      */
     protected $requirements;
 
+
+    private $plugin;
+
+    public function __construct(){
+        $this->plugin = new Plugin;
+    }
+
     /**
      * Specifications for the requirements
      *
@@ -42,9 +49,9 @@ final class Requirements
     public function specifications(): array
     {
         return apply_filters('inpsyde_requirements', [
-            'php'            => Plugin::requiredPhp(),
+            'php'            =>  $this->plugin->requiredPhp(),
             'php_extensions' => [],
-            'wp'             => Plugin::requiredWp(),
+            'wp'             => $this->plugin->requiredWp(),
             'plugins'        => [],
         ]);
     }
@@ -52,25 +59,25 @@ final class Requirements
     /**
      * Plugin requirements checker
      *
-     * @since 1.0.3
+     * @since 1.0.0
      */
     public function check()
     {
         // We use "Requirements" if the package is required and installed by composer.json
         if (class_exists('\Micropackage\Requirements\Requirements')) {
             $this->requirements = new \Micropackage\Requirements\Requirements(
-                'Inpsyde Users',
+                $this->plugin->name(),
                 $this->specifications()
             );
-            // if (!$this->requirements->satisfied()) {
-            //     // Print notice
-            //     $this->requirements->print_notice();
-            //     // Kill plugin
-            //     Errors::pluginDie();
-            // }
+            if (!$this->requirements->satisfied()) {
+                // Print notice
+                $this->requirements->print_notice();
+                // Kill plugin
+                Errors::pluginDie();
+            }
         } else {
             // Else we do a version check based on version_compare
-            // $this->versionCompare();
+            $this->versionCompare();
         }
     }
 
@@ -86,22 +93,22 @@ final class Requirements
                 // PHP version check
                 [
                     'current' => phpversion(),
-                    'compare' => Plugin::requiredPhp(),
+                    'compare' => $this->plugin->requiredPhp(),
                     'title'   => __('Invalid PHP version', 'inpsyde'),
                     'message' => sprintf( /* translators: %1$1s: required php version, %2$2s: current php version */
                         __('You must be using PHP %1$1s or greater. You are currently using PHP %2$2s.', 'inpsyde'),
-                        Plugin::requiredPhp(),
+                        $this->plugin->requiredPhp(),
                         phpversion()
                     ),
                 ],
                 // WP version check
                 [
                     'current' => get_bloginfo('version'),
-                    'compare' => Plugin::requiredWp(),
+                    'compare' => $this->plugin->requiredWp(),
                     'title'   => __('Invalid WordPress version', 'inpsyde'),
                     'message' => sprintf( /* translators: %1$1s: required wordpress version, %2$2s: current wordpress version */
                         __('You must be using WordPress %1$1s or greater. You are currently using WordPress %2$2s.', 'inpsyde'),
-                        Plugin::requiredWp(),
+                        $this->plugin->requiredWp(),
                         get_bloginfo('version')
                     ),
                 ],
