@@ -31,7 +31,7 @@ class Plugin
      */
     public static function data(): array
     {
-        return apply_filters('the_plugin_name_plugin_meta_data',
+        return apply_filters('inpsyde_users_plugin_meta_data',
                 get_file_data(INPSYDE_ROOT, // phpcs:disable ImportDetection.Imports.RequireImports.Symbol -- this constant is global
                     [
                         'name'         => 'Plugin Name',
