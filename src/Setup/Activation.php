@@ -12,8 +12,6 @@ declare(strict_types=1);
 
 namespace Inpsyde\Setup;
 
-use Inpsyde\Config\Requirements;
-
 class Activation
 {
     /**
