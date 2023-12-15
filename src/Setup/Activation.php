@@ -25,9 +25,6 @@ class Activation
             return;
         }
 
-        $requirements = new Requirements(); 
-        $requirements->check();
-
         do_action('inpsyde_before_activate');
 
         flush_rewrite_rules();
