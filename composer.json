@@ -11,7 +11,8 @@
     ],
     "minimum-stability": "dev",
     "require": {
-      "php": ">=7.2"
+      "php": ">=7.2",
+      "micropackage/requirements": "^1.0"
     },
     "config": {
       "optimize-autoloader": true,

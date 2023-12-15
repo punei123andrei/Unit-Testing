@@ -10,7 +10,9 @@
 
 declare(strict_types=1);
 
-namespace Inpsyde\Ajax;
+namespace Inpsyde\RequestDefinitions;
+
+use Inpsyde\Ajax\ApiBase;
 
 class DefinitionUsersList implements RequestDefinition
 {

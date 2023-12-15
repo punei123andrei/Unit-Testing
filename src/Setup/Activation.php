@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Inpsyde\Setup;
 
+use Inpsyde\Config\Requirements;
+
 class Activation
 {
     /**
@@ -22,6 +24,9 @@ class Activation
         if (!defined('ABSPATH') || wp_doing_cron()) {
             return;
         }
+
+        $requirements = new Requirements(); 
+        $requirements->check();
 
         do_action('inpsyde_before_activate');
 

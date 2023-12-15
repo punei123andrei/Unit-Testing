@@ -1,22 +1,21 @@
 <?php
-
-/**
+ /**
  * Plugin Name: Inpsyde Users API
- * Plugin URI: https://www.inpsyde.com
- * Description: A plugin for displaying users from jsonplaceholder.
- * Version: 1.0.0
- * Author: Andrei Punei
- * Author URI: https://www.inpsyde.com
- * Text Domain: inpsyde-users
+ * Plugin URI:  https://www.inpsyde.com
+ * Description: Your plugin description.
+ * Version:     1.0.3
+ * Author:      Andrei Punei
+ * Author URI:  https://www.inpsyde.com
+ * Text Domain: inpsyde
  * Domain Path: /languages
- * Network: false
+ * Requires PHP: 7.2
+ * Requires WP:  5.0
+ * Namespace:   Inpsyde
  * License: GNU General Public License v3.0
  * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  *
- * WC requires at least: 5.6.0
- * WC tested up to: 6.4.1
- *
- * @author Andrei Punei
+ * @package   Inpsyde Users
+ * @since     1.0.0
  */
 
 declare(strict_types=1);
@@ -28,6 +27,19 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+/**
+ * Define the default root file of the plugin
+ *
+ * @since 1.0.3
+ */
+define( 'INPSYDE_ROOT', plugin_dir_path( __FILE__ ) . 'inpsyde.php' );
+
+
+/**
+ * Load PSR4 autoloader
+ *
+ * @since 1.0.0
+ */
 $composer = __DIR__ . '/vendor/autoload.php';
 
 /** Register The Auto Loader */
@@ -35,7 +47,7 @@ if (!file_exists($composer)) {
     wp_die(
         esc_html__(
             'Please run <code>composer install</code>.',
-            'inpsyde-users'
+            'inpsyde'
         )
     );
 }
@@ -55,8 +67,8 @@ $setup->addStyle('inpsyde-style', plugins_url('build/style-index.css', __FILE__)
 $setup->addOptionsPage('Inspyde Options', 'Inspyde Api Settings');
 
 use Inpsyde\Ajax\AjaxRequest;
-use Inpsyde\Ajax\DefinitionUsersList;
-use Inpsyde\Ajax\DefinitionSingleUser;
+use Inpsyde\RequestDefinitions\DefinitionUsersList;
+use Inpsyde\RequestDefinitions\DefinitionSingleUser;
 
 // Initialize AjaxRequest class
 $ajaxRequest = new AjaxRequest();
@@ -67,7 +79,6 @@ $ajaxRequest->add(new DefinitionUsersList())
 
 // Register Ajax requests
 $ajaxRequest->registerRequests();
-
 
 use Inpsyde\Setup\OptionsHelper;
 
