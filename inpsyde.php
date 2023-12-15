@@ -31,6 +31,19 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+/**
+ * Define the default root file of the plugin
+ *
+ * @since 1.0.3
+ */
+const _INPSYDE_PLUGIN_FILE = __FILE__;
+
+
+/**
+ * Load PSR4 autoloader
+ *
+ * @since 1.0.0
+ */
 $composer = __DIR__ . '/vendor/autoload.php';
 
 /** Register The Auto Loader */
@@ -38,7 +51,7 @@ if (!file_exists($composer)) {
     wp_die(
         esc_html__(
             'Please run <code>composer install</code>.',
-            'inpsyde-users'
+            'inpsyde'
         )
     );
 }
@@ -70,7 +83,6 @@ $ajaxRequest->add(new DefinitionUsersList())
 
 // Register Ajax requests
 $ajaxRequest->registerRequests();
-
 
 use Inpsyde\Setup\OptionsHelper;
 
