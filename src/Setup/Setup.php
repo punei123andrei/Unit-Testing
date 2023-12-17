@@ -12,8 +12,12 @@ declare(strict_types=1);
 
 namespace Inpsyde\Setup;
 
-use Inpsyde\Ajax\ApiBase;
-
+/**
+ * Helps with loading scripts and creating options page
+ *
+ * @package Inpsyde\RequestDefinitions
+ * @since 1.0.0
+ */
 class Setup
 {
     /**
@@ -44,53 +48,27 @@ class Setup
 
     /**
     * Adds an options page for the plugin to the WordPress admin menu.
+    * @since 1.0.3 Adds Settings Section and settings field
     *
-    * @param string $pageTitle  The title of the options page.
-    * @param string $menuTitle  The text to be displayed in the menu.
+    * @param string $pageTitle A page title fot the settings page
+    * @param string $menuTitle A title for the admin menu
+    * 
+    * @return Setup
     */
-    public function addOptionsPage(string $pageTitle, string $menuTitle): void
+    public function addOptionsPage(string $pageTitle, string $menuTitle): Setup
     {
-
         $this->actionOptionsPage(function () use ($pageTitle, $menuTitle) {
                 add_options_page(
                     $pageTitle,
                     $menuTitle,
                     'manage_options',
                     'inpsyde_settings',
-                    [$this, 'renderOptionsPage']
+                    [OptionsHelper::class, 'renderOptionsPage']
                 );
         });
-    }
 
-    /**
-     * Renders the content for the options page.
-     *
-     * @return void
-     */
-    public function renderOptionsPage(): void
-    {
-
-        $apiBaseValue = get_option('inpsyde_api_base');
-        $defaultBase = ApiBase::API_BASE;
-        $apiBase = $apiBaseValue ? $apiBaseValue : $defaultBase;
-
-        ?>
-        <div class="wrap">
-            <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
-            <form method="post" action="">
-                <?php wp_nonce_field('inpsyde_set_api', 'nonce'); ?>
-                <label for="inpsyde_api_base"><?php esc_html_e('Add api:', 'inpsyde') ?></label>
-                <input type="text"
-                        id="inpsyde_api_base"
-                        name="inpsyde_api_base"
-                        value="<?php echo esc_attr($apiBase);
-                        ?>">
-                <?php
-                submit_button('Save Settings');
-                ?>
-            </form>
-        </div>
-        <?php
+        add_action('admin_init',[OptionsHelper::class, 'initSettings']);
+        return $this;
     }
 
     /**

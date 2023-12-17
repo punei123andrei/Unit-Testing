@@ -26,7 +26,7 @@ class TestOptionsHelper extends TestCase {
         // Mock the add_action function
         Functions\expect('add_action')
             ->zeroOrMoreTimes()
-            ->with('admin_init', [$optionsHelper, 'insertOption'])
+            ->with('admin_init', [$optionsHelper, 'updateOption'])
             ->andReturnNull();
 
         // Act

@@ -11,48 +11,81 @@
 declare(strict_types=1);
 
 namespace Inpsyde\Setup;
+use Inpsyde\Ajax\ApiBase;
 
-use Inpsyde\Ajax\RequestHelper;
-
+/**
+ *
+ * Helps with setting otions
+ * 
+ * @package Inpsyde\RequestDefinitions
+ * @since 1.0.1
+ */
 class OptionsHelper
 {
     /**
-    * Initialize the object with option key and value
-    *
-    * @param string $inputKey   The key of the option
-    * @param mixed  $inputValue The value of the option
-    */
-    public function init(): OptionsHelper
+     * Renders the content for the options page.
+     *
+     * @return void
+     */
+    public static function renderOptionsPage(): void
     {
-        add_action('admin_init', [$this, 'insertOption']);
-        return $this;
+        ?>
+        <div class="wrap">
+            <form method="post" action="options.php">
+                <?php
+                settings_fields('inpsyde_user_options');
+                do_settings_sections('inpsyde-user-settings');
+                submit_button();
+                ?>
+            </form>
+        </div>
+        <?php
     }
 
     /**
-     * Set the value of a specific option
-     * @param string $key The key of the option
-     * @param mixed $value The value to set
-     * @return bool True on success, false on failure
+     * Adds a new options group, settings section + section field
+     * 
+     * @return void
      */
-    public function insertOption(string $key): bool
+    public static function initSettings(): void 
     {
+        $self = new Self();
+        register_setting('inpsyde_user_options', 'inpsyde_api_base');
+        add_settings_section(
+            'inpsyde_user_section',
+            'Inpsyde User Settings',
+            [$self, 'sectionCallback'],
+            'inpsyde-user-settings'
+        );
+        add_settings_field(
+            'inpsyde_user_input',
+            'Inpsyde Option',
+            [$self, 'inputCallback'],
+            'inpsyde-user-settings',
+            'inpsyde_user_section'
+        );
+    }
+    
+    /**
+     * Section description
+     * 
+     * @echo string
+     */
+    public function sectionCallback() 
+    {
+        echo '<p>' . __('Please modify the base api from witch the user list will be generated', 'inpsyde') . '</p>';
+    }
 
-        $nonceField = isset($_POST['nonce'])
-        ? sanitize_text_field(wp_unslash($_POST['nonce']))
-        : false;
-        if ($nonceField) {
-            return false;
-        }
-
-        if (!isset($_POST[$key])) {
-            return false;
-        }
-
-        $value = sanitize_text_field(wp_unslash($_POST[$key]));
-        if (empty($value)) {
-            return false;
-        }
-
-        return update_option($key, $value);
+    /**
+     * Section input
+     * 
+     * @echo string
+     */
+    public function inputCallback() 
+    {
+        $apiBaseValue = get_option('inpsyde_api_base');
+        $defaultBase = ApiBase::API_BASE;
+        $apiBase = $apiBaseValue ? $apiBaseValue : $defaultBase;
+        echo "<input type='text' name='inpsyde_api_base' value='$apiBase' />";
     }
 }
