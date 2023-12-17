@@ -39,7 +39,7 @@ Note: The default endpoint URL is set as `https://jsonplaceholder.typicode.com` 
 You can add your own new class files by naming them correctly and putting the files in the most appropriate location,
 see other files for examples. Composer's Autoloader will include the class and you can instantiate it via inpsyde.php.
 
-``bash
+```
 ## First level files
 ├── inpsyde.php                   # Main entry file for the plugin
 ├── composer.json                 # Composer dependencies & scripts
