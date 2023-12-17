@@ -12,6 +12,14 @@
 
 namespace Inpsyde\Ajax;
 
+
+/**
+ * To do, sending object instead of arrays aligned with WP principles
+ *
+ * @package Inpsyde\RequestDefinitions
+ * @since 1.0.1
+ */
+
 class RequestHelper
 {
     /**

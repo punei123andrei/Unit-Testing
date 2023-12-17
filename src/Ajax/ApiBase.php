@@ -12,6 +12,12 @@
 
 namespace Inpsyde\Ajax;
 
+/**
+ * Defines a base for comunicating with the api
+ *
+ * @package Inpsyde\RequestDefinitions
+ * @since 1.0.1
+ */
 class ApiBase
 {
    /**

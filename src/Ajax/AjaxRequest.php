@@ -14,6 +14,12 @@ namespace Inpsyde\Ajax;
 
 use Inpsyde\RequestDefinitions\RequestDefinition;
 
+/**
+ * Processes requests defined by entities 
+ *
+ * @package Inpsyde\RequestDefinitions
+ * @since 1.0.1
+ */
 class AjaxRequest
 {
     /**

@@ -14,6 +14,13 @@ namespace Inpsyde\RequestDefinitions;
 
 use Inpsyde\Ajax\ApiBase;
 
+/**
+ * Defines an object to be executed by the AjaxRequest class
+ *
+ * @package Inpsyde\RequestDefinitions
+ * @since 1.0.1
+ */
+
 class DefinitionUsersList implements RequestDefinition
 {
     /**
