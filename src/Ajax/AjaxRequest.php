@@ -95,24 +95,24 @@ class AjaxRequest
         string $action
         )
     {
+        do_action('inpsyde_before_send_ajax_data', $route, $headers, $data);
+
         if ($appendParam) {
             $param = reset(RequestHelper::returnPostData($data));
             $route = RequestHelper::appendParam($route, $param);
+            $response = RequestHelper::makeGetRequest($route, [], $headers);
+            wp_send_json($response);
         }
 
-        // Trigger a custom action hook before sending data
-        do_action('inpsyde_before_send_ajax_data', $route, $headers, $data);
+        $response = RequestHelper::cachedResults($route, [], $headers, $action);
 
 
-        if($action === 'inpsyde_users_list'){
-            $response = RequestHelper::cachedResults($route, [], $headers, $action);
-        } else {
-            $response = RequestHelper::makeGetRequest($route, [], $headers);
+        if (is_wp_error($response)) {
+            wp_send_json_error($response->get_error_message());
         }
         
         wp_send_json($response);
-
-        // Trigger a custom action hook after sending data
+        
         do_action('inpsyde_after_send_ajax_data', $response);
     }
 }
