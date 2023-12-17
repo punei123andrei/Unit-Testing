@@ -40,38 +40,38 @@ You can add your own new class files by naming them correctly and putting the fi
 see other files for examples. Composer's Autoloader will include the class and you can instantiate it via inpsyde.php.
 
 ``bash
-│ ## First level files
-├──inpsyde.php                          # Main entry file for the plugin
-├──composer.json                        # Composer dependencies & scripts
-├──package.json                         # (incl. when using webpack) Node.js dependencies & scripts (NPM functions)
-│
-│ ## Folders
-├──src                                  # Holds all the plugin php classes
-│   ├── Ajax                            # Holds the plugin ajax request functionality
-│   │   ├── AjaxRequest.php             # Processes ajax requests to the api based on definitions
-│   │   ├── ApiBase.php                 # The  api information for getting the users list
-│   │   └── RequestHelper.php           # Class for caching or / getting the data from the api
-│   ├── RequestDefinitions              # Contains Definitions to be executed by Ajax Request
-│   │   ├── RequestDefinition.php       # Defines the interface that will be implemented by Request entities
-│   │   ├── DefinitionSingleUsers.php   # Defines the Single User entity 
-│   │   └── DefinitionUsersList.php     # Defines the Users List entity
-│   ├── Setup                           # Contains all the classes needed for the setup
-│   │   ├── Setup.php                   # Plugin setup hooks (enqueue, localize, addOptionPage)
-│   │   ├── Activation.php              # Runs hooks upon activating the plugin
-│   │   ├── Deactivate.php              # Runs hooks upon deactivating the plugin
-│   │   └── OptionsHelper.php           # Adds option for the api base
-├──assets                               # Holds Source Assets
-│   ├── index.js                        # Main index for including Modules
-│   ├── css                             # Holds files for styling the plugin content
-│   │   └── style.css                   # Main file for styling content
+## First level files
+├── inpsyde.php                   # Main entry file for the plugin
+├── composer.json                 # Composer dependencies & scripts
+├── package.json                  # (incl. when using webpack) Node.js dependencies & scripts (NPM functions)
+
+## Folders
+├── src                           # Holds all the plugin PHP classes
+│   ├── Ajax                      # Holds the plugin AJAX request functionality
+│   │   ├── AjaxRequest.php       # Processes AJAX requests to the API based on definitions
+│   │   ├── ApiBase.php           # The API information for getting the users list
+│   │   └── RequestHelper.php     # Class for caching or getting the data from the API
+│   ├── RequestDefinitions        # Contains definitions to be executed by AJAX requests
+│   │   ├── RequestDefinition.php # Defines the interface that will be implemented by request entities
+│   │   ├── DefinitionSingleUsers.php # Defines the Single User entity
+│   │   └── DefinitionUsersList.php   # Defines the Users List entity
+│   ├── Setup                      # Contains all the classes needed for the setup
+│   │   ├── Setup.php              # Plugin setup hooks (enqueue, localize, addOptionPage)
+│   │   ├── Activation.php         # Runs hooks upon activating the plugin
+│   │   ├── Deactivate.php         # Runs hooks upon deactivating the plugin
+│   │   └── OptionsHelper.php      # Adds an option for the API base
+├── assets                        # Holds source assets
+│   ├── index.js                  # Main index for including modules
+│   ├── css                       # Holds files for styling the plugin content
+│   │   └── style.css             # Main file for styling content
 │   ├── modules
-│   │   ├── PrintHtml.php               # Class that prints html based on the request
-│   │   └── Request.php                 # Handles Ajax Requests
-└──build                                # WordPress default language map in Plugins & Themes
-    ├── index.js                        # Compiled JS files with be generated here 
-    ├── index.js.map                    # Responsible for mapping js logic
-    ├── style.index.css                 # Compiled CSS files with be generated here 
-    └── style.index.css.map             # Responsible for mapping css logic
+│   │   ├── PrintHtml.php         # Class that prints HTML based on the request
+│   │   └── Request.php           # Handles AJAX requests
+└── build                         # WordPress default language map in Plugins & Themes
+    ├── index.js                  # Compiled JS files will be generated here
+    ├── index.js.map              # Responsible for mapping JS logic
+    ├── style.index.css           # Compiled CSS files will be generated here
+    └── style.index.css.map       # Responsible for mapping CSS logic
 ```
 
 == Development and Testing Dependencies ==
