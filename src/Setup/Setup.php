@@ -12,8 +12,6 @@ declare(strict_types=1);
 
 namespace Inpsyde\Setup;
 
-use Inpsyde\Ajax\ApiBase;
-
 /**
  * Helps with loading scripts and creating options page
  *
@@ -52,11 +50,13 @@ class Setup
     * Adds an options page for the plugin to the WordPress admin menu.
     * @since 1.0.3 Adds Settings Section and settings field
     *
-    * @param array $settingsInfo Information with witch to make the options page
+    * @param string $pageTitle A page title fot the settings page
+    * @param string $menuTitle A title for the admin menu
+    * 
+    * @return Setup
     */
-    public function addOptionsPage(array $settingsInfo): void
+    public function addOptionsPage(string $pageTitle, string $menuTitle): Setup
     {
-        list($pageTitle, $menuTitle) = $settingsInfo;
         $this->actionOptionsPage(function () use ($pageTitle, $menuTitle) {
                 add_options_page(
                     $pageTitle,
@@ -67,9 +67,8 @@ class Setup
                 );
         });
 
-        add_action('admin_init', function () use ($settingsInfo) {
-            OptionsHelper::initSettings($settingsInfo);
-        });
+        add_action('admin_init',[OptionsHelper::class, 'initSettings']);
+        return $this;
     }
 
     /**
