@@ -127,7 +127,7 @@ class Request {
       },
       error: function (errorResponse) {
         if (errorResponse) {
-          this.printHtmlInstance.printError(errorResponse);
+          this.printHtmlInstance.printErrorResponse(errorResponse);
         } else {
           console.log('An error occurred. Please try again.');
         }

@@ -158,15 +158,15 @@ class Setup
             ) {
                 return;
             }
-
+            
             wp_register_script($handle, $src, $deps, $ver, $inFooter);
 
             wp_localize_script(
                 $handle,
                 'ajax_obj',
                 [
-                    'ajaxurl' => admin_url('admin-ajax.php'),
-                    'token' => wp_create_nonce('inpsyde_token'),
+                    'ajaxurl'      => admin_url('admin-ajax.php'),
+                    'token'        => wp_create_nonce('inpsyde_token')
                 ]
             );
 
