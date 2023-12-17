@@ -14,6 +14,12 @@ namespace Inpsyde\Setup;
 
 use Inpsyde\Ajax\ApiBase;
 
+/**
+ * Helps with loading scripts and creating options page
+ *
+ * @package Inpsyde\RequestDefinitions
+ * @since 1.0.0
+ */
 class Setup
 {
     /**

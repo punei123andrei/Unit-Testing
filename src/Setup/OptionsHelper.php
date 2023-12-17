@@ -12,8 +12,13 @@ declare(strict_types=1);
 
 namespace Inpsyde\Setup;
 
-use Inpsyde\Ajax\RequestHelper;
-
+/**
+ *
+ * Helps with setting otions
+ * 
+ * @package Inpsyde\RequestDefinitions
+ * @since 1.0.1
+ */
 class OptionsHelper
 {
     /**
@@ -24,7 +29,7 @@ class OptionsHelper
     */
     public function init(): OptionsHelper
     {
-        add_action('admin_init', [$this, 'insertOption']);
+        add_action('admin_init', [$this, 'updateOption']);
         return $this;
     }
 
@@ -34,7 +39,7 @@ class OptionsHelper
      * @param mixed $value The value to set
      * @return bool True on success, false on failure
      */
-    public function insertOption(string $key): bool
+    public function updateOption(string $key): bool
     {
 
         $nonceField = isset($_POST['nonce'])

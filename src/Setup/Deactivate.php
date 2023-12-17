@@ -12,6 +12,13 @@ declare(strict_types=1);
 
 namespace Inpsyde\Setup;
 
+/**
+ * Runs specific action upon deactivation
+ *
+ * @package Inpsyde\RequestDefinitions
+ * @since 1.0.1
+ */
+
 class Deactivate
 {
     /**

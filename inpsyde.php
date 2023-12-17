@@ -82,6 +82,12 @@ $ajaxRequest->registerRequests();
 
 use Inpsyde\Setup\OptionsHelper;
 
+
+/**
+ * Update option on admin init
+ *
+ * @since 1.0.0
+ */
 $options = new OptionsHelper();
 $options->init()
-        ->insertOption('inpsyde_api_base');
+        ->updateOption('inpsyde_api_base');

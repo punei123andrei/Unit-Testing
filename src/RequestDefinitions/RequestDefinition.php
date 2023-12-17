@@ -12,6 +12,12 @@ declare(strict_types=1);
 
 namespace Inpsyde\RequestDefinitions;
 
+/**
+ * Defines a request to be implemented by entities
+ *
+ * @package Inpsyde\RequestDefinitions
+ * @since 1.0.1
+ */
 interface RequestDefinition
 {
     /**
