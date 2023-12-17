@@ -11,17 +11,9 @@ This plugin creates a custom WordPress page to display an HTML table listing use
 
 == Requirements ==
 
-* `composer`
-* `PHP >=7.1`
-* `npm`
-
-
-== Installation ==
-
-1. Upload the entire plugin folder to the `/wp-content/plugins/` directory.
-2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Visit an arbitrary URL (custom endpoint) like `https://example.com/inpsyde-users-test/` to see the HTML table.
-
+- [Composer](https://getcomposer.org/doc/00-intro.md)
+- [Node.js](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+- [NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
 == Setup ==
 
@@ -42,48 +34,54 @@ Yes, you can customize the endpoint URL and choose the data to retrieve. Visit t
 
 Note: The default endpoint URL is set as `https://jsonplaceholder.typicode.com` in the file `src/Ajax/ApiBase.php`.
 
-== Changelog ==
+== File structure ==
 
-= 1.0 =
-* Initial release.
+You can add your own new class files by naming them correctly and putting the files in the most appropriate location,
+see other files for examples. Composer's Autoloader will include the class and you can instantiate it via inpsyde.php.
 
-== Class Description ==
-
-1. Inpsyde\Setup\Activation
-This class handles the activation setup for the plugin. It performs tasks such as flushing rewrite rules, creating a test page with predefined HTML content, and associating it with the current user. It runs when the plugin is activated and sets up the necessary environment.
-
-2. Inpsyde\Setup\Deactivate
-The Deactivate class is responsible for deactivating the plugin. Its main task is to remove the test page created during activation. This helps clean up any residual content associated with the plugin when it's deactivated.
-
-3. Inpsyde\Setup\Setup
-The Setup class manages various setup tasks for the plugin. It handles enqueuing scripts and styles, adding an options page to the admin menu, and rendering the content for the options page. It provides methods for adding styles, scripts, and localizing scripts. Additionally, it includes utility methods for encapsulating actions related to script and options page setup.
-
-4. Inpsyde\Setup\OptionsHelper
-The OptionsHelper class is designed to assist in managing options for the plugin. It initializes the object with an option key and value, and it provides a method (insertOption) to set the value of a specific option. It includes nonce verification for security and ensures that the value is properly sanitized before updating the option.
-
-5. Inpsyde\Ajax\ApiBase
-The ApiBase class defines the base URL for making requests to the JSONPlaceholder API. It serves as a central location for managing the API endpoint URL. The default endpoint URL is set as https://jsonplaceholder.typicode.com, and it can be customized through the plugin's settings.
-
-6. Inpsyde\Ajax\AjaxRequest
-The AjaxRequest class initializes and manages Ajax requests for the plugin. It adds request definitions for fetching a list of users (DefinitionUsersList) and fetching details of a single user (DefinitionSingleUser). It registers these request definitions for handling Ajax requests.
-
-7. Inpsyde\Ajax\DefinitionSingleUser and Inpsyde\Ajax\DefinitionUsersList
-These classes define the structure and behavior of Ajax requests for fetching details of a single user and fetching a list of users, respectively. They specify the endpoint, callback functions, and other settings for handling these specific types of Ajax requests.
-
-These classes collectively contribute to a WordPress plugin that fetches user data from the JSONPlaceholder API, displays it on a custom page, and allows customization through an options page in the WordPress admin dashboard.
+``bash
+│ ## First level files
+├──inpsyde.php                          # Main entry file for the plugin
+├──composer.json                        # Composer dependencies & scripts
+├──package.json                         # (incl. when using webpack) Node.js dependencies & scripts (NPM functions)
+│
+│ ## Folders
+├──src                                  # Holds all the plugin php classes
+│   ├── Ajax                            # Holds the plugin ajax request functionality
+│   │   ├── AjaxRequest.php             # Processes ajax requests to the api based on definitions
+│   │   ├── ApiBase.php                 # The  api information for getting the users list
+│   │   └── RequestHelper.php           # Class for caching or / getting the data from the api
+│   ├── RequestDefinitions              # Contains Definitions to be executed by Ajax Request
+│   │   ├── RequestDefinition.php       # Defines the interface that will be implemented by Request entities
+│   │   ├── DefinitionSingleUsers.php   # Defines the Single User entity 
+│   │   └── DefinitionUsersList.php     # Defines the Users List entity
+│   ├── Setup                           # Contains all the classes needed for the setup
+│   │   ├── Setup.php                   # Plugin setup hooks (enqueue, localize, addOptionPage)
+│   │   ├── Activation.php              # Runs hooks upon activating the plugin
+│   │   ├── Deactivate.php              # Runs hooks upon deactivating the plugin
+│   │   └── OptionsHelper.php           # Adds option for the api base
+├──assets                               # Holds Source Assets
+│   ├── index.js                        # Main index for including Modules
+│   ├── css                             # Holds files for styling the plugin content
+│   │   └── style.css                   # Main file for styling content
+│   ├── modules
+│   │   ├── PrintHtml.php               # Class that prints html based on the request
+│   │   └── Request.php                 # Handles Ajax Requests
+└──build                                # WordPress default language map in Plugins & Themes
+    ├── index.js                        # Compiled JS files with be generated here 
+    ├── index.js.map                    # Responsible for mapping js logic
+    ├── style.index.css                 # Compiled CSS files with be generated here 
+    └── style.index.css.map             # Responsible for mapping css logic
+```
 
 == Development and Testing Dependencies ==
 
-1. roave/security-advisories:
-Purpose: This package provides a set of composer security advisories as a development dependency. It helps ensure that your project's dependencies do not have known security vulnerabilities.
+1. roave/security-advisories: It helps ensure that project's dependencies do not have known security vulnerabilities.
 
-2. phpcompatibility/phpcompatibility-wp:
-Purpose: This package is a WordPress coding standard for PHP_CodeSniffer. It checks your codebase for PHP compatibility issues with the specified WordPress version. It helps ensure that your plugin is compatible with the targeted WordPress version.
+2. phpcompatibility/phpcompatibility-wp: It helps ensure that plugin is compatible with the targeted WordPress version.
 
-3. phpunit/phpunit:
-Purpose: PHPUnit is a testing framework for PHP. It allows you to write and run tests for your code. The phpunit script in your scripts section is used to run PHPUnit tests. Tests are essential for ensuring the correctness and stability of your plugin.
+3. phpunit/phpunit: Tests are essential for ensuring the correctness and stability of your plugin.
 
-4.brain/monkey:
-Purpose: Brain Monkey is a library for mocking WordPress functionality when testing. It helps create isolated unit tests for your code without relying on a full WordPress environment. Mocking is crucial for testing specific components in isolation.
+4. brain/monkey: It helps create isolated unit tests for code without relying on a full WordPress environment.
 
 
