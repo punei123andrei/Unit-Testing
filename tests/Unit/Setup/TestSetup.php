@@ -41,7 +41,7 @@ class TestSetup extends TestCase
         $setup = new Setup();
 
         // Mock the wp_enqueue_style function
-        Monkey\Functions\when('wp_enqueue_style')->justReturn(true);
+        Functions\when('wp_enqueue_style')->justReturn(true);
 
         // Act
         $result = $setup->addStyle('test_style', 'test.css', ['dependency'], '1.0', 'all');

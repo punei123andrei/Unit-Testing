@@ -31,21 +31,7 @@ class TestOptionsHelper extends TestCase {
         Functions\expect('do_settings_sections')
             ->zeroOrMoreTimes()
             ->with('inpsyde-user-settings')
-            ->andReturns(function () {
-                // Echo the expected HTML here
-                echo '<h2>Inpsyde User Settings</h2>';
-                echo '<p>Api Base URL</p>';
-                echo '<table class="form-table" role="presentation">';
-                echo '<tbody>';
-                echo '<tr>';
-                echo '<th scope="row">Inpsyde Option</th>';
-                echo '<td>';
-                echo '<input type="text" name="inpsyde_api_base" value="https://jsonplaceholder.typicode.com">';
-                echo '</td>';
-                echo '</tr>';
-                echo '</tbody>';
-                echo '</table>';
-            });
+            ->andReturns('input');
         Functions\expect('submit_button')
             ->zeroOrMoreTimes();
         // Start output buffering to capture echoed output
