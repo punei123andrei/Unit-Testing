@@ -44,3 +44,4 @@ dwsync.xml
 intermediate
 .idea
 cache
+.phpunit.result.cache

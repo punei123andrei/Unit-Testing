@@ -1,0 +1,113 @@
+<?php 
+
+declare(strict_types=1);
+
+use Inpsyde\Setup\OptionsHelper;
+use Inpsyde\Setup\Setup;
+
+use PHPUnit\Framework\TestCase;
+use Brain\Monkey;
+use Brain\Monkey\Functions;
+
+class TestOptionsHelper extends TestCase {
+    public function setUp(): void {
+        parent::setUp();
+        Monkey\setUp();
+    }
+
+    public function tearDown(): void {
+        Monkey\tearDown();
+        parent::tearDown();
+    }
+
+    public function testRenderOptionsPage() {
+        // Create an instance of OptionsHelper
+        $optionsHelper = new OptionsHelper();
+        // Set up expectations for the mocked functions
+        Functions\expect('settings_fields')
+            ->zeroOrMoreTimes()
+            ->with('inpsyde_user_options');
+        // Use andReturns to specify a callback function for do_settings_sections
+        Functions\expect('do_settings_sections')
+            ->zeroOrMoreTimes()
+            ->with('inpsyde-user-settings')
+            ->andReturns(function () {
+                // Echo the expected HTML here
+                echo '<h2>Inpsyde User Settings</h2>';
+                echo '<p>Api Base URL</p>';
+                echo '<table class="form-table" role="presentation">';
+                echo '<tbody>';
+                echo '<tr>';
+                echo '<th scope="row">Inpsyde Option</th>';
+                echo '<td>';
+                echo '<input type="text" name="inpsyde_api_base" value="https://jsonplaceholder.typicode.com">';
+                echo '</td>';
+                echo '</tr>';
+                echo '</tbody>';
+                echo '</table>';
+            });
+        Functions\expect('submit_button')
+            ->zeroOrMoreTimes();
+        // Start output buffering to capture echoed output
+        ob_start();
+        // Call the method you want to test
+        $optionsHelper->renderOptionsPage();
+        // Capture the output and stop output buffering
+        $output = ob_get_clean();
+        // Check if the output contains the expected HTML
+        $this->assertStringContainsString('form', $output);
+    }
+
+    public function testInitSettings() {
+    // Create an instance of Setup
+    $setup = new Setup();
+
+    // Set up expectations for the mocked functions
+    Functions\expect('register_setting')
+        ->zeroOrMoreTimes()
+        ->with(
+            'inpsyde_user_options',
+            'inpsyde_api_base',
+            ['sectionCallback'],
+            'inpsyde-user-settings'
+        );
+
+    // Call the method you want to test
+    $result = $setup->addOptionsPage('Page Title', 'Menu Title');
+
+    // Additional assertions based on your specific logic
+    $this->assertInstanceOf(Setup::class, $result);
+
+    }
+
+    public function testsectionCallback(){
+        $optionsHelper = new OptionsHelper();
+
+        Functions\when('esc_html_e')->justReturn('Api Base URL');
+
+        ob_start();
+        $optionsHelper->sectionCallback();
+        $output = ob_get_clean();
+
+        $this->assertStringContainsString('<p>', $output);
+    }
+
+    public function testinputCallback(){
+        $optionsHelper = new OptionsHelper();
+
+        Functions\expect('get_option')
+        ->zeroOrMoreTimes()
+        ->with('Api Base URL', 'inpsyde')
+        ->andReturnUsing(function () {
+            // Simulate logic to return either false or a URL string
+            return rand(0, 1) === 0 ? false : 'https://example.com/api';
+        });
+        Functions\when('esc_attr')->justReturn('https://example.com/api');
+        
+        ob_start();
+        $optionsHelper->inputCallback();
+        $output = ob_get_clean();
+
+        $this->assertStringContainsString('input', $output);
+    }
+}
