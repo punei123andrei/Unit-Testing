@@ -12,7 +12,6 @@
 
 namespace Inpsyde\Ajax;
 
-
 /**
  * To do, sending object instead of arrays aligned with WP principles
  *
@@ -38,29 +37,29 @@ class RequestHelper
         string $url,
         array $data = [],
         array $headers = [],
-        string $cache_key,
+        string $cacheKey = 'inpsyde',
         int $expiration = 3600
-        ): string|WP_Error
-    {
+    ): string|WP_Error {
+
         if (!self::isApiReachable($url)) {
             return new WP_Error('api_unreachable', 'API endpoint is not reachable.');
         }
         // Attempt to get cached data
-        $cached_data = get_transient($cache_key);
+        $cachedData = get_transient($cacheKey);
 
-        if ($cached_data !== false) {
-            return $cached_data;
+        if ($cachedData !== false) {
+            return $cachedData;
         }
 
         // If not cached, make API request
-        $api_response = self::makeGetRequest($url, $data, $headers);
+        $apiResponse = self::makeGetRequest($url, $data, $headers);
 
-        if (!is_wp_error($api_response)) {
+        if (!is_wp_error($apiResponse)) {
             // Cache the API response for a specified time (e.g., 1 hour)
-            set_transient($cache_key, $api_response, $expiration);
+            set_transient($cacheKey, $apiResponse, $expiration);
         }
 
-        return $api_response;
+        return $apiResponse;
     }
 
     /**
@@ -76,24 +75,24 @@ class RequestHelper
         string $url,
         array $data = [],
         array $headers = []
-        ): string|WP_Error
-    {
+    ): string|WP_Error {
+
         if (!self::isApiReachable($url)) {
             return new WP_Error('api_unreachable', 'API endpoint is not reachable.');
         }
         $args = [
-            'body'       => $data,
-            'headers'    => $headers,
-            'timeout'    => 15,
+            'body' => $data,
+            'headers' => $headers,
+            'timeout' => 15,
             'redirection' => 5,
-            'blocking'   => true,
+            'blocking' => true,
             'httpversion' => '1.1',
-            'sslverify'  => false,
+            'sslverify' => false,
         ];
         $response = wp_remote_get($url, $args);
         if (is_wp_error($response)) {
-            $error_message = $response->get_error_message();
-            wp_send_error($error_message);
+            $errorMessage = $response->get_error_message();
+            wp_send_error($errorMessage);
         }
         $responseBody = wp_remote_retrieve_body($response);
         return $responseBody;
@@ -164,7 +163,6 @@ class RequestHelper
         return $sanitizedData;
     }
 
-
     /**
      * Check if the API endpoint is reachable.
      *
@@ -172,40 +170,22 @@ class RequestHelper
      *
      * @return bool
      */
-    private static function isApiReachable(string $url): bool {
+    private static function isApiReachable(string $url): bool
+    {
+
         $response = wp_remote_head($url);
-    
+
         if (is_wp_error($response)) {
-            self::writeLog('API Reachability Check Failed: ' . $response->get_error_message());
             return false;
         }
-    
-        $response_code = wp_remote_retrieve_response_code($response);
-        $reason_phrase = wp_remote_retrieve_response_message($response);
-    
+
+        $responseCode = wp_remote_retrieve_response_code($response);
+
         // Log or handle the response details for diagnostics
-        if ($response_code !== 200) {
-            self::writeLog("API Reachability Check Failed: Response Code $response_code");
+        if ($responseCode !== 200) {
+            return false;
         }
-    
-        return $response_code === 200;
-    }
 
-
-    /**
-     * Writes a log if wp_debug is enables
-     *
-     * @param $log
-     * @since 1.0.3
-     */
-    public static function writeLog($log)
-    {
-        if (true === WP_DEBUG) {
-            if (is_array($log) || is_object($log)) {
-                error_log(print_r($log, true));
-            } else {
-                error_log($log);
-            }
-        }
+        return $responseCode === 200;
     }
 }

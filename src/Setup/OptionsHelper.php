@@ -11,12 +11,13 @@
 declare(strict_types=1);
 
 namespace Inpsyde\Setup;
+
 use Inpsyde\Ajax\ApiBase;
 
 /**
  *
  * Helps with setting otions
- * 
+ *
  * @package Inpsyde\RequestDefinitions
  * @since 1.0.1
  */
@@ -44,12 +45,12 @@ class OptionsHelper
 
     /**
      * Adds a new options group, settings section + section field
-     * 
+     *
      * @return void
      */
-    public static function initSettings(): void 
+    public static function initSettings(): void
     {
-        $self = new Self();
+        $self = new self();
         register_setting('inpsyde_user_options', 'inpsyde_api_base');
         add_settings_section(
             'inpsyde_user_section',
@@ -65,27 +66,31 @@ class OptionsHelper
             'inpsyde_user_section'
         );
     }
-    
+
     /**
      * Section description
-     * 
+     *
      * @echo string
      */
-    public function sectionCallback() 
+    public function sectionCallback()
     {
-        echo '<p>' . __('Please modify the base api from witch the user list will be generated', 'inpsyde') . '</p>';
+        ?>
+        <p><?php esc_html_e('Api Base URL', 'inpsyde'); ?></p>;
+        <?php
     }
 
     /**
      * Section input
-     * 
+     *
      * @echo string
      */
-    public function inputCallback() 
+    public function inputCallback()
     {
         $apiBaseValue = get_option('inpsyde_api_base');
         $defaultBase = ApiBase::API_BASE;
         $apiBase = $apiBaseValue ? $apiBaseValue : $defaultBase;
-        echo "<input type='text' name='inpsyde_api_base' value='$apiBase' />";
+        ?>
+        <input type='text' name='inpsyde_api_base' value='<?php echo esc_attr($apiBase); ?>' />
+        <?php
     }
 }
