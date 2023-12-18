@@ -52,12 +52,12 @@ class Setup
     *
     * @param string $pageTitle A page title fot the settings page
     * @param string $menuTitle A title for the admin menu
-    * 
+    *
     * @return Setup
     */
     public function addOptionsPage(string $pageTitle, string $menuTitle): Setup
     {
-        $this->actionOptionsPage(function () use ($pageTitle, $menuTitle) {
+        $this->actionOptionsPage(static function () use ($pageTitle, $menuTitle) {
                 add_options_page(
                     $pageTitle,
                     $menuTitle,
@@ -67,7 +67,7 @@ class Setup
                 );
         });
 
-        add_action('admin_init',[OptionsHelper::class, 'initSettings']);
+        add_action('admin_init', [OptionsHelper::class, 'initSettings']);
         return $this;
     }
 
@@ -158,15 +158,15 @@ class Setup
             ) {
                 return;
             }
-            
+
             wp_register_script($handle, $src, $deps, $ver, $inFooter);
 
             wp_localize_script(
                 $handle,
                 'ajax_obj',
                 [
-                    'ajaxurl'      => admin_url('admin-ajax.php'),
-                    'token'        => wp_create_nonce('inpsyde_token')
+                    'ajaxurl' => admin_url('admin-ajax.php'),
+                    'token' => wp_create_nonce('inpsyde_token'),
                 ]
             );
 
