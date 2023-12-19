@@ -170,7 +170,7 @@ class RequestHelper
      *
      * @return bool
      */
-    private static function isApiReachable(string $url): bool
+    public static function isApiReachable(string $url): bool
     {
 
         $response = wp_remote_head($url);

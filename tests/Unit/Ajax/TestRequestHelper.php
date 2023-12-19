@@ -5,10 +5,23 @@ declare(strict_types=1);
 namespace Inpsyde\Ajax;
 use Inpsyde\Ajax\RequestHelper;
 use PHPUnit\Framework\TestCase;
+use Brain\Monkey;
 use Brain\Monkey\Functions;
+
 
 class TestRequestHelper extends TestCase
 {
+
+    public function setUp(): void {
+        parent::setUp();
+        Monkey\setUp();
+    }
+
+    public function tearDown(): void {
+        Monkey\tearDown();
+        parent::tearDown();
+    }
+    
     public function testMakeGetRequest()
     {
         // Arrange
@@ -34,9 +47,11 @@ class TestRequestHelper extends TestCase
             ->with(['body' => 'Mocked API response'])
             ->andReturn('Mocked API response body');
 
-            Functions\expect('is_wp_error')->andReturn(false);
+        // Mock checks
+        Functions\when('is_wp_error')->justReturn(false);
+        Functions\when('wp_remote_head')->justReturn((array) ['url' => $url]);
+        Functions\when('wp_remote_retrieve_response_code')->justReturn(200);
             
-
         // Act
         $result = RequestHelper::makeGetRequest($url, $data, $headers);
 
@@ -86,20 +101,41 @@ class TestRequestHelper extends TestCase
         $_POST['token'] = 'mock_nonce';
         $_POST['key1'] = 'value1';
         $_POST['key2'] = 'value2';
-
+        
         $keys = ['key1', 'key2'];
         $nonceAction = 'mock_nonce_action';
-
+        
         Functions\expect('wp_verify_nonce')->andReturn(true);
         Functions\expect('sanitize_text_field')->andReturn('');
-
+        
         // Mock wp_unslash function
         Functions\expect('wp_unslash')->andReturn('');
-
+        
         // Act
         $result = RequestHelper::returnPostData($keys, $nonceAction);
+        
+        // Assert
+        $expectedResult = [0 => '', 1 => ''];
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    public function testIsApiReachable(){
+
+        // Arrange
+        $url = 'https://example.com/api';
+
+        // Act
+        Functions\when('wp_remote_head')->justReturn((array) ['url' => $url]);
+
+        Functions\expect('is_wp_error')->andReturn(false);
+
+        Functions\when('wp_remote_retrieve_response_code')->justReturn(200);
 
         // Assert
-        $this->assertEquals(['value1', 'value2'], $result);
+        $result = RequestHelper::isApiREachable($url);
+
+        // Assert
+        $this->assertTrue($result);
+        
     }
 }
