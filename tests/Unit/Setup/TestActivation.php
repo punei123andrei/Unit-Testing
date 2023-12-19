@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Inpsyde\Setup\Activation;
-use Inpsyde\Setup\Setup;
 
 use PHPUnit\Framework\TestCase;
 use Brain\Monkey;
@@ -42,7 +41,7 @@ class TestActivation extends TestCase {
 
         define('OBJECT', 'mocked_object_constant');
 
-        Functions\when('get_page_by_title')->justReturn(1);
+        Functions\when('get_page_by_title')->justReturn((object) ['ID' => 123]);
 
         Functions\when('wp_insert_post')->justReturn(1);
 

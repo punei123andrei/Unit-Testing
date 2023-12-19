@@ -23,17 +23,21 @@ class TestOptionsHelper extends TestCase {
     public function testRenderOptionsPage() {
         // Create an instance of OptionsHelper
         $optionsHelper = new OptionsHelper();
+        
         // Set up expectations for the mocked functions
         Functions\expect('settings_fields')
             ->zeroOrMoreTimes()
             ->with('inpsyde_user_options');
+
         // Use andReturns to specify a callback function for do_settings_sections
         Functions\expect('do_settings_sections')
             ->zeroOrMoreTimes()
             ->with('inpsyde-user-settings')
             ->andReturns('input');
+
         Functions\expect('submit_button')
             ->zeroOrMoreTimes();
+
         // Start output buffering to capture echoed output
         ob_start();
         // Call the method you want to test

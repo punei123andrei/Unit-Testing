@@ -75,6 +75,6 @@ class Activation
         }
         do_action('inpsyde_after_create_test_page');
 
-        return $page;
+        return $page->ID;
     }
 }

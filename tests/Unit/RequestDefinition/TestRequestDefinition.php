@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Inpsyde\Ajax;
 
-use Inpsyde\Ajax\RequestDefinition;
+use Inpsyde\RequestDefinitions\RequestDefinition;
 use PHPUnit\Framework\TestCase;
 
 class TestRequestDefinition extends TestCase
