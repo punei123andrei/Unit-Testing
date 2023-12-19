@@ -25,7 +25,7 @@ class Activation
      */
     public static function activate()
     {
-        if (!defined('ABSPATH') || wp_doing_cron()) {
+        if (wp_doing_cron()) {
             return;
         }
 
@@ -42,15 +42,15 @@ class Activation
         </div>
         ');
 
-        self::createTestPage($pageContent);
+        self::createTestPage($pageContent); 
     }
 
     /**
      * Create the test page
      *
-     * @param string $pageContent
+     * @param mixed $pageContent
      */
-    private static function createTestPage(string $pageContent)
+    public static function createTestPage(mixed $pageContent): int
     {
 
         do_action('inpsyde_before_create_test_page');
@@ -58,7 +58,7 @@ class Activation
         $authorId = get_current_user_id();
 
         $page = get_page_by_title('Inpsyde Users Test', OBJECT, 'page');
-
+        
         if (!$page) {
             $newPage = [
                 'post_title' => 'Inpsyde Users Test',
@@ -68,9 +68,13 @@ class Activation
                 'post_type' => 'page',
             ];
 
-            wp_insert_post($newPage);
-        }
+           $pageId = wp_insert_post($newPage);
 
+           return $pageId;
+            
+        }
         do_action('inpsyde_after_create_test_page');
+
+        return $page->ID;
     }
 }

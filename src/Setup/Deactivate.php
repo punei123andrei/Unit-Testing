@@ -22,28 +22,23 @@ namespace Inpsyde\Setup;
 class Deactivate
 {
     /**
-     * Constructor.
-     */
-    public function __construct()
-    {
-    }
-    /**
      * Deactivate the functionality associated with the plugin or module.
      */
     public static function deactivate()
     {
-        self::removeTestPage();
+        return self::removeTestPage();
     }
 
     /**
     * Remove a test page associated with the plugin.
     */
-    private static function removeTestPage()
+    public static function removeTestPage()
     {
         $page = get_page_by_title('Inpsyde Users Test', OBJECT, 'page');
 
         if ($page) {
-            wp_delete_post($page->ID, true);
+            return wp_delete_post($page->ID, true);
         }
+        return false;
     }
 }
