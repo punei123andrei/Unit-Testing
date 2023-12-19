@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Inpsyde\Ajax\AjaxRequest;
-use Inpsyde\Ajax\DefinitionUsersList;
+use Inpsyde\RequestDefinitions\DefinitionUsersList;
 
 use PHPUnit\Framework\TestCase;
 use Brain\Monkey\Functions;
