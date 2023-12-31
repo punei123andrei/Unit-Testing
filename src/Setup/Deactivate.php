@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Inpsyde\Setup;
 
+use Inpsyde\Setup\Tasks\TestPageRemover;
+
 /**
  * Runs specific action upon deactivation
  *
@@ -26,19 +28,6 @@ class Deactivate
      */
     public static function deactivate()
     {
-        return self::removeTestPage();
-    }
-
-    /**
-    * Remove a test page associated with the plugin.
-    */
-    public static function removeTestPage()
-    {
-        $page = get_page_by_title('Inpsyde Users Test', OBJECT, 'page');
-
-        if ($page) {
-            return wp_delete_post($page->ID, true);
-        }
-        return false;
+        return TestPageRemover::removeTestPage();
     }
 }

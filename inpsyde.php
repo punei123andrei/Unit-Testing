@@ -61,8 +61,7 @@ register_deactivation_hook(__FILE__, [Deactivate::class, 'deactivate']);
 
 use Inpsyde\Setup\Setup;
 $setup = new Setup();
-$setup->addOptionsPage('Inspyde Options', 'Inspyde Api Settings')
-->addStyle('inpsyde-style', plugins_url('build/style-index.css', __FILE__), [], '1.1')
+$setup->addStyle('inpsyde-style', plugins_url('build/style-index.css', __FILE__), [], '1.1')
 ->localizeScript('frontend', plugins_url('build/index.js', __FILE__), ['jquery'], '1.1', true);
 
 use Inpsyde\Ajax\AjaxRequest;
