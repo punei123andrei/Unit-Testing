@@ -75,8 +75,8 @@ $settingsInit = new SettingsInitializer(new SettingsRegistry());
 $settingsInit->initSettings('Inpsyde User');
 
 use Inpsyde\Ajax\AjaxRequest;
-use Inpsyde\RequestDefinitions\DefinitionUsersList;
-use Inpsyde\RequestDefinitions\DefinitionSingleUser;
+use Inpsyde\Ajax\RequestDefinitions\DefinitionUsersList;
+use Inpsyde\Ajax\RequestDefinitions\DefinitionSingleUser;
 
 // Initialize AjaxRequest class
 $ajaxRequest = new AjaxRequest();
