@@ -64,6 +64,16 @@ $setup = new Setup();
 $setup->addStyle('inpsyde-style', plugins_url('build/style-index.css', __FILE__), [], '1.1')
 ->localizeScript('frontend', plugins_url('build/index.js', __FILE__), ['jquery'], '1.1', true);
 
+use Inpsyde\Setup\Settings\OptionsPage;
+use Inpsyde\Setup\Settings\Config\OptionsPageRegistry;
+$optionsPage = new OptionsPage(new OptionsPageRegistry());
+$optionsPage->addOptionsPage('Inpsyde User');
+
+use Inpsyde\Setup\Settings\SettingsInitializer;
+use Inpsyde\Setup\Settings\Config\SettingsRegistry;
+$settingsInit = new SettingsInitializer(new SettingsRegistry());
+$settingsInit->initSettings('Inpsyde User');
+
 use Inpsyde\Ajax\AjaxRequest;
 use Inpsyde\RequestDefinitions\DefinitionUsersList;
 use Inpsyde\RequestDefinitions\DefinitionSingleUser;

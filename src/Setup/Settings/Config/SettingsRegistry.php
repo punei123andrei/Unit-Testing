@@ -10,19 +10,34 @@
 
 declare(strict_types=1);
 
-namespace Inpsyde\Config\Registry;
+namespace Inpsyde\Setup\Settings\Config;
 
 /**
  * Manages rewrite rules
  *
- * @package Inpsyde\Config\Registry
- * @since 1.0.1
+ * @package Inpsyde\Setup\Settings\Config
+ * @since 1.0.3
  */
 
- class SettingsRegistry implements SettingsDefinition
+ class SettingsRegistry implements SettingsInterface
  {
 
-    // '_options', '_option', '_section', ' Settings', '-settings', '_input', ' Option', 
+    public function getOptions($name): OptionKeys 
+    {
+
+        $optionKeys = new OptionKeys();
+
+        $settingField = str_replace(' ', '_', $name);
+
+        return $optionKeys
+            ->setOptionGroup(strtolower($settingField) . '_options')
+            ->setOptionName(strtolower($settingField) . '_option')
+            ->setOptionSection(strtolower($settingField) . '_section')
+            ->setOptionTitle($name . ' Settings')
+            ->setPageSlug(sanitize_title($name) . '-settings')
+            ->setFieldId(strtolower($settingField). '_input')
+            ->setFieldTitle($name . ' Option');
+    }
 
     public function registerSetting(string $optionGroup, string $optionName): void {
         register_setting($optionGroup, $optionName);

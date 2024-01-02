@@ -11,6 +11,7 @@
 declare(strict_types=1);
 
 namespace Inpsyde\Setup\Settings;
+use Inpsyde\Setup\Settings\Config\OptionsInterface;
 
 /**
  * Creates a test page for displaying content resulted from api request
@@ -20,6 +21,12 @@ namespace Inpsyde\Setup\Settings;
  */
 
 class OptionsPage {
+
+    private $optionsRegistry;
+
+    public function __construct(OptionsInterface $optionsRegistry) {
+        $this->optionsRegistry = $optionsRegistry;
+    }
 
         /**
      * Add option page on admin side
@@ -41,29 +48,44 @@ class OptionsPage {
     * @param string $pageTitle A page title fot the settings page
     * @param string $menuTitle A title for the admin menu
     *
-    * @return Setup
+    * @return void
     */
-    public function addOptionsPage(string $pageTitle, string $menuTitle): Setup
+    public function addOptionsPage(string $name): void
     {
-        $this->actionOptionsPage(static function () use ($pageTitle, $menuTitle) {
-                add_options_page(
-                    $pageTitle,
-                    $menuTitle,
+        $this->actionOptionsPage(function () use ($name) {
+
+                $pageKeys = $this->optionsRegistry->getKeys($name);
+
+                $this->optionsRegistry->addOptionsPage(
+                    $pageKeys->getOptionTitle($name),
+                    $pageKeys->getOptionTitle($name),
                     'manage_options',
-                    'inpsyde_settings',
-                    [self::class, 'renderOptionsPage']
+                    $pageKeys->getPageSlug($name),
+                    [$this, 'renderOptionsPage']
                 );
+
         });
 
     }
-    public static function renderOptionsPage(): void {
+
+    /**
+    * Renders Option Page
+    * @since 1.0.3 Adds Settings Section and settings field
+    *
+    * @param string $pageTitle A page title fot the settings page
+    * @param string $menuTitle A title for the admin menu
+    *
+    * @return void
+    */
+    public function renderOptionsPage(): void {
         ?>
         <div class="wrap">
             <form method="post" action="options.php">
                 <?php
-                settings_fields('inpsyde_user_options');
-                do_settings_sections('inpsyde-user-settings');
-                submit_button();
+                $this->optionsRegistry->renderOptionsPage(
+                    'inpsyde_user_options',
+                    'inpsyde-user-settings'
+                );
                 ?>
             </form>
         </div>

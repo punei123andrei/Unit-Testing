@@ -10,16 +10,16 @@
 
 declare(strict_types=1);
 
-namespace Inpsyde\Config\Registry;
+namespace Inpsyde\Setup\Settings\Config;
 
 /**
  * Manages rewrite rules
  *
- * @package Inpsyde\Config\Registry
- * @since 1.0.1
+ * @package Inpsyde\Setup\Settings\Config
+ * @since 1.0.3
  */
 
- interface SettingsDefinition
+ interface SettingsInterface
  {
     public function registerSetting(string $optionGroup, string $optionName): void;
     public function addSettingsSection(string $id, string $title, callable $callback, string $pageSlug): void;
