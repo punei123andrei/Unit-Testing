@@ -10,14 +10,14 @@
 
 declare(strict_types=1);
 
-namespace Inpsyde\RequestDefinitions;
+namespace Inpsyde\Ajax\RequestDefinitions;
 
 use Inpsyde\Ajax\ApiBase;
 
 /**
  * Defines an object to be executed by the AjaxRequest class
  *
- * @package Inpsyde\RequestDefinitions
+ * @package Inpsyde\Ajax\RequestDefinitions
  * @since 1.0.1
  */
 
