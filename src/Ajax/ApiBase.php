@@ -26,15 +26,6 @@ class ApiBase
     public const API_BASE = 'https://jsonplaceholder.typicode.com';
 
     /**
-     * The version of API used
-     *
-     * @return string
-     */
-    public static function version(): string
-    {
-        return 'v1';
-    }
-    /**
      * Get the base url for API
      *
      * @param string $endpoint
@@ -48,17 +39,5 @@ class ApiBase
         $apiBase = $apiBaseValue ? $apiBaseValue : self::API_BASE;
         return trailingslashit($apiBase) . ltrim($endpoint, '/');
     }
-    /**
-     * Get the headers with the authorization token
-     *
-     * @param array $items
-     * @return string[]
-     */
-    public static function headers(array $items = []): array
-    {
-          $items = array_merge([
-              'Accept' => 'application/json',
-          ], $items);
-          return $items;
-    }
+
 }
