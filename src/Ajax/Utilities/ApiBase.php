@@ -10,7 +10,8 @@
 
  declare(strict_types=1);
 
-namespace Inpsyde\Ajax;
+namespace Inpsyde\Ajax\Utilities;
+use Inpsyde\Ajax\Contracts\ApiBaseInterface;
 
 /**
  * Defines a base for comunicating with the api
@@ -18,12 +19,12 @@ namespace Inpsyde\Ajax;
  * @package Inpsyde\RequestDefinitions
  * @since 1.0.1
  */
-class ApiBase
+class ApiBase implements ApiBaseInterface
 {
    /**
     * @var string The api base url
     */
-    public const API_BASE = 'https://jsonplaceholder.typicode.com';
+    private const API_BASE = 'https://jsonplaceholder.typicode.com';
 
     /**
      * Get the base url for API
@@ -38,6 +39,20 @@ class ApiBase
         $apiBaseValue = get_option('inpsyde_api_base');
         $apiBase = $apiBaseValue ? $apiBaseValue : self::API_BASE;
         return trailingslashit($apiBase) . ltrim($endpoint, '/');
+    }
+
+    /**
+     * Get the headers with the authorization token
+     *
+     * @param array $items
+     * @return string[]
+     */
+    public static function headers(array $items = []): array
+    {
+          $items = array_merge([
+              'Accept' => 'application/json',
+          ], $items);
+          return $items;
     }
 
 }
