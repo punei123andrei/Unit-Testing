@@ -10,14 +10,14 @@
 
 declare(strict_types=1);
 
-namespace Inpsyde\Setup\Settings;
-use Inpsyde\Ajax\ApiBase;
-use Inpsyde\Setup\Settings\Config\SettingsInterface;
+namespace Inpsyde\Settings;
+use Inpsyde\Ajax\Utilities\ApiBase;
+use Inpsyde\Settings\Contracts\SettingsInterface;
 
 /**
  * Manages rewrite rules
  *
- * @package Inpsyde\Setup\Settings
+ * @package Inpsyde\Settings
  * @since 1.0.3
  */
 

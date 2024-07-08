@@ -10,15 +10,15 @@
 
 declare(strict_types=1);
 
-namespace Inpsyde\Ajax\RequestDefinitions;
+namespace Inpsyde\Ajax\Contracts;
 
 /**
  * Defines a request to be implemented by entities
  *
- * @package Inpsyde\Ajax\RequestDefinitions
+ * @package Inpsyde\Ajax\RouteDefinition
  * @since 1.0.1
  */
-interface RequestDefinition
+interface RouteDefinition
 {
     /**
      * Route.
@@ -43,10 +43,4 @@ interface RequestDefinition
      * @return array
      */
     public function data(): array;
-
-    /**
-     * If the data param should be appended to the url
-     * @return bool
-     */
-    public function appendParam(): bool;
 }

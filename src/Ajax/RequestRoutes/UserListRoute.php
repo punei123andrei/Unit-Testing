@@ -10,9 +10,10 @@
 
 declare(strict_types=1);
 
-namespace Inpsyde\Ajax\RequestDefinitions;
+namespace Inpsyde\Ajax\RequestRoutes;
 
-use Inpsyde\Ajax\ApiBase;
+use Inpsyde\Ajax\Utilities\ApiBase;
+use Inpsyde\Ajax\Contracts\RouteDefinition;
 
 /**
  * Defines an object to be executed by the AjaxRequest class
@@ -21,7 +22,7 @@ use Inpsyde\Ajax\ApiBase;
  * @since 1.0.1
  */
 
-class DefinitionUsersList implements RequestDefinition
+class UserListRoute implements RouteDefinition
 {
     /**
      * Route.
@@ -59,12 +60,4 @@ class DefinitionUsersList implements RequestDefinition
         return [];
     }
 
-    /**
-     * Specifies if the data should be appended to the url
-     * @return bool
-     */
-    public function appendParam(): bool
-    {
-        return false;
-    }
 }

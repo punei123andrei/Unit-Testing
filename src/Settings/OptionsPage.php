@@ -10,13 +10,13 @@
 
 declare(strict_types=1);
 
-namespace Inpsyde\Setup\Settings;
-use Inpsyde\Setup\Settings\Config\OptionsInterface;
+namespace Inpsyde\Settings;
+use Inpsyde\Settings\Contracts\OptionsInterface;
 
 /**
  * Creates a test page for displaying content resulted from api request
  *
- * @package Inpsyde\Setup\Settings
+ * @package Inpsyde\Settings
  * @since 1.0.1
  */
 

@@ -10,19 +10,18 @@
 
  declare(strict_types=1);
 
-namespace Inpsyde\Ajax\ClassMapping;
-use Inpsyde\Ajax\ApiBase;
+namespace Inpsyde\Ajax\Utilities;
 
 /**
  * To do, sending object instead of arrays aligned with WP principles
  *
- * @package Inpsyde\Ajax\ClassMapping
+ * @package Inpsyde\Ajax\Utilities
  * @since 1.0.1
  */
 
  class RequestArgsMapper
  {
-    private $body;
+    private $body = [];
     private $headers;
     private $timeout;
     private $redirection;
@@ -70,7 +69,7 @@ use Inpsyde\Ajax\ApiBase;
         return $this;
     }
 
-    public function asArray(): array {
+    public function asArray() {
         return [
             'body' => $this->body,
             'headers' => ApiBase::headers(),

@@ -10,12 +10,12 @@
 
 declare(strict_types=1);
 
-namespace Inpsyde\Setup\Settings\Config;
-
+namespace Inpsyde\Settings\Config;
+use Inpsyde\Settings\Contracts\OptionsInterface;
 /**
  * Manages rewrite rules
  *
- * @package Inpsyde\Setup\Settings\Config
+ * @package Inpsyde\Settings\Config
  * @since 1.0.3
  */
 

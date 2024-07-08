@@ -11,9 +11,6 @@
  declare(strict_types=1);
 
 namespace Inpsyde\Ajax\Utilities;
-use Inpsyde\Ajax\ClassMapping\UserCollection;
-use Inpsyde\Ajax\Contracts\RequesterInterface;
-use Inpsyde\Ajax\ClassMapping\RequestArgsMapper;
 
 /**
  * To do, sending object instead of arrays aligned with WP principles
@@ -22,25 +19,26 @@ use Inpsyde\Ajax\ClassMapping\RequestArgsMapper;
  * @since 1.0.1
  */
 
- class Requester implements RequesterInterface
+ class Requester
  {
 
-    public function makeGetRequest( array $body = [] ): bool|UserCollection {
+    public function makeGetRequest(string $url, array $body = [] ): bool|string {
 
-      if(!isApiREachable(ApiBase::baseUrl())){
+      if(!$this->isApiReachable($url)){
          return false;
       }
 
       $args = $this->mapRequestArgs($body);
 
-      $response = wp_remote_get(ApiBase::baseUrl(), $args);
+      $response = wp_remote_get($url, $args);
+
       $responseBody = wp_remote_retrieve_body($response);
 
       return $responseBody;
 
     }
 
-    private function isApiReachable(string $url):bool {
+     public function isApiReachable(string $url) {
 
         $response = wp_remote_head($url);
 
@@ -49,14 +47,18 @@ use Inpsyde\Ajax\ClassMapping\RequestArgsMapper;
         }
 
         $responseCode = wp_remote_retrieve_response_code($response);
+
         return $responseCode === 200;
 
     }
 
-    private function mapRequestArgs(array $body): array{
+    private function mapRequestArgs(array $body = []): array{
 
-      $argsMapper = (new RequestArgsMapper())
-      ->setBody($body);
+      $argsMapper = new RequestArgsMapper();
+
+      if(!empty($body)) {
+         $argsMapper->setBody($body);
+      }
 
       return $argsMapper->asArray();
 

@@ -25,7 +25,7 @@ use Inpsyde\Ajax\Contracts\NonceVerifyInterface;
 
     public static function verify(string $nonce, string $action): bool
     {
-        return wp_verify_nonce($nonce, $action) !== false;
+        return wp_verify_nonce($nonce, $action);
     }
 
     public static function getNonceFromRequest(string $field, string $method = 'POST'): ?string

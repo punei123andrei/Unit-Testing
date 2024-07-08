@@ -24,7 +24,7 @@ class ApiBase implements ApiBaseInterface
    /**
     * @var string The api base url
     */
-    private const API_BASE = 'https://jsonplaceholder.typicode.com';
+    public const API_BASE = 'https://jsonplaceholder.typicode.com';
 
     /**
      * Get the base url for API
@@ -34,7 +34,7 @@ class ApiBase implements ApiBaseInterface
      * @param bool $is_use_version
      * @return string
      */
-    public static function baseUrl(string $endpoint, bool $useService = true): string
+    public static function baseUrl(string $endpoint = '', bool $useService = true): string
     {
         $apiBaseValue = get_option('inpsyde_api_base');
         $apiBase = $apiBaseValue ? $apiBaseValue : self::API_BASE;
