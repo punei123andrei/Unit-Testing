@@ -53,28 +53,30 @@ if (!file_exists($composer)) {
 }
 require $composer;
 
-use Inpsyde\Setup\Activation;
+use Inpsyde\Setup\{Activation, Deactivate};
 register_activation_hook(__FILE__, [Activation::class, 'activate']);
-
-use Inpsyde\Setup\Deactivate;
 register_deactivation_hook(__FILE__, [Deactivate::class, 'deactivate']);
 
 use Inpsyde\Setup\Setup;
 $setup = new Setup();
-$setup->addOptionsPage('Inspyde Options', 'Inspyde Api Settings')
-->addStyle('inpsyde-style', plugins_url('build/style-index.css', __FILE__), [], '1.1')
+$setup->addStyle('inpsyde-style', plugins_url('build/style-index.css', __FILE__), [], '1.1')
 ->localizeScript('frontend', plugins_url('build/index.js', __FILE__), ['jquery'], '1.1', true);
 
-use Inpsyde\Ajax\AjaxRequest;
-use Inpsyde\RequestDefinitions\DefinitionUsersList;
-use Inpsyde\RequestDefinitions\DefinitionSingleUser;
+use Inpsyde\Settings\{OptionsPage, SettingsInitializer};
+use Inpsyde\Settings\Config\{OptionsPageRegistry, SettingsRegistry};
 
-// Initialize AjaxRequest class
+$optionsPage = new OptionsPage(new OptionsPageRegistry());
+$optionsPage->addOptionsPage('Inpsyde User');
+
+$settingsInit = new SettingsInitializer(new SettingsRegistry());
+$settingsInit->initSettings('Inpsyde User');
+
+use Inpsyde\Ajax\AjaxRequest;
+use Inpsyde\Ajax\RequestRoutes\{UserListRoute, SingleUserRoute};
+
 $ajaxRequest = new AjaxRequest();
 
-// Add request definitions
-$ajaxRequest->add(new DefinitionUsersList())
-            ->add(new DefinitionSingleUser());
+$ajaxRequest->add(new UserListRoute())
+            ->add(new SingleUserRoute());
 
-// Register Ajax requests
 $ajaxRequest->registerRequests();

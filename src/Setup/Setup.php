@@ -23,7 +23,7 @@ class Setup
     /**
      * Enqueue script on front end
      *
-     * @param $function
+     * @param callable $function
      * @return void
      */
     private function actionEnqueueScripts(callable $function): void
@@ -34,44 +34,6 @@ class Setup
     }
 
     /**
-     * Add option page on admin side
-     *
-     * @param $function
-     * @return void
-     */
-    private function actionOptionsPage(callable $function): void
-    {
-        add_action('admin_menu', static function () use ($function) {
-            $function();
-        });
-    }
-
-    /**
-    * Adds an options page for the plugin to the WordPress admin menu.
-    * @since 1.0.3 Adds Settings Section and settings field
-    *
-    * @param string $pageTitle A page title fot the settings page
-    * @param string $menuTitle A title for the admin menu
-    *
-    * @return Setup
-    */
-    public function addOptionsPage(string $pageTitle, string $menuTitle): Setup
-    {
-        $this->actionOptionsPage(static function () use ($pageTitle, $menuTitle) {
-                add_options_page(
-                    $pageTitle,
-                    $menuTitle,
-                    'manage_options',
-                    'inpsyde_settings',
-                    [OptionsHelper::class, 'renderOptionsPage']
-                );
-        });
-
-        add_action('admin_init', [OptionsHelper::class, 'initSettings']);
-        return $this;
-    }
-
-    /**
      * Adds a style sheet for the frontend
      *
      * @param string $handle
@@ -79,7 +41,7 @@ class Setup
      * @param array $deps
      * @param string|null $ver
      * @param string $media
-     * @return $this
+     * @return Setup
      */
     public function addStyle(
         string $handle,
@@ -104,7 +66,7 @@ class Setup
      * @param array $deps
      * @param string|null $ver
      * @param false $inFooter
-     * @return $this
+     * @return Setup
      */
     public function addScript(
         string $handle,

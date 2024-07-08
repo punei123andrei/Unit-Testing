@@ -11,8 +11,9 @@
     ],
     "minimum-stability": "dev",
     "require": {
-      "php": ">=7.2",
-      "micropackage/requirements": "^1.0"
+      "php": ">=7.4",
+      "micropackage/requirements": "^1.0",
+      "php-di/php-di": "^7.0"
     },
     "config": {
       "optimize-autoloader": true,
@@ -40,7 +41,9 @@
       "phpcompatibility/phpcompatibility-wp": "dev-master",
       "phpunit/phpunit": "^9.5",
       "brain/monkey": "^2",
-      "inpsyde/php-coding-standards": "^1.0"
+      "inpsyde/php-coding-standards": "^1.0",
+      "phploc/phploc": "^7.0",
+      "phpcompatibility/phpcompatibility-wp":"*"
     },
     "scripts": {
       "lint:wpcs": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs phpcs --standard=WordPress",
